@@ -7,6 +7,8 @@ using Visits.Models;
 using Visits.Models.TableViewModels;
 using Visits.Models.ViewModels;
 using System.Text;
+using BotDetect.Web.Mvc;
+
 
 namespace Visits.Controllers
 {
@@ -73,6 +75,7 @@ namespace Visits.Controllers
 		}
 
 		[HttpPost]
+		[CaptchaValidationActionFilter("CaptchaCode", "SIASAVisitsPrereg", "¡El Captcha no es correcto!")]
 		public ActionResult Add(PreregistrationsViewModel model)
 		{
 			if (!ModelState.IsValid)
@@ -96,6 +99,7 @@ namespace Visits.Controllers
 				db.preregistrations.Add(pre);
 				db.SaveChanges();
 			}
+			MvcCaptcha.ResetCaptcha("SIASAVisitsPrereg");
 
 			return Redirect(Url.Content("~/Home"));
 		}

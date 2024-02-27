@@ -34,5 +34,9 @@ namespace Visits.Models.ViewModels
 		[StringLength(150, ErrorMessage = "El {0} debe tener al menos {1} caracteres", MinimumLength = 4)]
 		[Display(Name = "Motivo de visita")]
 		public string Motive { get; set; }
+
+		[Required(ErrorMessage = "El {0} es requerido")]
+		[Display(Name = "Captcha")]
+		public string CaptchaCode { get; set; }
 	}
 }

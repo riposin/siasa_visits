@@ -1,4 +1,5 @@
-﻿@model Visits.Models.ViewModels.PreregistrationsViewModel
+﻿@using BotDetect.Web.Mvc
+@model Visits.Models.ViewModels.PreregistrationsViewModel
 @{
 	ViewBag.Title = "Solicitud de pre-registro";
 }
@@ -33,6 +34,14 @@
 			@Html.LabelFor(d => d.Motive)
 			@Html.TextBoxFor(d => d.Motive, new { @class = "form-control", title = "Motivo de la visita" })
 			@Html.ValidationMessage("Motive", new { @class = "text-danger" })
+
+
+			MvcCaptcha SIASAVisitsPrereg = new MvcCaptcha("SIASAVisitsPrereg");
+			SIASAVisitsPrereg.UserInputID = "CaptchaCode";
+
+			@Html.Captcha(SIASAVisitsPrereg)
+			@Html.TextBox("CaptchaCode")<br />
+			@Html.ValidationMessage("CaptchaCode", new { @class = "text-danger" })
 
 			<div style="text-align:right">
 				<input type="submit" class="btn btn-success" value="Enviar correo para iniciar el pre-registro" title="Enviar correo para iniciar el pre-registro" />

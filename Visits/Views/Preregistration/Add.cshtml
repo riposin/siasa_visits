@@ -3,11 +3,13 @@
 @{
 	ViewBag.Title = "Solicitud de pre-registro";
 }
+@Styles.Render(@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl)
+@*@Scripts.Render("~/scripts/myScript.js")*@
 
 <h2 class="text-center">Solicitud de pre-registro</h2>
 
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-6 col-md-offset-3">
 
 		@using (Html.BeginForm("Add", "Preregistration", FormMethod.Post, new { role = "from", @class = "" }))
 		{
@@ -33,17 +35,25 @@
 
 			@Html.LabelFor(d => d.Motive)
 			@Html.TextBoxFor(d => d.Motive, new { @class = "form-control", title = "Motivo de la visita" })
-			@Html.ValidationMessage("Motive", new { @class = "text-danger" })
+			@Html.ValidationMessage("Motive", new { @class = "text-danger" })<br /><br />
 
 
 			MvcCaptcha SIASAVisitsPrereg = new MvcCaptcha("SIASAVisitsPrereg");
 			SIASAVisitsPrereg.UserInputID = "CaptchaCode";
-
-			@Html.Captcha(SIASAVisitsPrereg)
-			@Html.TextBox("CaptchaCode")<br />
+			SIASAVisitsPrereg.CodeLength = 4;
+			SIASAVisitsPrereg.CodeStyle = BotDetect.CodeStyle.Numeric;
+			SIASAVisitsPrereg.ImageStyle = BotDetect.ImageStyle.Chess;
+			SIASAVisitsPrereg.Locale = "es-MX";
+			//SIASAVisitsPrereg.CodeLength = BotDetect.CaptchaRandomization.GetRandomCodeLength(3, 5);
+			<div class="text-center">
+				<div style="display:inline-block;">
+					@Html.Captcha(SIASAVisitsPrereg)
+				</div>
+			</div>
+			@Html.TextBox("CaptchaCode", "", new { @class = "form-control", title = "Captura el código captcha" })<br />
 			@Html.ValidationMessage("CaptchaCode", new { @class = "text-danger" })
 
-			<div style="text-align:right">
+			<div class="text-center">
 				<input type="submit" class="btn btn-success" value="Enviar correo para iniciar el pre-registro" title="Enviar correo para iniciar el pre-registro" />
 			</div>
 		}

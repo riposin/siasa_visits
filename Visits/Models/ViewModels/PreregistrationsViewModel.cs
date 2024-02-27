@@ -35,7 +35,7 @@ namespace Visits.Models.ViewModels
 		[Display(Name = "Motivo de visita")]
 		public string Motive { get; set; }
 
-		[Required(ErrorMessage = "El {0} es requerido")]
+		[Required(ErrorMessage = "Captura el código de 4 dígitos ({0}) en la caja de texto")]
 		[Display(Name = "Captcha")]
 		public string CaptchaCode { get; set; }
 	}

@@ -1,0 +1,27 @@
+.open visits.db
+
+-- Tables
+
+CREATE TABLE preregistrations(
+	id INTEGER PRIMARY KEY,
+	guid BLOB(16) NOT NULL UNIQUE,
+	company_key NVARCHAR(20) NOT NULL,
+	full_name NVARCHAR(100) NOT NULL,
+	email NVARCHAR(100) NOT NULL,
+	visit_date DATETIME NOT NULL,
+	motive NVARCHAR(150) NOT NULL,
+	created_at DATETIME NOT NULL,
+	confirmed_at DATETIME
+);
+
+CREATE TABLE preregistrations_settings(
+	id INTEGER PRIMARY KEY,
+	link_expiration_hours SMALLINT NOT NULL,
+	link_url_format NVARCHAR(100) NOT NULL
+);
+
+-- Default data
+
+INSERT INTO preregistrations_settings VALUES(NULL, 24, 'www.siasa.com/visitas/visitante/{UUID_HERE}');
+
+.quit

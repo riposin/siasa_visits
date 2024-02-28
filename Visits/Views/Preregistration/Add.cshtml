@@ -28,48 +28,24 @@
 			@Html.TextBoxFor(d => d.Email, new { @class = "form-control", title = "Correo electrónico del visitante" })
 			@Html.ValidationMessage("Email", new { @class = "text-danger" })<br /><br />
 			
-			<!--Original funcional-->
-			<div class="form-group">
-				@Html.LabelFor(d => d.VisitDate)
-				<div class='input-group date' id='visitDateTimeDTP'>
-					@Html.TextBoxFor(d => d.VisitDate, new { @class = "form-control", title = "Fecha y hora de la visita" })
-					<span class="input-group-addon">
-						<span class="glyphicon glyphicon-calendar"></span>
-					</span>
-				</div>
-				@Html.ValidationMessage("VisitDate", new { @class = "text-danger" })<br /><br />
-			</div>
-			
-			@*
-			<!--En proceso-->
 			<div class="form-group">
 				<label for="VisitDateMask">Fecha y Hora</label>
-				<div class='input-group date' id='visitDateTimeDTP'>
-					<input type='text' class="form-control" id="VisitDateMask"/>
+				<div class='input-group date' id='visitDTP'>
+					<input type='text' class="form-control" id="VisitDateMask" />
 					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-calendar"></span>
 					</span>
 				</div>
 				@Html.ValidationMessage("VisitDate", new { @class = "text-danger" })<br /><br />
+				@if (Model == null)
+				{
+					@Html.Hidden("VisitDate", "")
+				}
+				else
+				{
+					@Html.Hidden("VisitDate", Model.VisitDate)
+				}
 			</div>
-			*@
-
-			@*
-			@Html.LabelFor(d => d.VisitDate)
-			@Html.TextBoxFor(d => d.VisitDate, new { @class = "form-control", title = "Fecha y hora de la visita" })
-			@Html.ValidationMessage("VisitDate", new { @class = "text-danger" })<br /><br />
-			*@
-
-			<!--
-		<div class="form-group">
-			<div class='input-group date' id='datetimepicker2'>
-				<input type='text' class="form-control" />
-				<span class="input-group-addon">
-					<span class="glyphicon glyphicon-calendar"></span>
-				</span>
-			</div>
-		</div>
-		-->
 
 			@Html.LabelFor(d => d.Motive)
 			@Html.TextBoxFor(d => d.Motive, new { @class = "form-control", title = "Motivo de la visita" })
@@ -107,19 +83,20 @@
 		//let dtFormat = 'MM-DD-YYYY hh:mm A';
 		// es-MX
 		let dtFormat = 'DD-MM-YYYY hh:mm A';
-		//let visitDateID = 'VisitDateMask';
+
+		let visitDateMaskID = 'VisitDateMask';
 		let visitDateID = 'VisitDate';
-			
 
 		$(function () {
-			let visitDT = document.getElementById(visitDateID).value;
-			$('#visitDateTimeDTP').datetimepicker({
+			$('#visitDTP').datetimepicker({
 				format: dtFormat,
-				//minDate: Date.now()
+				minDate: Date.now()
 			});
+
+			let visitDT = document.getElementById(visitDateID).value;
 			if (visitDT.length > 0 && moment(visitDT).isValid()) {
 				let visitMoment = moment(visitDT);
-				document.getElementById(visitDateID).value = visitMoment.format(dtFormat);
+				document.getElementById(visitDateMaskID).value = visitMoment.format(dtFormat);
 			}
 		});
 
@@ -128,7 +105,7 @@
 		const form = document.getElementById("new-preregistration");
 		form.addEventListener("submit", onFormSubmit);
 		function onFormSubmit(event) {
-			let visitDT = document.getElementById(visitDateID).value;
+			let visitDT = document.getElementById(visitDateMaskID).value;
 
 			if (visitDT.length > 0 && moment(visitDT, dtFormat).isValid()) {
 				let visitMoment = moment(visitDT, dtFormat);

@@ -6,6 +6,7 @@
 	<title>@ViewBag.Title - Visitas SIASA</title>
 	@Styles.Render("~/Content/css")
 	@Scripts.Render("~/bundles/modernizr")
+	@RenderSection("content", required: false)
 </head>
 <body>
 	<div class="navbar navbar-inverse navbar-fixed-top">
@@ -16,7 +17,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				@Html.ActionLink("Visitas", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+				@Html.ActionLink("Visitas", "Index", "Preregistration", new { area = "" }, new { @class = "navbar-brand" })
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">

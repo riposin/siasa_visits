@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using Visits.Validations;
 
 namespace Visits.Models.ViewModels
 {
@@ -28,6 +29,7 @@ namespace Visits.Models.ViewModels
 		[Required(ErrorMessage = "La {0} es requerida")]
 		[DataType(DataType.DateTime)]
 		[Display(Name = "Fecha y Hora")]
+		[DateTimeGreaterThanToday]
 		public DateTime VisitDate { get; set; }
 
 		[Required(ErrorMessage = "El {0} es requerido")]

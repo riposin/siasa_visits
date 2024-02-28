@@ -173,16 +173,23 @@
       <DependentUpon>visits.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validations\DateTimeGreaterThanToday.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-datetimepicker.css" />
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="es-mx.js" />
+    <Content Include="es-us.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="locales\moment\es-mx.js" />
+    <Content Include="locales\moment\es-us.js" />
     <Content Include="Models\visits.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>visits.edmx</DependentUpon>
@@ -193,6 +200,8 @@
       <DependentUpon>visits.edmx</DependentUpon>
       <LastGenOutput>visits.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\visits.edmx">
@@ -202,6 +211,9 @@
     <Content Include="Models\visits.edmx.diagram">
       <DependentUpon>visits.edmx</DependentUpon>
     </Content>
+    <Content Include="db\db_script_new.sqlite" />
+    <Content Include="db\db_script_new.ps1" />
+    <Content Include="locales\sounds\captcha\Pronunciation_Spanish_MX.bdsp" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -213,6 +225,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

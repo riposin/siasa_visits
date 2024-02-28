@@ -75,11 +75,13 @@ namespace Visits.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryToken]
 		[CaptchaValidationActionFilter("CaptchaCode", "SIASAVisitsPrereg", "¡El Captcha no es correcto!")]
 		public ActionResult Add(PreregistrationsViewModel model)
 		{
 			if (!ModelState.IsValid)
 			{
+				MvcCaptcha.ResetCaptcha("SIASAVisitsPrereg");
 				return View(model);
 			}
 

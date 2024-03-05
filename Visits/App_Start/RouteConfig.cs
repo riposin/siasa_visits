@@ -15,11 +15,12 @@ namespace Visits
 
 			// CAPTCHA Inc: BotDetect requests must not be routed
 			routes.IgnoreRoute("{*botdetect}",	new { botdetect = @"(.*)BotDetectCaptcha\.ashx" });
+			routes.IgnoreRoute("{*botdetect}",	new { botdetect = @"(.*)simple-captcha-endpoint\.ashx" });
 
 			routes.MapRoute(
 				name: "Default",
 				url: "{controller}/{action}/{id}",
-				defaults: new { controller = "Preregistration", action = "Index", id = UrlParameter.Optional }
+				defaults: new { controller = "Preregistration", action = "AddFEBE", id = UrlParameter.Optional }
 			);
 		}
 	}

@@ -8,6 +8,9 @@ using Visits.Models.TableViewModels;
 using Visits.Models.ViewModels;
 using System.Text;
 using BotDetect.Web.Mvc;
+using BotDetect.Web;
+using Newtonsoft.Json;
+using System.Net.Mail;
 
 
 namespace Visits.Controllers
@@ -16,7 +19,7 @@ namespace Visits.Controllers
 	{
 		public ActionResult Index()
 		{
-			return View("Add");
+			return View("AddFE");
 		}
 
 		[HttpGet]
@@ -69,19 +72,65 @@ namespace Visits.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult Add()
+		public ActionResult AddFE()
+		{
+			return View();
+		}
+
+		[HttpGet]
+		public ActionResult AddBE()
+		{
+			return View();
+		}
+
+		[HttpGet]
+		public ActionResult AddFEBE()
 		{
 			return View();
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		[CaptchaValidationActionFilter("CaptchaCode", "SIASAVisitsPrereg", "¡El Captcha no es correcto!")]
-		public ActionResult Add(PreregistrationsViewModel model)
+		public ActionResult AddFE(PreregistrationsViewModel model)
 		{
+			SimpleCaptcha captcha = new SimpleCaptcha();
+			bool isHuman = captcha.Validate(model.CaptchaCode, model.CaptchaId);
+			MvcCaptcha.ResetCaptcha("CaptchaCode");
+
+			if (!ModelState.IsValid || !isHuman)
+			{
+				return Content("{\"success\":false}", "application/json; charset=utf-8");
+			}
+
+			using (var db = new visitsEntities())
+			{
+				preregistration pre = new preregistration();
+				Guid g = Guid.NewGuid();
+				byte[] bytes = Encoding.ASCII.GetBytes(g.ToString());
+				pre.guid = bytes;
+				pre.company_key = model.CompanyKey;
+				pre.full_name = model.FullName;
+				pre.email = model.Email;
+				pre.visit_date = model.VisitDate;
+				pre.motive = model.Motive;
+				pre.created_at = DateTime.Now;
+
+				db.preregistrations.Add(pre);
+				db.SaveChanges();
+			}
+
+			return Content("{\"success\":true}", "application/json; charset=utf-8");
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[CaptchaValidationActionFilter("CaptchaCode", "Captcha", "¡El Captcha no es correcto!")]
+		public ActionResult AddBE(PreregistrationsViewModel model)
+		{
+			MvcCaptcha.ResetCaptcha("CaptchaCode");
+
 			if (!ModelState.IsValid)
 			{
-				MvcCaptcha.ResetCaptcha("SIASAVisitsPrereg");
 				return View(model);
 			}
 
@@ -101,9 +150,114 @@ namespace Visits.Controllers
 				db.preregistrations.Add(pre);
 				db.SaveChanges();
 			}
-			MvcCaptcha.ResetCaptcha("SIASAVisitsPrereg");
-
+			
 			return Redirect(Url.Content("~/Home"));
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		[CaptchaValidationActionFilter("CaptchaCode", "Captcha", "¡El Captcha no es correcto!")]
+		public ActionResult AddFEBE(PreregistrationsViewModel model)
+		{
+			MvcCaptcha.ResetCaptcha("Captcha");
+			Dictionary<string, string> errors = new Dictionary<string, string>();
+			string[] keys = ModelState.Keys.ToArray();
+			ModelState[] values = ModelState.Values.ToArray();
+			bool isEmailOk = false;
+			Guid g = Guid.NewGuid();
+			string body = "";
+
+			for (int i = 0; i < ModelState.Keys.Count; i++)
+			{
+				errors.Add(keys[i], "");
+				if (values[i].Errors.Count > 0)
+				{
+					errors[ModelState.Keys.ToArray()[i]] = values[i].Errors[0].ErrorMessage;
+				}
+			}
+
+			if (!ModelState.IsValid)
+			{
+				return Content("{\"success\":2, \"error\":" + JsonConvert.SerializeObject(errors) + "}", "application/json; charset=utf-8");
+			}
+
+			MailMessage mail = new MailMessage();
+			mail.To.Add("rpool@siasa.com");
+			mail.From = new MailAddress("ripostf@gmail.com");
+			mail.Subject = "Solicitud de confirmación de Visita";
+			body = "<p>Clave de empresa: <span style=\"font-weight: bold;\">{0}</span><br/>Nombre completo: <span style=\"font-weight: bold;\">{1}</span><br/>Fecha y hora: <span style=\"font-weight: bold;\">{2}</span><br/>Motivo: <span style=\"font-weight: bold;\">{3}</span><br/>Enlace para confirmar el pre-registro: <span style=\"font-weight: bold;\"><a href=\"{4}\">{4}</a></span><br/></p>";
+			string link = "https://localhost:44321/Confirmation/Confirm/{0}";
+			StringBuilder sbLink = new StringBuilder();
+			StringBuilder sbBody = new StringBuilder();
+			sbLink.AppendFormat(link, g.ToString());
+			sbBody.AppendFormat(body, model.CompanyKey, model.FullName, model.VisitDate.ToString("dd/MM/yyyy hh:mm tt"), model.Motive, sbLink.ToString());
+			/*body += "Clave de Empresa: " + model.CompanyKey + "\n";
+			body += "Nombre: " + model.FullName + "\n";
+			body += "Fecha y hora: " + model.VisitDate.ToString() + "\n";
+			body += "Motivo: " + model.Motive + "\n";
+			body += "Enlace para confirmar el pre-registro: " + g.ToString();*/
+			mail.Body = sbBody.ToString();
+			mail.IsBodyHtml = true;
+			SmtpClient smtp = new SmtpClient();
+			smtp.Host = "smtp.gmail.com";
+			smtp.Port = 587;
+			smtp.UseDefaultCredentials = false;
+			smtp.Credentials = new System.Net.NetworkCredential("", ""); // Enter seders User name and password  
+			smtp.EnableSsl = true;
+			try
+			{
+				smtp.Send(mail);
+				isEmailOk = true;
+			}
+			catch (Exception e)
+			{
+				isEmailOk = false;
+			}
+			
+
+			if (isEmailOk)
+			{
+				using (var db = new visitsEntities())
+				{
+					preregistration pre = new preregistration();
+					byte[] bytes = Encoding.ASCII.GetBytes(g.ToString());
+					pre.guid = bytes;
+					pre.company_key = model.CompanyKey;
+					pre.full_name = model.FullName;
+					pre.email = model.Email;
+					pre.visit_date = model.VisitDate;
+					pre.motive = model.Motive;
+					pre.created_at = DateTime.Now;
+
+					db.preregistrations.Add(pre);
+					db.SaveChanges();
+				}
+				/*using (var db = new visitsEntities())
+				{
+					preregistration pre = new preregistration();
+					Guid g = Guid.NewGuid();
+					byte[] bytes = Encoding.ASCII.GetBytes(g.ToString());
+					pre.guid = bytes;
+					pre.company_key = model.CompanyKey;
+					pre.full_name = model.FullName;
+					pre.email = model.Email;
+					pre.visit_date = model.VisitDate;
+					pre.motive = model.Motive;
+					pre.created_at = DateTime.Now;
+
+					db.preregistrations.Add(pre);
+					db.SaveChanges();
+				}*/
+				return Content("{\"success\":1}", "application/json; charset=utf-8");
+			}
+			else
+			{
+				return Content("{\"success\":3, \"error\":" + JsonConvert.SerializeObject(errors) + "}", "application/json; charset=utf-8");
+			}
+
+			
+
+
 		}
 	}
 }

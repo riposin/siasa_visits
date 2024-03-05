@@ -10,18 +10,18 @@ namespace Visits.Models.ViewModels
 	public class PreregistrationsViewModel
 	{
 		[Required(ErrorMessage = "La {0} es requerida")]
-		[StringLength(20, ErrorMessage = "El {0} debe tener al menos {1} caracteres", MinimumLength = 1)]
+		[StringLength(20, ErrorMessage = "El {0} debe tener al menos {2} caracteres", MinimumLength = 1)]
 		[Display(Name = "Clave de empresa")]
 		public string CompanyKey { get; set; }
 
 		[Required(ErrorMessage = "El {0} es requerido")]
-		[StringLength(100, ErrorMessage = "El {0} debe tener al menos {1} caracteres", MinimumLength = 3)]
+		[StringLength(100, ErrorMessage = "El {0} debe tener al menos {2} caracteres", MinimumLength = 3)]
 		[Display(Name = "Nombre completo")]
 		public string FullName { get; set; }
 
 		[Required(ErrorMessage = "El {0} es requerido")]
-		[StringLength(100, ErrorMessage = "El {0} debe tener al menos {1} caracteres", MinimumLength = 5)]
-		[EmailAddress]
+		[StringLength(100, ErrorMessage = "El {0} debe tener al menos {2} caracteres", MinimumLength = 5)]
+		[EmailAddress(ErrorMessage = "El {0} no es válido")]
 		[Display(Name ="Correo electrónico")]
 		public string Email { get; set; }
 
@@ -40,5 +40,7 @@ namespace Visits.Models.ViewModels
 		[Required(ErrorMessage = "Captura el código de 4 dígitos ({0}) en la caja de texto")]
 		[Display(Name = "Captcha")]
 		public string CaptchaCode { get; set; }
+
+		public string CaptchaId { get; set; }
 	}
 }

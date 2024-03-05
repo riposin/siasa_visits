@@ -1,0 +1,252 @@
+﻿@*
+	||||| THIS VIEW IMPLEMENTS CAPTCHA IN COMBINING CAPCHA RENDERING FROM BE AND VALIDATION VIA AJAX IN FE AND PRE-FILTER IN BE |||||
+*@
+@using BotDetect.Web.Mvc
+@model Visits.Models.ViewModels.PreregistrationsViewModel
+@{
+	ViewBag.Title = "Solicitud de pre-registro";
+}
+@section content{
+	@Styles.Render(@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl)
+	@Styles.Render("/Content/bootstrap-datetimepicker.css")
+}
+
+<h2 class="text-center">Solicitud de pre-registro</h2>
+<div class="row">
+	<div class="col-md-6 col-md-offset-3">
+
+		@using (Html.BeginForm("AddFEBE", "Preregistration", FormMethod.Post, new { role = "from", @class = "", id = "preregistration" }))
+		{
+			@Html.AntiForgeryToken()
+
+			@Html.LabelFor(d => d.CompanyKey)
+			@Html.TextBoxFor(d => d.CompanyKey, new { @class = "form-control", title = "Clave de la empresa" })
+			@Html.ValidationMessage("CompanyKey", new { @class = "text-danger" })<br /><br />
+
+			@Html.LabelFor(d => d.FullName)
+			@Html.TextBoxFor(d => d.FullName, new { @class = "form-control", title = "Nombre completo del visitante" })
+			@Html.ValidationMessage("FullName", new { @class = "text-danger" })<br /><br />
+
+			@Html.LabelFor(d => d.Email)
+			@Html.TextBoxFor(d => d.Email, new { @class = "form-control", title = "Correo electrónico del visitante" })
+			@Html.ValidationMessage("Email", new { @class = "text-danger" })<br /><br />
+
+			<div class="form-group">
+				<label for="VisitDateMask">Fecha y Hora</label>
+				<div class='input-group date' id='visitDTP'>
+					<input type='text' class="form-control" id="VisitDateMask" name="VisitDateMask" />
+					<span class="input-group-addon">
+						<span class="glyphicon glyphicon-calendar"></span>
+					</span>
+				</div>
+				@Html.ValidationMessage("VisitDate", new { @class = "text-danger" })<br /><br />
+				@if (Model == null)
+				{
+					@Html.Hidden("VisitDate", "")
+				}
+				else
+				{
+					@Html.Hidden("VisitDate", Model.VisitDate)
+				}
+			</div>
+
+			@Html.LabelFor(d => d.Motive)
+			@Html.TextBoxFor(d => d.Motive, new { @class = "form-control", title = "Motivo de la visita" })
+			@Html.ValidationMessage("Motive", new { @class = "text-danger" })<br /><br />
+
+			MvcCaptcha SIASAVisitsPrereg = new MvcCaptcha("Captcha");
+			SIASAVisitsPrereg.UserInputID = "CaptchaCode";
+			SIASAVisitsPrereg.CodeLength = 4;
+			SIASAVisitsPrereg.CodeStyle = BotDetect.CodeStyle.Numeric;
+			SIASAVisitsPrereg.ImageStyle = BotDetect.ImageStyle.Chess;
+			SIASAVisitsPrereg.Locale = "es-MX";
+			//SIASAVisitsPrereg.CodeLength = BotDetect.CaptchaRandomization.GetRandomCodeLength(3, 5);
+			<div class="text-center">
+				<div style="display:inline-block;">
+					@Html.Captcha(SIASAVisitsPrereg)
+				</div>
+			</div>
+			@Html.TextBox("CaptchaCode", "", new { @class = "form-control", title = "Captura el código captcha" })<br />
+			@Html.ValidationMessage("CaptchaCode", new { @class = "text-danger" })
+
+			<div class="text-center">
+				<input type="submit" class="btn btn-success" value="Enviar correo para iniciar el pre-registro" title="Enviar correo para iniciar el pre-registro" />
+			</div>
+		}
+	</div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmDialog" tabindex="-1" role="dialog" aria-labelledby="confirmDialogLabel" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="confirmDialogLabel">Confirmación</h4>
+			</div>
+			<div class="modal-body">
+				¿Los datos proporcionados son correctos?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+				<button type="button" class="btn btn-primary" id="confirmButton">Si</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="successDialog" tabindex="-1" role="dialog" aria-labelledby="successDialogLabel" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="successDialogLabel">Éxito</h4>
+			</div>
+			<div class="modal-body">
+				La solicitud de pre-registro se realizó de forma exitosa.
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="emailDialog" tabindex="-1" role="dialog" aria-labelledby="emailDialogLabel" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="emailDialogLabel">Error</h4>
+			</div>
+			<div class="modal-body">
+				La solicitud de pre-registro no se realizó de forma exitosa, por favor reintente.
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section scripts {
+	@Scripts.Render("~/Scripts/moment.min.js")
+	@Scripts.Render("~/locales/moment/es-mx.js")
+	@Scripts.Render("~/Scripts/bootstrap-datetimepicker.min.js")
+
+	<script type="text/javascript">
+		/* VISIT DTP */
+		//let dtFormat = 'MM-DD-YYYY hh:mm A'; // en-US
+		const dtFormat = 'DD-MM-YYYY hh:mm A'; // es-MX
+		const preregistrationFormID = 'preregistration';
+		const visitDateMaskID = 'VisitDateMask';
+		const visitDateID = 'VisitDate';
+		const confirmDialogID = '#confirmDialog';
+		const successDialogID = '#successDialog';
+		const emailDialogID = '#emailDialog';
+		let isDataConfirmed = false;
+
+		$(function () {
+			$('#visitDTP').datetimepicker({
+				format: dtFormat,
+				minDate: Date.now()
+			});
+
+			let visitDT = document.getElementById(visitDateID).value;
+			if (visitDT.length > 0 && moment(visitDT).isValid()) {
+				let visitMoment = moment(visitDT);
+				document.getElementById(visitDateMaskID).value = visitMoment.format(dtFormat);
+			}
+
+			$(confirmDialogID).modal({ show: false });
+		});
+
+
+		document.getElementById(preregistrationFormID).addEventListener("submit", onFormSubmit);
+		document.getElementById("confirmButton").addEventListener("click", onConfirmButtonClick);
+
+		function onFormSubmit(event) {
+
+			/*const data = new URLSearchParams(new FormData(event.target)).toString()
+			var fetch_status;
+			fetch('/Preregistration/AddFEBE', {
+				method: "POST",
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				body: data
+			})
+			.then(function (response) {
+				fetch_status = response.status;
+				return response.json();
+			})
+			.then(function (json) {
+				alert(JSON.stringify(json));
+				console.log(json);
+				if (fetch_status == 200) { }
+			})
+			.catch(function (error) {
+				console.log(error);
+			});*/
+
+			if (!isDataConfirmed) {
+				$(confirmDialogID).modal('show');
+			}
+			event.preventDefault();
+		}
+
+		function onConfirmButtonClick(event) {
+			$(confirmDialogID).modal('hide');
+			isDataConfirmed = true;
+			processPreregistration();
+		}
+
+		function processPreregistration() {
+			let visitDT = document.getElementById(visitDateMaskID).value;
+
+			if (visitDT.length > 0 && moment(visitDT, dtFormat).isValid()) {
+				let visitMoment = moment(visitDT, dtFormat);
+				document.getElementById(visitDateID).value = visitMoment.format();
+			}
+
+			let data = new URLSearchParams(new FormData(document.getElementById(preregistrationFormID))).toString();
+
+			fetch('/Preregistration/AddFEBE', {
+				method: "POST",
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				body: data
+			})
+				.then(function (response) {
+					return response.json();
+				})
+				.then(function (json) {
+					if (json.success == 1) {
+						$(successDialogID).modal('show');
+						for (const input of document.getElementById(preregistrationFormID).getElementsByTagName('input')) {
+							if (input.getAttribute('type') == 'text') { input.value = ''; }
+						}
+					} else if (json.success == 2) {
+						Object.entries(json.error).forEach((entry) => {
+							document.querySelector('[data-valmsg-for="' + entry[0] + '"]').innerText = entry[1];
+						});
+					} else {
+						$(emailDialogID).modal('show');
+					}
+
+					document.getElementById("Captcha_ReloadLink").click();
+					isDataConfirmed = false;
+				})
+				.catch(function (error) {
+					// RECARGAR PAGINA
+					location.reload();
+				});
+		}
+
+
+	</script>
+}

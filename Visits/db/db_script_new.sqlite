@@ -22,6 +22,6 @@ CREATE TABLE preregistrations_settings(
 
 -- Default data
 
-INSERT INTO preregistrations_settings VALUES(NULL, 24, 'www.siasa.com/visitas/visitante/{UUID_HERE}');
+INSERT INTO preregistrations_settings VALUES(NULL, 24, 'https://localhost:44321/Confirmation/Confirm/{0}');
 
 .quit

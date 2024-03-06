@@ -10,17 +10,17 @@ namespace Visits.Models.ViewModels
 	public class PreregistrationsViewModel
 	{
 		[Required(ErrorMessage = "La {0} es requerida")]
-		[StringLength(20, ErrorMessage = "El {0} debe tener al menos {2} caracteres", MinimumLength = 1)]
+		[StringLength(20, ErrorMessage = "El {0} debe tener entre {2} y {1} caracteres", MinimumLength = 1)]
 		[Display(Name = "Clave de empresa")]
 		public string CompanyKey { get; set; }
 
 		[Required(ErrorMessage = "El {0} es requerido")]
-		[StringLength(100, ErrorMessage = "El {0} debe tener al menos {2} caracteres", MinimumLength = 3)]
+		[StringLength(100, ErrorMessage = "El {0} debe tener entre {2} y {1} caracteres", MinimumLength = 3)]
 		[Display(Name = "Nombre completo")]
 		public string FullName { get; set; }
 
 		[Required(ErrorMessage = "El {0} es requerido")]
-		[StringLength(100, ErrorMessage = "El {0} debe tener al menos {2} caracteres", MinimumLength = 5)]
+		[StringLength(100, ErrorMessage = "El {0} debe tener entre {2} y {1} caracteres", MinimumLength = 5)]
 		[EmailAddress(ErrorMessage = "El {0} no es válido")]
 		[Display(Name ="Correo electrónico")]
 		public string Email { get; set; }
@@ -32,8 +32,9 @@ namespace Visits.Models.ViewModels
 		[DateTimeGreaterThanToday]
 		public DateTime VisitDate { get; set; }
 
-		[Required(ErrorMessage = "El {0} es requerido")]
-		[StringLength(150, ErrorMessage = "El {0} debe tener al menos {1} caracteres", MinimumLength = 4)]
+		//[Required(ErrorMessage = "El {0} es requerido")]
+		//[StringLength(150, ErrorMessage = "El {0} debe tener entre {2} y {1} caracteres", MinimumLength = 4)]
+		[StringLength(150, ErrorMessage = "El {0} debe tener máximo {1} caracteres")]
 		[Display(Name = "Motivo de visita")]
 		public string Motive { get; set; }
 

@@ -9,9 +9,32 @@
 @section content{
 	@Styles.Render(@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl)
 	@Styles.Render("/Content/bootstrap-datetimepicker.css")
+<style type="text/css">
+	#loader {
+		visibility: hidden;
+		height: 4.5rem;
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+	}
+
+	.spin {
+		-webkit-transform-origin: 50% 50%;
+		transform-origin: 50% 50%;
+		-ms-transform-origin: 50% 50%; /* IE 9 */
+		-webkit-animation: spin .8s infinite linear;
+		-moz-animation: spin .8s infinite linear;
+		-o-animation: spin .8s infinite linear;
+		animation: spin .8s infinite linear;
+	}
+
+	@@-moz-keyframes spin {from{-moz-transform: rotate(0deg);}to{-moz-transform: rotate(360deg);}}
+	@@-webkit-keyframes spin {from{-webkit-transform: rotate(0deg);}to{-webkit-transform: rotate(360deg);}}
+	@@keyframes spin {from{transform: rotate(0deg);}to{transform: rotate(360deg);}}
+
+</style>
 }
 
-<h2 class="text-center">Solicitud de pre-registro</h2>
+<h2 class="text-center">Solicitud de pre-registro de visitantes</h2>
 <div class="row">
 	<div class="col-md-6 col-md-offset-3">
 
@@ -20,21 +43,21 @@
 			@Html.AntiForgeryToken()
 
 			@Html.LabelFor(d => d.CompanyKey)
-			@Html.TextBoxFor(d => d.CompanyKey, new { @class = "form-control", title = "Clave de la empresa" })
+			@Html.TextBoxFor(d => d.CompanyKey, new { @class = "form-control", title = "Clave de la empresa", data_required = "1" })
 			@Html.ValidationMessage("CompanyKey", new { @class = "text-danger" })<br /><br />
 
 			@Html.LabelFor(d => d.FullName)
-			@Html.TextBoxFor(d => d.FullName, new { @class = "form-control", title = "Nombre completo del visitante" })
+			@Html.TextBoxFor(d => d.FullName, new { @class = "form-control", title = "Nombre completo del visitante", data_required = "1" })
 			@Html.ValidationMessage("FullName", new { @class = "text-danger" })<br /><br />
 
 			@Html.LabelFor(d => d.Email)
-			@Html.TextBoxFor(d => d.Email, new { @class = "form-control", title = "Correo electrónico del visitante" })
+			@Html.TextBoxFor(d => d.Email, new { @class = "form-control", title = "Correo electrónico del visitante", data_required = "1" })
 			@Html.ValidationMessage("Email", new { @class = "text-danger" })<br /><br />
 
 			<div class="form-group">
 				<label for="VisitDateMask">Fecha y Hora</label>
 				<div class='input-group date' id='visitDTP'>
-					<input type='text' class="form-control" id="VisitDateMask" name="VisitDateMask" />
+					<input type='text' class="form-control" id="VisitDateMask" name="VisitDateMask" data-required="1" />
 					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-calendar"></span>
 					</span>
@@ -58,26 +81,27 @@
 			SIASAVisitsPrereg.UserInputID = "CaptchaCode";
 			SIASAVisitsPrereg.CodeLength = 4;
 			SIASAVisitsPrereg.CodeStyle = BotDetect.CodeStyle.Numeric;
-			SIASAVisitsPrereg.ImageStyle = BotDetect.ImageStyle.Chess;
 			SIASAVisitsPrereg.Locale = "es-MX";
-			//SIASAVisitsPrereg.CodeLength = BotDetect.CaptchaRandomization.GetRandomCodeLength(3, 5);
+			SIASAVisitsPrereg.SoundEnabled = false;
 			<div class="text-center">
 				<div style="display:inline-block;">
 					@Html.Captcha(SIASAVisitsPrereg)
 				</div>
 			</div>
-			@Html.TextBox("CaptchaCode", "", new { @class = "form-control", title = "Captura el código captcha" })<br />
+			@Html.TextBox("CaptchaCode", "", new { @class = "form-control", title = "Captura el código captcha", data_required = "1" })
 			@Html.ValidationMessage("CaptchaCode", new { @class = "text-danger" })
-
+			<br/><br/>
 			<div class="text-center">
 				<input type="submit" class="btn btn-success" value="Enviar correo para iniciar el pre-registro" title="Enviar correo para iniciar el pre-registro" />
+				<div id="loader" class="text-primary"><span class="glyphicon glyphicon-repeat spin" aria-hidden="true"></span> procesando, espere un momento por favor.</div>
 			</div>
+			
 		}
 	</div>
 
 </div>
 
-<!-- Modal -->
+<!-- Modals -->
 <div class="modal fade" id="confirmDialog" tabindex="-1" role="dialog" aria-labelledby="confirmDialogLabel" aria-hidden="true">
 	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
@@ -92,9 +116,9 @@
 				<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
 				<button type="button" class="btn btn-primary" id="confirmButton">Si</button>
 			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+		</div>
+	</div>
+</div>
 
 <div class="modal fade" id="successDialog" tabindex="-1" role="dialog" aria-labelledby="successDialogLabel" aria-hidden="true">
 	<div class="modal-dialog modal-sm">
@@ -104,14 +128,15 @@
 				<h4 class="modal-title" id="successDialogLabel">Éxito</h4>
 			</div>
 			<div class="modal-body">
-				La solicitud de pre-registro se realizó de forma exitosa.
+				La solicitud se realizó de forma correcta.
+				Se ha enviado un correo a la dirección proporcionada para continuar con el proceso de pre-registro.
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
 			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+		</div>
+	</div>
+</div>
 
 <div class="modal fade" id="emailDialog" tabindex="-1" role="dialog" aria-labelledby="emailDialogLabel" aria-hidden="true">
 	<div class="modal-dialog modal-sm">
@@ -126,9 +151,9 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
 			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+		</div>
+	</div>
+</div>
 
 @section scripts {
 	@Scripts.Render("~/Scripts/moment.min.js")
@@ -145,7 +170,7 @@
 		const confirmDialogID = '#confirmDialog';
 		const successDialogID = '#successDialog';
 		const emailDialogID = '#emailDialog';
-		let isDataConfirmed = false;
+		let isAllRequiredFilled = false;
 
 		$(function () {
 			$('#visitDTP').datetimepicker({
@@ -160,46 +185,34 @@
 			}
 
 			$(confirmDialogID).modal({ show: false });
-		});
 
+			document.querySelector('a[title ~= "BotDetect"]').innerHTML = '';
+		});
 
 		document.getElementById(preregistrationFormID).addEventListener("submit", onFormSubmit);
 		document.getElementById("confirmButton").addEventListener("click", onConfirmButtonClick);
 
 		function onFormSubmit(event) {
+			isAllRequiredFilled = true;
+			document.querySelectorAll('[data-valmsg-for]').forEach(function (item) { item.innerText = '' });
+			for (const input of document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"][data-required = "1"]')) {
+				if (input.value.trim().length == 0) {
+					isAllRequiredFilled = false;
+					break;
+				}
+			}
 
-			/*const data = new URLSearchParams(new FormData(event.target)).toString()
-			var fetch_status;
-			fetch('/Preregistration/AddFEBE', {
-				method: "POST",
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/x-www-form-urlencoded'
-				},
-				body: data
-			})
-			.then(function (response) {
-				fetch_status = response.status;
-				return response.json();
-			})
-			.then(function (json) {
-				alert(JSON.stringify(json));
-				console.log(json);
-				if (fetch_status == 200) { }
-			})
-			.catch(function (error) {
-				console.log(error);
-			});*/
-
-			if (!isDataConfirmed) {
+			if (isAllRequiredFilled) {
 				$(confirmDialogID).modal('show');
+			} else {
+				isDataConfirmed = true;
+				processPreregistration();
 			}
 			event.preventDefault();
 		}
 
 		function onConfirmButtonClick(event) {
 			$(confirmDialogID).modal('hide');
-			isDataConfirmed = true;
 			processPreregistration();
 		}
 
@@ -213,6 +226,10 @@
 
 			let data = new URLSearchParams(new FormData(document.getElementById(preregistrationFormID))).toString();
 
+			document.getElementById('loader').style.visibility = 'visible';
+			document.querySelector('input[type="submit"]').setAttribute('disabled', 'disabled');
+			document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.setAttribute('disabled', 'disabled'); });
+
 			fetch('/Preregistration/AddFEBE', {
 				method: "POST",
 				headers: {
@@ -221,30 +238,29 @@
 				},
 				body: data
 			})
-				.then(function (response) {
-					return response.json();
-				})
-				.then(function (json) {
-					if (json.success == 1) {
-						$(successDialogID).modal('show');
-						for (const input of document.getElementById(preregistrationFormID).getElementsByTagName('input')) {
-							if (input.getAttribute('type') == 'text') { input.value = ''; }
-						}
-					} else if (json.success == 2) {
-						Object.entries(json.error).forEach((entry) => {
-							document.querySelector('[data-valmsg-for="' + entry[0] + '"]').innerText = entry[1];
-						});
-					} else {
-						$(emailDialogID).modal('show');
-					}
-
-					document.getElementById("Captcha_ReloadLink").click();
-					isDataConfirmed = false;
-				})
-				.catch(function (error) {
-					// RECARGAR PAGINA
-					location.reload();
+			.then(function (response) {
+				return response.json();
+			})
+			.then(function (json) {
+				
+				if (json.success == 1) {
+					$(successDialogID).modal('show');
+					document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.value = ''; });
+				}  else if (json.success == 3) {
+					$(emailDialogID).modal('show');
+				}
+				Object.entries(json.error).forEach((entry) => {
+					document.querySelector('[data-valmsg-for="' + entry[0] + '"]').innerText = entry[1];
 				});
+
+				document.getElementById("Captcha_ReloadLink").click();
+				document.getElementById('loader').style.visibility = 'hidden';
+				document.querySelector('input[type="submit"]').removeAttribute('disabled');
+				document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.removeAttribute('disabled'); });
+			})
+			.catch(function (error) {
+				location.reload();
+			});
 		}
 
 

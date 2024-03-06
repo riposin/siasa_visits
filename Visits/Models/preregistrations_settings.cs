@@ -17,5 +17,12 @@ namespace Visits.Models
         public long id { get; set; }
         public short link_expiration_hours { get; set; }
         public string link_url_format { get; set; }
+        public string email_subject { get; set; }
+        public string email_body_format { get; set; }
+        public string email_date_time_format { get; set; }
+        public string smtp_host { get; set; }
+        public short smtp_port { get; set; }
+        public string smtp_user { get; set; }
+        public string smtp_password { get; set; }
     }
 }

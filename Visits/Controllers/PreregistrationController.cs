@@ -19,7 +19,7 @@ namespace Visits.Controllers
 	{
 		public ActionResult Index()
 		{
-			return View("AddFE");
+			return View("AddFEBE");
 		}
 
 		[HttpGet]
@@ -165,7 +165,7 @@ namespace Visits.Controllers
 			ModelState[] values = ModelState.Values.ToArray();
 			bool isEmailOk = false;
 			Guid g = Guid.NewGuid();
-			string body = "";
+			preregistrations_settings settings;
 
 			for (int i = 0; i < ModelState.Keys.Count; i++)
 			{
@@ -181,29 +181,30 @@ namespace Visits.Controllers
 				return Content("{\"success\":2, \"error\":" + JsonConvert.SerializeObject(errors) + "}", "application/json; charset=utf-8");
 			}
 
+			using (var db = new visitsEntities())
+			{
+				settings = (from d in db.preregistrations_settings
+						   where d.id == 1
+						   select d).ToList()[0];
+			}
+
 			MailMessage mail = new MailMessage();
-			mail.To.Add("rpool@siasa.com");
-			mail.From = new MailAddress("ripostf@gmail.com");
-			mail.Subject = "Solicitud de confirmación de Visita";
-			body = "<p>Clave de empresa: <span style=\"font-weight: bold;\">{0}</span><br/>Nombre completo: <span style=\"font-weight: bold;\">{1}</span><br/>Fecha y hora: <span style=\"font-weight: bold;\">{2}</span><br/>Motivo: <span style=\"font-weight: bold;\">{3}</span><br/>Enlace para confirmar el pre-registro: <span style=\"font-weight: bold;\"><a href=\"{4}\">{4}</a></span><br/></p>";
-			string link = "https://localhost:44321/Confirmation/Confirm/{0}";
+			mail.To.Add(model.Email);
+			mail.From = new MailAddress(settings.smtp_user);
+			mail.Subject = settings.email_subject;
 			StringBuilder sbLink = new StringBuilder();
 			StringBuilder sbBody = new StringBuilder();
-			sbLink.AppendFormat(link, g.ToString());
-			sbBody.AppendFormat(body, model.CompanyKey, model.FullName, model.VisitDate.ToString("dd/MM/yyyy hh:mm tt"), model.Motive, sbLink.ToString());
-			/*body += "Clave de Empresa: " + model.CompanyKey + "\n";
-			body += "Nombre: " + model.FullName + "\n";
-			body += "Fecha y hora: " + model.VisitDate.ToString() + "\n";
-			body += "Motivo: " + model.Motive + "\n";
-			body += "Enlace para confirmar el pre-registro: " + g.ToString();*/
+			sbLink.AppendFormat(settings.link_url_format, g.ToString());
+			sbBody.AppendFormat(settings.email_body_format, model.CompanyKey, model.FullName, model.VisitDate.ToString(settings.email_date_time_format), model.Motive, sbLink.ToString());
 			mail.Body = sbBody.ToString();
 			mail.IsBodyHtml = true;
 			SmtpClient smtp = new SmtpClient();
-			smtp.Host = "smtp.gmail.com";
-			smtp.Port = 587;
+			smtp.Host = settings.smtp_host;
+			smtp.Port = settings.smtp_port;
 			smtp.UseDefaultCredentials = false;
-			smtp.Credentials = new System.Net.NetworkCredential("", ""); // Enter seders User name and password  
+			smtp.Credentials = new System.Net.NetworkCredential(settings.smtp_user, settings.smtp_password);
 			smtp.EnableSsl = true;
+
 			try
 			{
 				smtp.Send(mail);
@@ -214,7 +215,6 @@ namespace Visits.Controllers
 				isEmailOk = false;
 			}
 			
-
 			if (isEmailOk)
 			{
 				using (var db = new visitsEntities())
@@ -232,32 +232,12 @@ namespace Visits.Controllers
 					db.preregistrations.Add(pre);
 					db.SaveChanges();
 				}
-				/*using (var db = new visitsEntities())
-				{
-					preregistration pre = new preregistration();
-					Guid g = Guid.NewGuid();
-					byte[] bytes = Encoding.ASCII.GetBytes(g.ToString());
-					pre.guid = bytes;
-					pre.company_key = model.CompanyKey;
-					pre.full_name = model.FullName;
-					pre.email = model.Email;
-					pre.visit_date = model.VisitDate;
-					pre.motive = model.Motive;
-					pre.created_at = DateTime.Now;
-
-					db.preregistrations.Add(pre);
-					db.SaveChanges();
-				}*/
-				return Content("{\"success\":1}", "application/json; charset=utf-8");
+				return Content("{\"success\":1, \"error\":" + JsonConvert.SerializeObject(errors) + "}", "application/json; charset=utf-8");
 			}
 			else
 			{
 				return Content("{\"success\":3, \"error\":" + JsonConvert.SerializeObject(errors) + "}", "application/json; charset=utf-8");
 			}
-
-			
-
-
 		}
 	}
 }

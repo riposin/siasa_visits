@@ -3,8 +3,7 @@
 -- Tables
 
 CREATE TABLE preregistrations(
-	id INTEGER PRIMARY KEY,
-	guid BLOB(16) NOT NULL UNIQUE,
+	guid BLOB(16) NOT NULL PRIMARY KEY,
 	company_key NVARCHAR(20) NOT NULL,
 	full_name NVARCHAR(100) NOT NULL,
 	email NVARCHAR(100) NOT NULL,
@@ -17,11 +16,18 @@ CREATE TABLE preregistrations(
 CREATE TABLE preregistrations_settings(
 	id INTEGER PRIMARY KEY,
 	link_expiration_hours SMALLINT NOT NULL,
-	link_url_format NVARCHAR(100) NOT NULL
+	link_url_format NVARCHAR(200) NOT NULL,
+	email_subject NVARCHAR(100),
+	email_body_format NVARCHAR(700) NOT NULL,
+	email_date_time_format NVARCHAR(50) NOT NULL,
+	smtp_host NVARCHAR(50) NOT NULL,
+	smtp_port SMALLINT NOT NULL,
+	smtp_user NVARCHAR(50) NOT NULL,
+	smtp_password NVARCHAR(100) NOT NULL
 );
 
 -- Default data
 
-INSERT INTO preregistrations_settings VALUES(NULL, 24, 'https://localhost:44321/Confirmation/Confirm/{0}');
+INSERT INTO preregistrations_settings VALUES(NULL, 24, 'https://localhost:44321/Confirmation/Confirm/{0}', 'Solicitud de confirmación de Visita','<p>Clave de empresa: <span style="font-weight: bold;">{0}</span><br/>Nombre completo: <span style="font-weight: bold;">{1}</span><br/>Fecha y hora: <span style="font-weight: bold;">{2}</span><br/>Motivo: <span style="font-weight: bold;">{3}</span><br/><a href="{4}">Confirmar el pre-registro</a><br/><br/><span style="font-weight: bold;"><a href="{4}">{4}</a></span></p>', 'dd/MM/yyyy hh:mm tt', 'smtp.gmail.com', 587, 'foobar@gmail.com', 'loremipsum');
 
 .quit

@@ -24,7 +24,14 @@
           </Key>
           <Property Name="id" Type="integer" Nullable="false" />
           <Property Name="link_expiration_hours" Type="smallint" Nullable="false" />
-          <Property Name="link_url_format" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="link_url_format" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="email_subject" Type="nvarchar" MaxLength="100" />
+          <Property Name="email_body_format" Type="nvarchar" MaxLength="700" Nullable="false" />
+          <Property Name="email_date_time_format" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="smtp_host" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="smtp_port" Type="smallint" Nullable="false" />
+          <Property Name="smtp_user" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="smtp_password" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityContainer Name="visitsModelStoreContainer">
           <EntitySet Name="preregistrations" EntityType="Self.preregistrations" store:Type="Tables" />
@@ -34,18 +41,25 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="visitsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="visitsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="preregistrations_settings" EntityType="visitsModel.preregistrations_settings" />
+          <EntitySet Name="preregistrations" EntityType="visitsModel.preregistration" />
+        </EntityContainer>
         <EntityType Name="preregistrations_settings">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" />
           <Property Name="link_expiration_hours" Type="Int16" Nullable="false" />
-          <Property Name="link_url_format" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="link_url_format" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="email_subject" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="email_body_format" Type="String" Nullable="false" MaxLength="700" FixedLength="false" Unicode="true" />
+          <Property Name="email_date_time_format" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="smtp_host" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="smtp_port" Type="Int16" Nullable="false" />
+          <Property Name="smtp_user" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="smtp_password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityContainer Name="visitsEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="preregistrations_settings" EntityType="Self.preregistrations_settings" />
-          <EntitySet Name="preregistrations" EntityType="visitsModel.preregistration" />
-        </EntityContainer>
         <EntityType Name="preregistration">
           <Key>
             <PropertyRef Name="guid" />
@@ -68,9 +82,16 @@
           <EntitySetMapping Name="preregistrations_settings">
             <EntityTypeMapping TypeName="visitsModel.preregistrations_settings">
               <MappingFragment StoreEntitySet="preregistrations_settings">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="link_expiration_hours" ColumnName="link_expiration_hours" />
+                <ScalarProperty Name="smtp_password" ColumnName="smtp_password" />
+                <ScalarProperty Name="smtp_user" ColumnName="smtp_user" />
+                <ScalarProperty Name="smtp_port" ColumnName="smtp_port" />
+                <ScalarProperty Name="smtp_host" ColumnName="smtp_host" />
+                <ScalarProperty Name="email_date_time_format" ColumnName="email_date_time_format" />
+                <ScalarProperty Name="email_body_format" ColumnName="email_body_format" />
+                <ScalarProperty Name="email_subject" ColumnName="email_subject" />
                 <ScalarProperty Name="link_url_format" ColumnName="link_url_format" />
+                <ScalarProperty Name="link_expiration_hours" ColumnName="link_expiration_hours" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

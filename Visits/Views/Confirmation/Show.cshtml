@@ -102,7 +102,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-@(ViewBag.Status == 0 ? "primary" : "success")" id="qrPrintButton">Imprimir</button>
-				<a href="#" download="SIASA_QR_@(Model.company_key + "_" + ViewBag.Guid).png" class="btn btn-@(ViewBag.Status == 0 ? "primary" : "success")" role="button" id="qrDownloadLink">Descargar</a>
+				<a href="#" download="SIASA_QR_@(ViewBag.Status == 0 || ViewBag.Status == -4 ? Model.company_key + "_" + ViewBag.Guid : "" ).png" class="btn btn-@(ViewBag.Status == 0 ? "primary" : "success")" role="button" id="qrDownloadLink">Descargar</a>
 				<button type="button" class="btn btn-@(ViewBag.Status == 0 ? "primary" : "success")" data-dismiss="modal">Cerrar</button>
 			</div>
 		</div>
@@ -148,10 +148,8 @@
 					$('#' + QRDialogID).modal('show');
 				}
 				else {
-					$('#' + QRDialogID).modal('show');
-					//confirmVisit();
-					//PrintElem();
-
+					//$('#' + QRDialogID).modal('show');
+					confirmVisit();
 				}
 			}
 
@@ -177,8 +175,6 @@
 
 			function onPrintQRClick() {
 				var mywindow = window.open('', 'PRINT', 'height=400,width=600, titlebar=Foo');
-
-				//mywindow.ti
 
 				mywindow.document.write('<html>');
 				mywindow.document.write('<head><title>' + document.title + '</title></head>');

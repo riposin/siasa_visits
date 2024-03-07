@@ -62,6 +62,11 @@ namespace Visits.Controllers
 				ViewBag.Message = "Conteo de solicitudes de visitas no confirmadas: " + list.Count().ToString();*/
 			}
 
+			// RPOOL: Disabling feature for Release version
+			#if (DEBUG == false)
+			list = new List<PreregistrationsTableViewModel>();
+			#endif
+
 			return View(list);
 		}
 
@@ -216,7 +221,7 @@ namespace Visits.Controllers
 					preregistration pre = new preregistration();
 					byte[] bytes = Encoding.ASCII.GetBytes(g.ToString());
 					pre.guid = bytes;
-					pre.company_key = model.CompanyKey;
+					pre.company_key = model.CompanyKey.ToUpper();
 					pre.full_name = model.FullName;
 					pre.email = model.Email;
 					pre.visit_date = model.VisitDate;

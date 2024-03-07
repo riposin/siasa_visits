@@ -3,18 +3,11 @@
 	ViewBag.Title = "Lista";
 }
 
-<!--
-<div class="jumbotron">
-	<h1>ASP.NET</h1>
-	<p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-	<p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
--->
-
 <div class="row">
-	<h2 class="text-center">@ViewBag.Message</h2>
+	<h2 class="text-center">Lista de pre-registros</h2>
 	<div class="col-lg-12 @(Model.Count == 0 ? "text-center" : "text-right") ">
-		<a title="Nuevo pre-registro" class="btn btn-primary" href="@Url.Content("~/Preregistration")">Nuevo pre-registro</a>
+			<a title="Nuevo pre-registro" class="btn btn-primary" href="@Url.Content("~/Preregistration")">Nuevo</a>
+		<br /><br />
 	</div>
 	@if (Model.Count > 0)
 	{
@@ -27,16 +20,18 @@
 					<th>Correo</th>
 					<th>Fecha de visita</th>
 					<th>Motivo</th>
+					<th>Confirmación</th>
 				</tr>
 				@foreach (var item in Model)
 				{
 					<tr>
-						<td>@item.GUID</td>
+						<td>@System.Text.Encoding.ASCII.GetString(item.GUID)</td>
 						<td>@item.CompanyKey</td>
 						<td>@item.FullName</td>
 						<td>@item.Email</td>
 						<td>@item.VisitDate</td>
 						<td>@item.Motive</td>
+						<td><a href="/Confirmation/Show/@System.Text.Encoding.ASCII.GetString(item.GUID)">IR</a></td>
 					</tr>
 				}
 			</table>
@@ -46,24 +41,4 @@
 	{
 		<h3 class="text-center">Aún no hay solicitudes de preregistro.</h3>
 	}
-	<!--<div class="col-md-4">
-		<h2>Getting started</h2>
-		<p>
-			ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-			enables a clean separation of concerns and gives you full control over markup
-			for enjoyable, agile development.
-		</p>
-		<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-	</div>
-	<div class="col-md-4">
-		<h2>Get more libraries</h2>
-		<p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-		<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-	</div>
-	<div class="col-md-4">
-		<h2>Web Hosting</h2>
-		<p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-		<p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-	</div>
-	-->
 </div>

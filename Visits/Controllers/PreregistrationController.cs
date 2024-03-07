@@ -28,8 +28,6 @@ namespace Visits.Controllers
 			List<PreregistrationsTableViewModel> list = null;
 			using (visitsEntities db = new visitsEntities())
 			{
-				ViewBag.Message = "Lista de pre-registros ordenados por fecha de creacion descendientemente";
-
 				/*
 				preregistration pre = new preregistration();
 				Guid g = Guid.NewGuid();

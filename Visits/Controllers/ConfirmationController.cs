@@ -8,18 +8,12 @@ using Visits.Models;
 
 namespace Visits.Controllers
 {
-	//[RoutePrefix("Confirmation")]
 	public class ConfirmationController : Controller
 	{
-		//[HttpGet]
-		//[Route("")]
-		//[Route("Index")]
-		//[Route("{_guid:string}")]
+		[HttpGet]
 		public ActionResult Index(string id = "")
 		{
-			//return Redirect(Url.Content("~/Confirmation/Show/" + guid));
-			ViewBag.GUID = id;
-			return View("Show");
+			return Redirect(Url.Content("~/Confirmation/Show/" + id));
 		}
 
 		[HttpGet]

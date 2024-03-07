@@ -1,17 +1,15 @@
 ﻿
 @model Visits.Models.preregistration
 @{
-	ViewBag.Title = "Show";
+	ViewBag.Title = "Confirmación de visita";
 }
 @section content{
 	@*
 		@Styles.Render(@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl)
-		@Styles.Render("/Content/bootstrap-datetimepicker.css")
-		<h2>Show</h2>
 	*@
 	<style type="text/css">
-		#qrcode{
-			display:inline-block;
+		#qrcode {
+			display: inline-block;
 		}
 	</style>
 }
@@ -36,23 +34,25 @@
 		}
 		@if (ViewBag.Status == -4)
 		{
-			<div class="alert alert-success text-justify" role="alert">
-				<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
-				La visita ya fue confirmada, use el botón de abajo para ver el código QR.
-				<br />
-				<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
-				Favor de presentarse antes de la hora programada para su visita.
-				<br />
-				<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
-				Importante acuda a su visita teniendo a la mano el QR.
+			<div id="visitData">
+				<div class="alert alert-success text-justify" role="alert">
+					<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
+					La visita ya fue confirmada, use el botón de abajo para ver el código QR.
+					<br />
+					<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
+					Favor de presentarse antes de la hora programada para su visita.
+					<br />
+					<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
+					Importante acuda a su visita teniendo a la mano el QR.
+				</div>
+				<p>
+					<strong>Clave de la empresa: </strong>@Model.company_key<br />
+					<strong>Nombre: </strong>@Model.full_name<br />
+					<strong>Correo electrónico: </strong>@Model.email<br />
+					<strong>Fecha y hora de la visita: </strong>@Model.visit_date.ToString(ViewBag.Settings.email_date_time_format)<br />
+					<strong>Motivo: </strong>@Model.motive
+				</p>
 			</div>
-			<p>
-				<strong>Clave de la empresa: </strong>@Model.company_key<br />
-				<strong>Nombre: </strong>@Model.full_name<br />
-				<strong>Correo electrónico: </strong>@Model.email<br />
-				<strong>Fecha y hora de la visita: </strong>@Model.visit_date.ToString(ViewBag.Settings.email_date_time_format)<br />
-				<strong>Motivo: </strong>@Model.motive
-			</p>
 			<div class="text-center">
 				<button type="button" class="btn btn-success" id="showQR">Mostrar QR</button>
 			</div>
@@ -66,20 +66,22 @@
 		}
 		@if (ViewBag.Status == 0)
 		{
-			<div class="alert alert-info text-justify" role="alert">
-				<strong><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></strong>
-				Favor de presentarse antes de la hora programada para su visita.
-				<br />
-				<strong><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></strong>
-				Importante acuda a su visita teniendo a la mano el QR.
+			<div id="visitData">
+				<div class="alert alert-info text-justify" role="alert">
+					<strong><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></strong>
+					Favor de presentarse antes de la hora programada para su visita.
+					<br />
+					<strong><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></strong>
+					Importante acuda a su visita teniendo a la mano el QR.
+				</div>
+				<p>
+					<strong>Clave de la empresa: </strong>@Model.company_key<br />
+					<strong>Nombre: </strong>@Model.full_name<br />
+					<strong>Correo electrónico: </strong>@Model.email<br />
+					<strong>Fecha y hora de la visita: </strong>@Model.visit_date.ToString(ViewBag.Settings.email_date_time_format)<br />
+					<strong>Motivo: </strong>@Model.motive
+				</p>
 			</div>
-			<p>
-				<strong>Clave de la empresa: </strong>@Model.company_key<br />
-				<strong>Nombre: </strong>@Model.full_name<br />
-				<strong>Correo electrónico: </strong>@Model.email<br />
-				<strong>Fecha y hora de la visita: </strong>@Model.visit_date.ToString(ViewBag.Settings.email_date_time_format)<br />
-				<strong>Motivo: </strong>@Model.motive
-			</p>
 			<div class="text-center">
 				<button type="button" class="btn btn-primary" id="showQR">Confirmar visita (QR)</button>
 			</div>
@@ -99,25 +101,23 @@
 				<div class="text-center"><div id="qrcode"></div></div>
 			</div>
 			<div class="modal-footer">
-				<!--<button type="button" class="btn btn-default" data-dismiss="modal">No</button>-->
+				<button type="button" class="btn btn-@(ViewBag.Status == 0 ? "primary" : "success")" id="qrPrintButton">Imprimir</button>
+				<a href="#" download="SIASA_QR_@(Model.company_key + "_" + ViewBag.Guid).png" class="btn btn-@(ViewBag.Status == 0 ? "primary" : "success")" role="button" id="qrDownloadLink">Descargar</a>
 				<button type="button" class="btn btn-@(ViewBag.Status == 0 ? "primary" : "success")" data-dismiss="modal">Cerrar</button>
 			</div>
 		</div>
 	</div>
 </div>
+
 @section scripts {
 	@Scripts.Render("~/Scripts/qrcode.min.js")
-	@*
-		@Scripts.Render("~/Scripts/moment.min.js")
-		@Scripts.Render("~/locales/moment/es-mx.js")
-		@Scripts.Render("~/Scripts/bootstrap-datetimepicker.min.js")
-	*@
-<script type="text/javascript">
+	<script type="text/javascript">
 
-	@if(ViewBag.Status == 0 || ViewBag.Status == -4)
+		@if(ViewBag.Status == 0 || ViewBag.Status == -4)
 		{
 			<text>
 			const QRDialogID = 'QRDialog';
+			const qrContainerID = 'qrcode';
 			const guid = "@ViewBag.Guid";
 			let status = @ViewBag.Status;
 			let qrData = '';
@@ -130,20 +130,28 @@
 			qrData += "'companyKey':'@Model.company_key'";
 			qrData += "}";
 
-			new QRCode(document.getElementById("qrcode"), qrData);
+			new QRCode(document.getElementById(qrContainerID), qrData);
 
 			$(function () {
-				$('#'+QRDialogID).modal({ show: false });
+				$('#' + QRDialogID).modal({ show: false });
+				if (document.querySelector('#' + qrContainerID + ' img')) {
+					document.getElementById('qrDownloadLink').href = document.getElementById(qrContainerID).getElementsByTagName('img')[0].src;
+				}
 			});
 
 			document.getElementById('showQR').addEventListener('click', onShowQRClick);
+			document.getElementById('qrPrintButton').addEventListener('click', onPrintQRClick);
+
 
 			function onShowQRClick(event) {
 				if (status == -4) {
 					$('#' + QRDialogID).modal('show');
 				}
 				else {
-					confirmVisit();
+					$('#' + QRDialogID).modal('show');
+					//confirmVisit();
+					//PrintElem();
+
 				}
 			}
 
@@ -159,7 +167,6 @@
 					return response.json();
 				})
 				.then(function (json) {
-					//alert(json.success);
 					$('#' + QRDialogID).modal('show');
 					status = -4;
 				})
@@ -167,7 +174,33 @@
 					location.reload();
 				});
 			}
+
+			function onPrintQRClick() {
+				var mywindow = window.open('', 'PRINT', 'height=400,width=600, titlebar=Foo');
+
+				//mywindow.ti
+
+				mywindow.document.write('<html>');
+				mywindow.document.write('<head><title>' + document.title + '</title></head>');
+				mywindow.document.write('<body style="font-family: system-ui;">');
+
+				mywindow.document.write('<center><h1>' + document.title + '</h1></center>');
+				mywindow.document.write(document.getElementById('visitData').innerHTML);
+				mywindow.document.write(document.getElementById(qrContainerID).innerHTML);
+				mywindow.document.write('<center>' + document.getElementsByTagName('footer')[0].innerHTML + '</center>');
+
+				mywindow.document.write('</body>');
+				mywindow.document.write('<html>');
+
+				mywindow.document.close(); // necessary for IE >= 10
+				mywindow.focus(); // necessary for IE >= 10
+
+				mywindow.print();
+				mywindow.close();
+
+				return true;
+			}
 			</text>
 		}
-</script>
+	</script>
 }

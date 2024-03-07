@@ -28,6 +28,6 @@ CREATE TABLE preregistrations_settings(
 
 -- Default data
 
-INSERT INTO preregistrations_settings VALUES(NULL, 24, 'https://localhost:44321/Confirmation/Confirm/{0}', 'Solicitud de confirmación de Visita','<p>Clave de empresa: <span style="font-weight: bold;">{0}</span><br/>Nombre completo: <span style="font-weight: bold;">{1}</span><br/>Fecha y hora: <span style="font-weight: bold;">{2}</span><br/>Motivo: <span style="font-weight: bold;">{3}</span><br/><a href="{4}">Confirmar el pre-registro</a><br/><br/><span style="font-weight: bold;"><a href="{4}">{4}</a></span></p>', 'dd/MM/yyyy hh:mm tt', 'smtp.gmail.com', 587, 'foobar@gmail.com', 'loremipsum');
+INSERT INTO preregistrations_settings VALUES(NULL, 24, 'https://localhost:44321/Confirmation/Show/{0}', 'Solicitud de confirmación de Visita','<p>Clave de empresa: <span style="font-weight: bold;">{0}</span><br/>Nombre completo: <span style="font-weight: bold;">{1}</span><br/>Fecha y hora: <span style="font-weight: bold;">{2}</span><br/>Motivo: <span style="font-weight: bold;">{3}</span><br/><a href="{4}">Confirmar el pre-registro</a><br/><br/><span style="font-weight: bold;"><a href="{4}">{4}</a></span></p>', 'dd/MM/yyyy hh:mm tt', 'smtp.gmail.com', 587, 'foobar@gmail.com', 'loremipsum');
 
 .quit

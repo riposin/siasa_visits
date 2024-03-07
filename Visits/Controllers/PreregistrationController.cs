@@ -42,13 +42,9 @@ namespace Visits.Controllers
 				pre.motive = "Tour";
 				pre.created_at = DateTime.Now;
 
-				
-
 				db.preregistrations.Add(pre);
 				db.SaveChanges();
 				*/
-
-
 
 				list = (from d in db.preregistrations
 						orderby d.created_at descending

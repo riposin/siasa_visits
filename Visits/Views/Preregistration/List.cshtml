@@ -31,7 +31,7 @@
 				@foreach (var item in Model)
 				{
 					<tr>
-						<td>@System.Text.Encoding.ASCII.GetString(item.GUID)</td>
+						<td>@item.GUID</td>
 						<td>@item.CompanyKey</td>
 						<td>@item.FullName</td>
 						<td>@item.Email</td>

@@ -24,11 +24,17 @@ If ([System.IO.File]::Exists("$cwd\$origname")) {
 		Remove-Item "$cwd\$origname"
 		#>
 		Rename-Item "$cwd\$origname" -NewName $newname
+		Write-Output "The existing database $origname was renamed to $newname.`r`n"
 	} Catch {
 		$CreateFile = $False
-		Write-Output "The file $file$ext could not be renamed, probably because it is in use."
+		Write-Output "The database $origname could not be renamed, probably because it is in use.`r`n"
 		<#Write-Output "Error: $($_.Exception.Message)"#>
-		read-host "`r`nPress any key to exit..."
+		read-host "Press any key to exit"
 	}
 }
-if ($CreateFile){Get-Content .\db_script_new.sqlite | .\sqlite3.exe}
+if ($CreateFile){
+	Get-Content .\db_script_new.sqlite | .\sqlite3.exe
+	Write-Output "The new and empty database $origname was created.`r`n"
+	Write-Output "Please configure the SMTP settings in preregistrations_settings table.`r`n"
+	read-host "Press any key to exit"
+}

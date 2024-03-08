@@ -16,13 +16,14 @@ If (Test-Path $file){Remove-Item $file}
 
 Write-Output "!!!!!!!!!!!!!!!!!----- README -----!!!!!!!!!!!!!!!!!`r`n"
 Write-Output "In order the application to work/start, these following adjustments must be made.`r`n`r`n"
-Write-Output "1 - In 'web.config' file set the DataSource of the connectionString 'visitsEntities' to 'Data Source=|DataDirectory|visits.db'.`r`n"
+Write-Output "1 - In 'web.config' file set the DataSource of the connectionString 'visitsEntities' to 'Data Source=|DataDirectory|visits.db'. Save & Close.`r`n"
 Write-Output "2 - In 'db_script_new.sqlite' file(on this directory), section 'Default Data', adjust UPDATE statements for 'preregistrations_settings' table."
 Write-Output "2.1 -  Column 'link_url_format':	Change 'SETHOSTHERE' by the proper host/domain of the aplication."
 Write-Output "2.2 -  Column 'smtp_host': 		Set proper value."
 Write-Output "2.3 -  Column 'smtp_port': 		Set proper value."
 Write-Output "2.4 -  Column 'smtp_user': 		Set proper value."
-Write-Output "2.5 -  Column 'smtp_password': 		Set proper value.`r`n`r`n"
+Write-Output "2.5 -  Column 'smtp_password': 		Set proper value."
+Write-Output "2.6 -  Save & Close.`r`n`r`n"
 read-host "Press any key to continue"
 
 $CreateFile = $True

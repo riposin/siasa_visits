@@ -25,12 +25,13 @@
 			<div class="navbar-collapse collapse">
 
 				<!--RPOOL: Disabling feature for Release version-->
-				<!--
-				<ul class="nav navbar-nav">
-					<li>@Html.ActionLink("Lista", "List", "Preregistration")</li>
-					<li>@Html.ActionLink("Nuevo", "AddFEBE", "Preregistration")</li>
-				</ul>
-				-->
+				@if (ViewBag.Debug == true)
+				{
+					<ul class="nav navbar-nav">
+						<li>@Html.ActionLink("Lista", "List", "Preregistration")</li>
+						<li>@Html.ActionLink("Nuevo", "AddFEBE", "Preregistration")</li>
+					</ul>
+				}
 			</div>
 		</div>
 	</div>

@@ -10,6 +10,14 @@ namespace Visits.Controllers
 {
 	public class ConfirmationController : Controller
 	{
+		public ConfirmationController()
+		{
+			ViewBag.Debug = false;
+			#if (DEBUG)
+				ViewBag.Debug = true;
+			#endif
+		}
+
 		[HttpGet]
 		public ActionResult Index(string id = "")
 		{

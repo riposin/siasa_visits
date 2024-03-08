@@ -17,6 +17,14 @@ namespace Visits.Controllers
 {
 	public class PreregistrationController : Controller
 	{
+		public PreregistrationController()
+		{
+			ViewBag.Debug = false;
+			#if (DEBUG)
+				ViewBag.Debug = true;
+			#endif
+		}
+
 		public ActionResult Index()
 		{
 			return View("AddFEBE");
@@ -63,9 +71,10 @@ namespace Visits.Controllers
 			}
 
 			// RPOOL: Disabling feature for Release version
-			#if (DEBUG == false)
-			list = new List<PreregistrationsTableViewModel>();
-			#endif
+			if(ViewBag.Debug == false)
+			{
+				list = new List<PreregistrationsTableViewModel>();
+			}
 
 			return View(list);
 		}

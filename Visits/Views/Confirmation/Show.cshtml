@@ -15,7 +15,7 @@
 }
 
 
-<h2 class="text-center">Confirmación de visita</h2>
+<h2 class="text-center" id="">@(ViewBag.Status == -4 ? "Visita confirmada" : "Confirmación de visita")</h2>
 <div class="row">
 	<div class="col-md-6 col-md-offset-3">
 		@if (ViewBag.Status == -1 || ViewBag.Status == -2)
@@ -189,7 +189,7 @@
 				mywindow.document.write('<head><title>' + document.title + '</title></head>');
 				mywindow.document.write('<body style="font-family: system-ui;">');
 
-				mywindow.document.write('<center><h1>' + document.title + '</h1></center>');
+				mywindow.document.write('<center><h1>' + document.getElementsByTagName('h2')[0].innerHTML + '</h1></center>');
 				mywindow.document.write(document.getElementById('visitData').innerHTML);
 				mywindow.document.write(document.getElementById(qrContainerID).innerHTML);
 				mywindow.document.write('<center>' + document.getElementsByTagName('footer')[0].innerHTML + '</center>');

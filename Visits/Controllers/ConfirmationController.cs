@@ -29,6 +29,7 @@ namespace Visits.Controllers
 		{
 			ViewBag.Status = 0;
 			ViewBag.QRData = "";
+			ViewBag.Guid = id;
 			List <preregistration> pre;
 			preregistrations_settings settings;
 			Guid guid;
@@ -88,7 +89,6 @@ namespace Visits.Controllers
 
 			// Not confirmed and creation is lees than the deadline(24hours)
 			// 0
-			ViewBag.Guid = id;
 			return View(pre[0]);
 		}
 

@@ -111,7 +111,7 @@
 
 @section scripts {
 	@Scripts.Render("~/Scripts/qrcode.min.js")
-	<script type="text/javascript">
+<script type="text/javascript">
 
 		@if(ViewBag.Status == 0 || ViewBag.Status == -4)
 		{
@@ -148,8 +148,17 @@
 					$('#' + QRDialogID).modal('show');
 				}
 				else {
-					//$('#' + QRDialogID).modal('show');
-					confirmVisit();
+					@if (ViewBag.Debug)
+					{
+						<text>
+						$('#' + QRDialogID).modal('show');
+						</text>
+					} else
+					{
+						<text>
+						confirmVisit();
+						</text>
+					}
 				}
 			}
 
@@ -174,7 +183,7 @@
 			}
 
 			function onPrintQRClick() {
-				var mywindow = window.open('', 'PRINT', 'height=400,width=600, titlebar=Foo');
+				var mywindow = window.open('', 'PRINT', 'fullscreen=yes');
 
 				mywindow.document.write('<html>');
 				mywindow.document.write('<head><title>' + document.title + '</title></head>');
@@ -198,5 +207,5 @@
 			}
 			</text>
 		}
-	</script>
+</script>
 }

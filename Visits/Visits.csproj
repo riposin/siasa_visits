@@ -176,15 +176,15 @@
     <Compile Include="Validations\DateTimeGreaterThanToday.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\sqlite3.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="db\sqlite3.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -213,9 +213,13 @@
     <Content Include="Models\visits.edmx.diagram">
       <DependentUpon>visits.edmx</DependentUpon>
     </Content>
-    <Content Include="db\db_script_new.sqlite" />
-    <Content Include="db\db_script_new.ps1" />
     <Content Include="locales\sounds\captcha\Pronunciation_Spanish_MX.bdsp" />
+    <Content Include="App_Data\db_script_new.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\db_script_new.sqlite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -248,9 +252,7 @@
     <Content Include="Views\Preregistration\AddFEBE.cshtml" />
     <Content Include="Views\Confirmation\Show.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

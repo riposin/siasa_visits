@@ -203,7 +203,7 @@ namespace Visits.Controllers
 			StringBuilder sbLink = new StringBuilder();
 			StringBuilder sbBody = new StringBuilder();
 			sbLink.AppendFormat(settings.link_url_format, g.ToString());
-			sbBody.AppendFormat(settings.email_body_format, model.CompanyKey, model.FullName, model.VisitDate.ToString(settings.email_date_time_format), model.Motive, sbLink.ToString());
+			sbBody.AppendFormat(settings.email_body_format, model.CompanyKey.ToUpper(), model.FullName, model.VisitDate.ToString(settings.email_date_time_format), model.Motive, sbLink.ToString());
 			mail.Body = sbBody.ToString();
 			mail.IsBodyHtml = true;
 			SmtpClient smtp = new SmtpClient();

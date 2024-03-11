@@ -165,10 +165,8 @@ namespace Visits.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[CaptchaValidationActionFilter("CaptchaCode", "Captcha", "¡El Captcha no es correcto!")]
-		//[EnableCors(origins: "http://example.com", headers: "*", methods: "*")]
 		public ActionResult AddFEBE(PreregistrationsViewModel model)
 		{
-			//Response.AppendHeader("Access-Control-Allow-Origin", "*");
 			MvcCaptcha.ResetCaptcha("Captcha");
 			Dictionary<string, string> errors = new Dictionary<string, string>();
 			string[] keys = ModelState.Keys.ToArray();
@@ -204,7 +202,7 @@ namespace Visits.Controllers
 			mail.Subject = settings.email_subject;
 			StringBuilder sbLink = new StringBuilder();
 			StringBuilder sbBody = new StringBuilder();
-			sbLink.AppendFormat(settings.link_url_format, g.ToString());
+			sbLink.AppendFormat(string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~")) + settings.link_url_format, g.ToString());
 			sbBody.AppendFormat(settings.email_body_format, model.CompanyKey.ToUpper(), model.FullName, model.VisitDate.ToString(settings.email_date_time_format), model.Motive, sbLink.ToString());
 			mail.Body = sbBody.ToString();
 			mail.IsBodyHtml = true;

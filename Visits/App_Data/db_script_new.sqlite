@@ -32,7 +32,7 @@ CREATE TABLE preregistrations_settings(
 INSERT INTO preregistrations_settings VALUES(NULL, 0, '', '','', '', '', 0, '', '');
 
 UPDATE preregistrations_settings SET link_expiration_hours = 	24;
-UPDATE preregistrations_settings SET link_url_format = 			'https://SETHOSTHERE/Confirmation/Show/{0}';
+UPDATE preregistrations_settings SET link_url_format = 			'Confirmation/Show/{0}';
 UPDATE preregistrations_settings SET email_subject = 			'Solicitud de confirmacion de Visita';
 UPDATE preregistrations_settings SET email_body_format = 		'<p>Clave de empresa: <span style="font-weight: bold;">{0}</span><br/>Nombre completo: <span style="font-weight: bold;">{1}</span><br/>Fecha y hora: <span style="font-weight: bold;">{2}</span><br/>Motivo: <span style="font-weight: bold;">{3}</span><br/><a href="{4}">Confirmar el pre-registro</a><br/><br/><span style="font-weight: bold;"><a href="{4}">{4}</a></span></p>';
 UPDATE preregistrations_settings SET email_date_time_format = 	'dd/MM/yyyy hh:mm tt';

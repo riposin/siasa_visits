@@ -4,9 +4,6 @@
 	ViewBag.Title = "Confirmación de visita";
 }
 @section content{
-	@*
-		@Styles.Render(@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl)
-	*@
 	<style type="text/css">
 		#qrcode {
 			display: inline-block;
@@ -163,7 +160,7 @@
 			}
 
 			function confirmVisit() {
-				fetch('/Confirmation/Confirm/' + guid, {
+				fetch('@Url.Content("~")Confirmation/Confirm/' + guid, {
 					method: "POST",
 					headers: {
 						'Accept': 'application/json',
@@ -201,7 +198,11 @@
 				mywindow.focus(); // necessary for IE >= 10
 
 				mywindow.print();
-				mywindow.close();
+
+				setTimeout(function () { mywindow.close(); }, 100);		// For EDGE
+				mywindow.onafterprint = function () {					// For Chrome
+					mywindow.close();
+				}
 
 				return true;
 			}

@@ -8,30 +8,31 @@
 }
 @section content{
 	@Styles.Render(@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl)
-	@Styles.Render("/Content/bootstrap-datetimepicker.css")
-<style type="text/css">
-	#loader {
-		visibility: hidden;
-		height: 4.5rem;
-		padding-top: 1rem;
-		padding-bottom: 1rem;
-	}
+	@Styles.Render("~/Content/bootstrap-datetimepicker.css")
 
-	.spin {
-		-webkit-transform-origin: 50% 50%;
-		transform-origin: 50% 50%;
-		-ms-transform-origin: 50% 50%; /* IE 9 */
-		-webkit-animation: spin .8s infinite linear;
-		-moz-animation: spin .8s infinite linear;
-		-o-animation: spin .8s infinite linear;
-		animation: spin .8s infinite linear;
-	}
+	<style type="text/css">
+		#loader {
+			visibility: hidden;
+			height: 4.5rem;
+			padding-top: 1rem;
+			padding-bottom: 1rem;
+		}
 
-	@@-moz-keyframes spin {from{-moz-transform: rotate(0deg);}to{-moz-transform: rotate(360deg);}}
-	@@-webkit-keyframes spin {from{-webkit-transform: rotate(0deg);}to{-webkit-transform: rotate(360deg);}}
-	@@keyframes spin {from{transform: rotate(0deg);}to{transform: rotate(360deg);}}
+		.spin {
+			-webkit-transform-origin: 50% 50%;
+			transform-origin: 50% 50%;
+			-ms-transform-origin: 50% 50%; /* IE 9 */
+			-webkit-animation: spin .8s infinite linear;
+			-moz-animation: spin .8s infinite linear;
+			-o-animation: spin .8s infinite linear;
+			animation: spin .8s infinite linear;
+		}
 
-</style>
+		@@-moz-keyframes spin {from {-moz-transform: rotate(0deg);} to {-moz-transform: rotate(360deg);}}
+		@@-webkit-keyframes spin {from {-webkit-transform: rotate(0deg);} to {-webkit-transform: rotate(360deg);}}
+		@@keyframes spin {from {transform: rotate(0deg);} to {transform: rotate(360deg);}}
+
+	</style>
 }
 
 <h2 class="text-center">Solicitud de pre-registro de visitantes</h2>
@@ -90,12 +91,12 @@
 			</div>
 			@Html.TextBox("CaptchaCode", "", new { @class = "form-control", title = "Captura el código captcha", data_required = "1" })
 			@Html.ValidationMessage("CaptchaCode", new { @class = "text-danger" })
-			<br/><br/>
+			<br /><br />
 			<div class="text-center">
 				<input type="submit" class="btn btn-success" value="Enviar correo para iniciar el pre-registro" title="Enviar correo para iniciar el pre-registro" />
 				<div id="loader" class="text-primary"><span class="glyphicon glyphicon-repeat spin" aria-hidden="true"></span> procesando, espere un momento por favor.</div>
 			</div>
-			
+
 		}
 	</div>
 
@@ -160,7 +161,7 @@
 	@Scripts.Render("~/locales/moment/es-mx.js")
 	@Scripts.Render("~/Scripts/bootstrap-datetimepicker.min.js")
 
-	<script type="text/javascript">
+<script type="text/javascript">
 		/* VISIT DTP */
 		//let dtFormat = 'MM-DD-YYYY hh:mm A'; // en-US
 		const dtFormat = 'DD-MM-YYYY hh:mm A'; // es-MX
@@ -186,7 +187,7 @@
 
 			$(confirmDialogID).modal({ show: false });
 
-			document.querySelector('a[title ~= "BotDetect"]').innerHTML = '';
+			document.querySelector('a[title ~= "BotDetect"]').remove();
 		});
 
 		document.getElementById(preregistrationFormID).addEventListener("submit", onFormSubmit);
@@ -230,7 +231,8 @@
 			document.querySelector('input[type="submit"]').setAttribute('disabled', 'disabled');
 			document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.setAttribute('disabled', 'disabled'); });
 
-			fetch('/Preregistration/AddFEBE', {
+
+			fetch('@Url.Content("~")Preregistration/AddFEBE', {
 				method: "POST",
 				headers: {
 					'Accept': 'application/json',
@@ -238,31 +240,29 @@
 				},
 				body: data
 			})
-			.then(function (response) {
-				return response.json();
-			})
-			.then(function (json) {
-				
-				if (json.success == 1) {
-					$(successDialogID).modal('show');
-					document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.value = ''; });
-				}  else if (json.success == 3) {
-					$(emailDialogID).modal('show');
-				}
-				Object.entries(json.error).forEach((entry) => {
-					document.querySelector('[data-valmsg-for="' + entry[0] + '"]').innerText = entry[1];
+				.then(function (response) {
+					return response.json();
+				})
+				.then(function (json) {
+
+					if (json.success == 1) {
+						$(successDialogID).modal('show');
+						document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.value = ''; });
+					} else if (json.success == 3) {
+						$(emailDialogID).modal('show');
+					}
+					Object.entries(json.error).forEach((entry) => {
+						document.querySelector('[data-valmsg-for="' + entry[0] + '"]').innerText = entry[1];
+					});
+
+					document.getElementById("Captcha_ReloadLink").click();
+					document.getElementById('loader').style.visibility = 'hidden';
+					document.querySelector('input[type="submit"]').removeAttribute('disabled');
+					document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.removeAttribute('disabled'); });
+				})
+				.catch(function (error) {
+					location.reload();
 				});
-
-				document.getElementById("Captcha_ReloadLink").click();
-				document.getElementById('loader').style.visibility = 'hidden';
-				document.querySelector('input[type="submit"]').removeAttribute('disabled');
-				document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.removeAttribute('disabled'); });
-			})
-			.catch(function (error) {
-				location.reload();
-			});
 		}
-
-
-	</script>
+</script>
 }

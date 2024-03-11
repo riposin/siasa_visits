@@ -165,8 +165,10 @@ namespace Visits.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[CaptchaValidationActionFilter("CaptchaCode", "Captcha", "¡El Captcha no es correcto!")]
+		//[EnableCors(origins: "http://example.com", headers: "*", methods: "*")]
 		public ActionResult AddFEBE(PreregistrationsViewModel model)
 		{
+			//Response.AppendHeader("Access-Control-Allow-Origin", "*");
 			MvcCaptcha.ResetCaptcha("Captcha");
 			Dictionary<string, string> errors = new Dictionary<string, string>();
 			string[] keys = ModelState.Keys.ToArray();

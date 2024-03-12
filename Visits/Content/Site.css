@@ -40,21 +40,25 @@ body {
 	font-weight: bold;
 }
 
-.navbar-inverse .navbar-brand {
+.navbar .navbar-brand, .navbar-inverse .navbar-brand {
 	color: white;
 }
 
-.navbar-inverse {
+.navbar, .navbar-inverse {
 	border: none;
 	border-block-color: black;
 }
 
-.navbar-inverse .navbar-nav > li > a {
+.navbar .navbar-nav > li > a, .navbar-inverse .navbar-nav > li > a {
 	color: white;
-	
 }
 
-.navbar-inverse .navbar-nav > li > a:hover{
+.navbar .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:hover {
+	color: white;
 	text-decoration: auto;
 	text-decoration-line: underline;
+}
+
+.ucfirst:first-letter{
+    text-transform: uppercase;
 }

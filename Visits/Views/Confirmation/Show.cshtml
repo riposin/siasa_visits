@@ -197,13 +197,14 @@
 				mywindow.document.close(); // necessary for IE >= 10
 				mywindow.focus(); // necessary for IE >= 10
 
-				mywindow.print();
-
-				setTimeout(function () { mywindow.close(); }, 100);		// For EDGE
 				mywindow.onafterprint = function () {					// For Chrome
 					mywindow.close();
 				}
 
+				mywindow.print();
+
+				setTimeout(function () { mywindow.close(); }, 100);		// For EDGE
+				
 				return true;
 			}
 			</text>

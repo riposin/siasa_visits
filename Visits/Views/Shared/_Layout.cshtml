@@ -7,34 +7,33 @@
 	@Styles.Render("~/Content/css")
 	@Scripts.Render("~/bundles/modernizr")
 	@RenderSection("content", required: false)
+	<link rel="icon" type="image/x-icon" href="@Url.Content("~")favicon.ico">
 </head>
 <body>
-	<div class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container">
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle@(ViewBag.Debug == true ? "" : " hidden-sm hidden-xs")" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<span class="navbar-brand">Visitas</span>
-				@*
-					@Html.ActionLink("Visitas", "Index", "Preregistration", new { area = "" }, new { @class = "navbar-brand" })
-				*@
+				<span class="navbar-brand ucfirst" data-translate="true" data-label="LBL_VISITS"></span>
 			</div>
-			<div class="navbar-collapse collapse">
-
-				<!--RPOOL: Disabling feature for Release version-->
-				@if (ViewBag.Debug == true)
-				{
-					<ul class="nav navbar-nav">
-						<li>@Html.ActionLink("Lista", "List", "Preregistration")</li>
-						<li>@Html.ActionLink("Nuevo", "AddFEBE", "Preregistration")</li>
+			<!--RPOOL: Disabling feature for Release version-->
+			@if (ViewBag.Debug == true)
+			{
+				<ul class="nav navbar-nav">
+					<li>@Html.ActionLink("Lista", "List", "Preregistration")</li>
+					<li>@Html.ActionLink("Nuevo", "AddFEBE", "Preregistration")</li>
+				</ul>
+			}
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown" id="languageSelector" data-default="es-MX" data-version="3">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">&nbsp;<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li data-lang="es-MX" data-display="ES&nbsp;"><a href="#">Español</a></li>
+						<li data-lang="en-US" data-display="EN&nbsp;"><a href="#">English</a></li>
 					</ul>
-				}
-			</div>
+				</li>
+			</ul>
 		</div>
-	</div>
+	</nav>
 	<div class="container body-content">
 		@RenderBody()
 	</div>
@@ -47,6 +46,7 @@
 
 	@Scripts.Render("~/bundles/jquery")
 	@Scripts.Render("~/bundles/bootstrap")
+	@Scripts.Render("~/Scripts/translation.js")
 	@RenderSection("scripts", required: false)
 </body>
 </html>

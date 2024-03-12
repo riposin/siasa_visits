@@ -1,6 +1,9 @@
+PRAGMA encoding = "UTF-8"; 
 .open visits.db
 
--- Tables --
+
+
+ -- -- -- -- TABLES -- -- -- --
 
 CREATE TABLE preregistrations(
 	guid BLOB(16) NOT NULL PRIMARY KEY,
@@ -8,7 +11,7 @@ CREATE TABLE preregistrations(
 	full_name NVARCHAR(100) NOT NULL,
 	email NVARCHAR(100) NOT NULL,
 	visit_date DATETIME NOT NULL,
-	motive NVARCHAR(150) NOT NULL,
+	motive NVARCHAR(150),
 	created_at DATETIME NOT NULL,
 	confirmed_at DATETIME
 );
@@ -17,51 +20,105 @@ CREATE TABLE preregistrations_settings(
 	id INTEGER PRIMARY KEY,
 	link_expiration_hours SMALLINT NOT NULL,
 	link_url_format NVARCHAR(200) NOT NULL,
-	email_subject NVARCHAR(100),
+	email_subject NVARCHAR(100) NOT NULL,
 	email_body_format NVARCHAR(700) NOT NULL,
 	email_date_time_format NVARCHAR(50) NOT NULL,
 	smtp_host NVARCHAR(50) NOT NULL,
 	smtp_port SMALLINT NOT NULL,
 	smtp_user NVARCHAR(50) NOT NULL,
-	smtp_password NVARCHAR(100) NOT NULL
+	smtp_password NVARCHAR(100) NOT NULL,
+	lang_locale_default NVARCHAR(100) NOT NULL,
+	lang_labels_version INTEGER NOT NULL
+);
+
+CREATE TABLE locales(
+	id NAVARCHAR(5) PRIMARY KEY,
+	name NAVARCHAR(50) NOT NULL,
+	selector_id NAVARCHAR(5) NOT NULL,
+	selector_name NAVARCHAR(50) NOT NULL
+);
+
+CREATE TABLE labels(
+	id INTEGER PRIMARY KEY,
+	locale_id NAVARCHAR(5) NOT NULL,
+	label NVARCHAR(25) NOT NULL,
+	translation NAVARCHAR(100) NOT NULL,
+	FOREIGN KEY(locale_id) REFERENCES locales(id),
+	UNIQUE(locale_id, label)
 );
 
 
--- Default Data --
 
-INSERT INTO preregistrations_settings VALUES(NULL, 0, '', '','', '', '', 0, '', '');
+-- -- -- -- DEFAULT CONFIG -- -- -- --
+
+INSERT INTO preregistrations_settings(id, link_expiration_hours, link_url_format, email_subject, email_body_format, email_date_time_format, smtp_host, smtp_port, smtp_user, smtp_password, lang_locale_default, lang_labels_version) VALUES(NULL, 0, '', '','', '', '', 0, '', '', '', 0);
 
 UPDATE preregistrations_settings SET link_expiration_hours = 	24;
 UPDATE preregistrations_settings SET link_url_format = 			'Confirmation/Show/{0}';
-UPDATE preregistrations_settings SET email_subject = 			'Solicitud de confirmacion de Visita';
+UPDATE preregistrations_settings SET email_subject = 			'Solicitud de confirmaci&oacute;n de Visita';
 UPDATE preregistrations_settings SET email_body_format = 		'<p>Clave de empresa: <span style="font-weight: bold;">{0}</span><br/>Nombre completo: <span style="font-weight: bold;">{1}</span><br/>Fecha y hora: <span style="font-weight: bold;">{2}</span><br/>Motivo: <span style="font-weight: bold;">{3}</span><br/><a href="{4}">Confirmar el pre-registro</a><br/><br/><span style="font-weight: bold;"><a href="{4}">{4}</a></span></p>';
 UPDATE preregistrations_settings SET email_date_time_format = 	'dd/MM/yyyy hh:mm tt';
+UPDATE preregistrations_settings SET lang_locale_default =		'es-MX';
+UPDATE preregistrations_settings SET lang_labels_version =		1;
 UPDATE preregistrations_settings SET smtp_host = 				'smtp.gmail.com';
 UPDATE preregistrations_settings SET smtp_port = 				'587';
 UPDATE preregistrations_settings SET smtp_user = 				'cortana@gmail.com';
 UPDATE preregistrations_settings SET smtp_password = 			'spartan117';
 
 
--- Triggers --
+
+-- -- -- -- LABELS -- -- -- --
+
+INSERT INTO locales(id, name, selector_id, selector_name) VALUES('es-MX', 'Spanish (M&eacute;xico)', 'ES', 'Espa&ntilde;ol');
+INSERT INTO locales(id, name, selector_id, selector_name) VALUES('en-US', 'English (United States)', 'US', 'English');
+
+-- Labels for es-MX
+INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'es-MX', 'LBL_VISITS',			'visitas' FROM labels;
+INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'es-MX', 'LBL_SCR_TITLE_REQ',	'solicitud de pre-registro de visitantes' FROM labels;
+INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'es-MX', 'LBL_COMP_KEY',		'clave de empresa' FROM labels;
+INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'es-MX', 'LBL_FNAME',			'nombre completo' FROM labels;
+INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'es-MX', 'LBL_EMAIL',			'correo electr&oacute;nico' FROM labels;
+INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'es-MX', 'LBL_DATETIME',		'fecha y hora' FROM labels;
+INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'es-MX', 'LBL_VMOTIVE',			'motivo de visita' FROM labels;
+INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'es-MX', 'LBL_SEND_EMAIL_PREREQ',	'enviar correo para iniciar el pre-registro' FROM labels;
+-- INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'es-MX', 'LBL_', '' FROM labels;
+
+-- Labels for en-US
+INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'en-US', 'LBL_VISITS',			'visits' FROM labels;
+INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'en-US', 'LBL_SCR_TITLE_REQ',	'visitor pre-registration request' FROM labels;
+INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'en-US', 'LBL_COMP_KEY',		'company key' FROM labels;
+INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'en-US', 'LBL_FNAME',			'full name' FROM labels;
+INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'en-US', 'LBL_EMAIL',			'email' FROM labels;
+INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'en-US', 'LBL_DATETIME',		'date and time' FROM labels;
+INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'en-US', 'LBL_VMOTIVE',			'visit motive' FROM labels;
+INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'en-US', 'LBL_SEND_EMAIL_PREREQ',	'send email to start pre-registration' FROM labels;
+-- INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'en-US', 'LBL_', '' FROM labels;
+
+
+
+-- -- -- -- TRIGGERS -- -- -- --
 
 CREATE TRIGGER setEmptyToNullConfirmDate
-         AFTER INSERT
-            ON preregistrations
-          WHEN trim(new.confirmed_at) IS ''
+	AFTER INSERT
+	ON preregistrations
+	WHEN trim(new.confirmed_at) IS ''
 BEGIN
-    UPDATE preregistrations
-       SET confirmed_at = NULL
-     WHERE rowid = NEW.rowid;
+	UPDATE preregistrations
+		SET confirmed_at = NULL
+	WHERE rowid = NEW.rowid;
 END;
 
 CREATE TRIGGER changeEmptyToNullConfirmDate
-         AFTER UPDATE
-            ON preregistrations
-          WHEN trim(new.confirmed_at) IS ''
+	AFTER UPDATE
+	ON preregistrations
+	WHEN trim(new.confirmed_at) IS ''
 BEGIN
-    UPDATE preregistrations
-       SET confirmed_at = NULL
-     WHERE rowid = NEW.rowid;
+	UPDATE preregistrations
+		SET confirmed_at = NULL
+	WHERE rowid = NEW.rowid;
 END;
 
+
+
 .quit
+

@@ -46,7 +46,14 @@ If ([System.IO.File]::Exists("$cwd\$origname")) {
 	}
 }
 if ($CreateFile){
-	Get-Content .\db_script_new.sqlite | .\sqlite3.exe
+	<#
+	$PSDefaultParameterValues['*:Encoding'] = 'UTF8'
+	[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+	Get-Content .\db_script_new.sqlite -Encoding UTF8 | .\sqlite3.exe
+	#>
+	$PSDefaultParameterValues['*:Encoding'] = 'UTF8'
+	[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+	Get-Content .\db_script_new.sqlite -Encoding UTF8 | .\sqlite3.exe
 	Write-Output "The new and empty database $origname was created.`r`n"
 	read-host "Press any key to exit"
 }

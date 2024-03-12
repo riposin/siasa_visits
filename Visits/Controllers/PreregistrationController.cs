@@ -19,10 +19,28 @@ namespace Visits.Controllers
 	{
 		public PreregistrationController()
 		{
+			// Data used for _Layout view
 			ViewBag.Debug = false;
 			#if (DEBUG)
 				ViewBag.Debug = true;
 			#endif
+
+			preregistrations_settings settings;
+			using (var db = new visitsEntities())
+			{
+				settings = (from d in db.preregistrations_settings
+							where d.id == 1
+							select d).ToList()[0];
+			}
+			ViewBag.Settings = settings;
+
+			List<locale> locales;
+			using (var db = new visitsEntities())
+			{
+				locales = (from d in db.locales
+							select d).ToList();
+			}
+			ViewBag.Locales = locales;
 		}
 
 		public ActionResult Index()
@@ -173,7 +191,6 @@ namespace Visits.Controllers
 			ModelState[] values = ModelState.Values.ToArray();
 			bool isEmailOk = false;
 			Guid g = Guid.NewGuid();
-			preregistrations_settings settings;
 
 			for (int i = 0; i < ModelState.Keys.Count; i++)
 			{
@@ -189,28 +206,21 @@ namespace Visits.Controllers
 				return Content("{\"success\":2, \"error\":" + JsonConvert.SerializeObject(errors) + "}", "application/json; charset=utf-8");
 			}
 
-			using (var db = new visitsEntities())
-			{
-				settings = (from d in db.preregistrations_settings
-						   where d.id == 1
-						   select d).ToList()[0];
-			}
-
 			MailMessage mail = new MailMessage();
 			mail.To.Add(model.Email);
-			mail.From = new MailAddress(settings.smtp_user);
-			mail.Subject = settings.email_subject;
+			mail.From = new MailAddress(ViewBag.Settings.smtp_user);
+			mail.Subject = System.Net.WebUtility.HtmlDecode(ViewBag.Settings.email_subject);
 			StringBuilder sbLink = new StringBuilder();
 			StringBuilder sbBody = new StringBuilder();
-			sbLink.AppendFormat(string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~")) + settings.link_url_format, g.ToString());
-			sbBody.AppendFormat(settings.email_body_format, model.CompanyKey.ToUpper(), model.FullName, model.VisitDate.ToString(settings.email_date_time_format), model.Motive, sbLink.ToString());
+			sbLink.AppendFormat(string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~")) + ViewBag.Settings.link_url_format, g.ToString());
+			sbBody.AppendFormat(ViewBag.Settings.email_body_format, model.CompanyKey.ToUpper(), model.FullName, model.VisitDate.ToString(ViewBag.Settings.email_date_time_format), model.Motive, sbLink.ToString());
 			mail.Body = sbBody.ToString();
 			mail.IsBodyHtml = true;
 			SmtpClient smtp = new SmtpClient();
-			smtp.Host = settings.smtp_host;
-			smtp.Port = settings.smtp_port;
+			smtp.Host = ViewBag.Settings.smtp_host;
+			smtp.Port = ViewBag.Settings.smtp_port;
 			smtp.UseDefaultCredentials = false;
-			smtp.Credentials = new System.Net.NetworkCredential(settings.smtp_user, settings.smtp_password);
+			smtp.Credentials = new System.Net.NetworkCredential(ViewBag.Settings.smtp_user, ViewBag.Settings.smtp_password);
 			smtp.EnableSsl = true;
 
 			try

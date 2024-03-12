@@ -5,6 +5,24 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="visitsModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=C:\Users\rpool\dev\Visits\Visits\db\visits.db" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="labels">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="integer" Nullable="false" />
+          <Property Name="locale_id" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="label" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="translation" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="locales">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="selector_id" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="selector_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="preregistrations">
           <Key>
             <PropertyRef Name="guid" />
@@ -14,7 +32,7 @@
           <Property Name="full_name" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="email" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="visit_date" Type="datetime" Nullable="false" />
-          <Property Name="motive" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="motive" Type="nvarchar" MaxLength="150" />
           <Property Name="created_at" Type="datetime" Nullable="false" />
           <Property Name="confirmed_at" Type="datetime" />
         </EntityType>
@@ -25,40 +43,71 @@
           <Property Name="id" Type="integer" Nullable="false" />
           <Property Name="link_expiration_hours" Type="smallint" Nullable="false" />
           <Property Name="link_url_format" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="email_subject" Type="nvarchar" MaxLength="100" />
+          <Property Name="email_subject" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="email_body_format" Type="nvarchar" MaxLength="700" Nullable="false" />
           <Property Name="email_date_time_format" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="smtp_host" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="smtp_port" Type="smallint" Nullable="false" />
           <Property Name="smtp_user" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="smtp_password" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="lang_locale_default" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="lang_labels_version" Type="integer" Nullable="false" />
         </EntityType>
+        <Association Name="FK_labels_0_0">
+          <End Role="locales" Type="Self.locales" Multiplicity="1" />
+          <End Role="labels" Type="Self.labels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="locales">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="labels">
+              <PropertyRef Name="locale_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="visitsModelStoreContainer">
+          <EntitySet Name="labels" EntityType="Self.labels" store:Type="Tables" />
+          <EntitySet Name="locales" EntityType="Self.locales" store:Type="Tables" />
           <EntitySet Name="preregistrations" EntityType="Self.preregistrations" store:Type="Tables" />
           <EntitySet Name="preregistrations_settings" EntityType="Self.preregistrations_settings" store:Type="Tables" />
+          <AssociationSet Name="FK_labels_0_0" Association="Self.FK_labels_0_0">
+            <End Role="locales" EntitySet="locales" />
+            <End Role="labels" EntitySet="labels" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="visitsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="visitsEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="preregistrations_settings" EntityType="visitsModel.preregistrations_settings" />
+          <EntitySet Name="labels" EntityType="visitsModel.label" />
+          <EntitySet Name="locales" EntityType="visitsModel.locale" />
           <EntitySet Name="preregistrations" EntityType="visitsModel.preregistration" />
+          <EntitySet Name="preregistrations_settings" EntityType="visitsModel.preregistrations_settings" />
+          <AssociationSet Name="FK_labels_0_0" Association="visitsModel.FK_labels_0_0">
+            <End Role="locale" EntitySet="locales" />
+            <End Role="label" EntitySet="labels" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="preregistrations_settings">
+        <EntityType Name="label">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" />
-          <Property Name="link_expiration_hours" Type="Int16" Nullable="false" />
-          <Property Name="link_url_format" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="email_subject" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="email_body_format" Type="String" Nullable="false" MaxLength="700" FixedLength="false" Unicode="true" />
-          <Property Name="email_date_time_format" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="smtp_host" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="smtp_port" Type="Int16" Nullable="false" />
-          <Property Name="smtp_user" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="smtp_password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="locale_id" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="label1" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="translation" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="locale" Relationship="visitsModel.FK_labels_0_0" FromRole="label" ToRole="locale" />
+        </EntityType>
+        <EntityType Name="locale">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="selector_id" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="selector_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="labels" Relationship="visitsModel.FK_labels_0_0" FromRole="locale" ToRole="label" />
         </EntityType>
         <EntityType Name="preregistration">
           <Key>
@@ -69,28 +118,61 @@
           <Property Name="full_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="visit_date" Type="DateTime" Nullable="false" />
-          <Property Name="motive" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="motive" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="created_at" Type="DateTime" Nullable="false" />
           <Property Name="confirmed_at" Type="DateTime" />
         </EntityType>
+        <EntityType Name="preregistrations_settings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="link_expiration_hours" Type="Int16" Nullable="false" />
+          <Property Name="link_url_format" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="email_subject" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="email_body_format" Type="String" Nullable="false" MaxLength="700" FixedLength="false" Unicode="true" />
+          <Property Name="email_date_time_format" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="smtp_host" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="smtp_port" Type="Int16" Nullable="false" />
+          <Property Name="smtp_user" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="smtp_password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="lang_locale_default" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="lang_labels_version" Type="Int64" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_labels_0_0">
+          <End Type="visitsModel.locale" Role="locale" Multiplicity="1" />
+          <End Type="visitsModel.label" Role="label" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="locale">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="label">
+              <PropertyRef Name="locale_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="visitsModelStoreContainer" CdmEntityContainer="visitsEntities">
-          <EntitySetMapping Name="preregistrations_settings">
-            <EntityTypeMapping TypeName="visitsModel.preregistrations_settings">
-              <MappingFragment StoreEntitySet="preregistrations_settings">
-                <ScalarProperty Name="smtp_password" ColumnName="smtp_password" />
-                <ScalarProperty Name="smtp_user" ColumnName="smtp_user" />
-                <ScalarProperty Name="smtp_port" ColumnName="smtp_port" />
-                <ScalarProperty Name="smtp_host" ColumnName="smtp_host" />
-                <ScalarProperty Name="email_date_time_format" ColumnName="email_date_time_format" />
-                <ScalarProperty Name="email_body_format" ColumnName="email_body_format" />
-                <ScalarProperty Name="email_subject" ColumnName="email_subject" />
-                <ScalarProperty Name="link_url_format" ColumnName="link_url_format" />
-                <ScalarProperty Name="link_expiration_hours" ColumnName="link_expiration_hours" />
+          <EntitySetMapping Name="labels">
+            <EntityTypeMapping TypeName="visitsModel.label">
+              <MappingFragment StoreEntitySet="labels">
+                <ScalarProperty Name="translation" ColumnName="translation" />
+                <ScalarProperty Name="label1" ColumnName="label" />
+                <ScalarProperty Name="locale_id" ColumnName="locale_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="locales">
+            <EntityTypeMapping TypeName="visitsModel.locale">
+              <MappingFragment StoreEntitySet="locales">
+                <ScalarProperty Name="selector_name" ColumnName="selector_name" />
+                <ScalarProperty Name="selector_id" ColumnName="selector_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -106,6 +188,24 @@
                 <ScalarProperty Name="full_name" ColumnName="full_name" />
                 <ScalarProperty Name="company_key" ColumnName="company_key" />
                 <ScalarProperty Name="guid" ColumnName="guid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="preregistrations_settings">
+            <EntityTypeMapping TypeName="visitsModel.preregistrations_settings">
+              <MappingFragment StoreEntitySet="preregistrations_settings">
+                <ScalarProperty Name="lang_labels_version" ColumnName="lang_labels_version" />
+                <ScalarProperty Name="lang_locale_default" ColumnName="lang_locale_default" />
+                <ScalarProperty Name="smtp_password" ColumnName="smtp_password" />
+                <ScalarProperty Name="smtp_user" ColumnName="smtp_user" />
+                <ScalarProperty Name="smtp_port" ColumnName="smtp_port" />
+                <ScalarProperty Name="smtp_host" ColumnName="smtp_host" />
+                <ScalarProperty Name="email_date_time_format" ColumnName="email_date_time_format" />
+                <ScalarProperty Name="email_body_format" ColumnName="email_body_format" />
+                <ScalarProperty Name="email_subject" ColumnName="email_subject" />
+                <ScalarProperty Name="link_url_format" ColumnName="link_url_format" />
+                <ScalarProperty Name="link_expiration_hours" ColumnName="link_expiration_hours" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

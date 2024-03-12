@@ -32,17 +32,17 @@ CREATE TABLE preregistrations_settings(
 );
 
 CREATE TABLE locales(
-	id NAVARCHAR(5) PRIMARY KEY,
-	name NAVARCHAR(50) NOT NULL,
-	selector_id NAVARCHAR(5) NOT NULL,
-	selector_name NAVARCHAR(50) NOT NULL
+	id NVARCHAR(5) PRIMARY KEY,
+	name NVARCHAR(50) NOT NULL,
+	selector_id NVARCHAR(5) NOT NULL,
+	selector_name NVARCHAR(50) NOT NULL
 );
 
 CREATE TABLE labels(
 	id INTEGER PRIMARY KEY,
-	locale_id NAVARCHAR(5) NOT NULL,
+	locale_id NVARCHAR(5) NOT NULL,
 	label NVARCHAR(25) NOT NULL,
-	translation NAVARCHAR(100) NOT NULL,
+	translation NVARCHAR(100) NOT NULL,
 	FOREIGN KEY(locale_id) REFERENCES locales(id),
 	UNIQUE(locale_id, label)
 );
@@ -73,26 +73,26 @@ INSERT INTO locales(id, name, selector_id, selector_name) VALUES('es-MX', 'Spani
 INSERT INTO locales(id, name, selector_id, selector_name) VALUES('en-US', 'English (United States)', 'US', 'English');
 
 -- Labels for es-MX
-INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'es-MX', 'LBL_VISITS',			'visitas' FROM labels;
-INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'es-MX', 'LBL_SCR_TITLE_REQ',	'solicitud de pre-registro de visitantes' FROM labels;
-INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'es-MX', 'LBL_COMP_KEY',		'clave de empresa' FROM labels;
-INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'es-MX', 'LBL_FNAME',			'nombre completo' FROM labels;
-INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'es-MX', 'LBL_EMAIL',			'correo electr&oacute;nico' FROM labels;
-INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'es-MX', 'LBL_DATETIME',		'fecha y hora' FROM labels;
-INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'es-MX', 'LBL_VMOTIVE',			'motivo de visita' FROM labels;
-INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'es-MX', 'LBL_SEND_EMAIL_PREREQ',	'enviar correo para iniciar el pre-registro' FROM labels;
--- INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'es-MX', 'LBL_', '' FROM labels;
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_VISITS',				'visitas');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_SCR_TITLE_REQ',		'solicitud de pre-registro de visitantes');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_COMP_KEY',				'clave de empresa');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_FNAME',				'nombre completo');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_EMAIL',				'correo electr&oacute;nico');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_DATETIME',				'fecha y hora');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_VMOTIVE',				'motivo de visita');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_SEND_EMAIL_PREREQ',	'enviar correo para iniciar el pre-registro');
+-- INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_', '');
 
 -- Labels for en-US
-INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'en-US', 'LBL_VISITS',			'visits' FROM labels;
-INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'en-US', 'LBL_SCR_TITLE_REQ',	'visitor pre-registration request' FROM labels;
-INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'en-US', 'LBL_COMP_KEY',		'company key' FROM labels;
-INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'en-US', 'LBL_FNAME',			'full name' FROM labels;
-INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'en-US', 'LBL_EMAIL',			'email' FROM labels;
-INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'en-US', 'LBL_DATETIME',		'date and time' FROM labels;
-INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'en-US', 'LBL_VMOTIVE',			'visit motive' FROM labels;
-INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'en-US', 'LBL_SEND_EMAIL_PREREQ',	'send email to start pre-registration' FROM labels;
--- INSERT INTO labels(id, locale_id, label, translation) SELECT max(id)+1, 'en-US', 'LBL_', '' FROM labels;
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_VISITS',				'visits');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_SCR_TITLE_REQ',		'visitor pre-registration request');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_COMP_KEY',				'company key');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_FNAME',				'full name');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_EMAIL',				'email');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_DATETIME',				'date and time');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_VMOTIVE',				'visit motive');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_SEND_EMAIL_PREREQ',	'send email to start pre-registration');
+-- INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_', '');
 
 
 

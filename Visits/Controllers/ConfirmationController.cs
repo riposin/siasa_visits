@@ -12,10 +12,28 @@ namespace Visits.Controllers
 	{
 		public ConfirmationController()
 		{
+			// Data used for _Layout view
 			ViewBag.Debug = false;
 			#if (DEBUG)
 				ViewBag.Debug = true;
 			#endif
+
+			preregistrations_settings settings;
+			using (var db = new visitsEntities())
+			{
+				settings = (from d in db.preregistrations_settings
+							where d.id == 1
+							select d).ToList()[0];
+			}
+			ViewBag.Settings = settings;
+
+			List<locale> locales;
+			using (var db = new visitsEntities())
+			{
+				locales = (from d in db.locales
+						   select d).ToList();
+			}
+			ViewBag.Locales = locales;
 		}
 
 		[HttpGet]
@@ -31,18 +49,9 @@ namespace Visits.Controllers
 			ViewBag.QRData = "";
 			ViewBag.Guid = id;
 			List <preregistration> pre;
-			preregistrations_settings settings;
 			Guid guid;
 			byte[] bytesGuid;
 
-			using (var db = new visitsEntities())
-			{
-				settings = (from d in db.preregistrations_settings
-							where d.id == 1
-							select d).ToList()[0];
-			}
-
-			ViewBag.Settings = settings;
 			bytesGuid = System.Text.Encoding.ASCII.GetBytes(id);
 
 			if (!Guid.TryParse(id, out guid))
@@ -80,7 +89,7 @@ namespace Visits.Controllers
 				return View(pre[0]);
 			}
 
-			if (DateTime.Now > pre[0].created_at.AddHours(Convert.ToDouble(settings.link_expiration_hours)))
+			if (DateTime.Now > pre[0].created_at.AddHours(Convert.ToDouble(ViewBag.Settings.link_expiration_hours)))
 			{
 				// Not confirmed but creation is more than the deadline(24hours)
 				ViewBag.Status = -5;

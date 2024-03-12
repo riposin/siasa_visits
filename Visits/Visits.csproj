@@ -149,6 +149,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\label.cs">
+      <DependentUpon>visits.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\locale.cs">
+      <DependentUpon>visits.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\preregistration.cs">
       <DependentUpon>visits.tt</DependentUpon>
     </Compile>

@@ -24,5 +24,7 @@ namespace Visits.Models
         public short smtp_port { get; set; }
         public string smtp_user { get; set; }
         public string smtp_password { get; set; }
+        public string lang_locale_default { get; set; }
+        public long lang_labels_version { get; set; }
     }
 }

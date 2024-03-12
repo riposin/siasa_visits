@@ -5,8 +5,11 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="69ecea264520410abd85283afe700765" Name="Diagram1">
-        <EntityTypeShape EntityType="visitsModel.preregistrations_settings" Width="2.375" PointX="2.5" PointY="0.75" />
-        <EntityTypeShape EntityType="visitsModel.preregistration" Width="1.5" PointX="7.125" PointY="3" />
+        <EntityTypeShape EntityType="visitsModel.label" Width="1.5" PointX="3" PointY="0.875" />
+        <EntityTypeShape EntityType="visitsModel.locale" Width="1.5" PointX="0.75" PointY="0.875" />
+        <EntityTypeShape EntityType="visitsModel.preregistration" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="visitsModel.preregistrations_settings" Width="1.5" PointX="2.75" PointY="3.75" />
+        <AssociationConnector Association="visitsModel.FK_labels_0_0" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

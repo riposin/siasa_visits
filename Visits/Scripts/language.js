@@ -3,6 +3,7 @@
 	const translationVersionLSKey = 'translationVersion';
 	const langSelectorID = 'languageSelector';
 	const prefixTranslationsLS = 'LBLS_';
+	const lblPageTitleSuffix = 'LBL_PTITLE_SUFFIX';
 	let labels = {};
 	let liCurrentLang;
 	let aLangs;
@@ -95,6 +96,12 @@
 			if (elemsToTranslate[i].hasAttribute('data-translate-title')) {
 				elemsToTranslate[i].setAttribute('title', currTrans);
 			}
+		}
+
+		if (labels[currLangTransLSKey][lblPageTitleSuffix] == null) {
+			document.title = document.title + lblPageTitleSuffix;
+		} else {
+			document.title = document.title + labels[currLangTransLSKey][lblPageTitleSuffix];
 		}
 	};
 

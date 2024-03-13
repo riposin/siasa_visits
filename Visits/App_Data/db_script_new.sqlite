@@ -41,8 +41,8 @@ CREATE TABLE locales(
 CREATE TABLE labels(
 	id INTEGER PRIMARY KEY,
 	locale_id NVARCHAR(5) NOT NULL,
-	label NVARCHAR(25) NOT NULL,
-	translation NVARCHAR(100) NOT NULL,
+	label NVARCHAR(40) NOT NULL,
+	translation NVARCHAR(300) NOT NULL,
 	FOREIGN KEY(locale_id) REFERENCES locales(id),
 	UNIQUE(locale_id, label)
 );
@@ -81,7 +81,10 @@ INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_DATETIME',				'fecha y hora');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_VMOTIVE',				'motivo de visita');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_SEND_EMAIL_PREREQ',	'enviar correo para iniciar el pre-registro');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_PROC_PLEASE_WAIT',	'procesando, espere un momento por favor');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_PROC_PLEASE_WAIT',		'procesando, espere un momento por favor');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_CAPTURE_QR', 			'captura el c&oacute;digo captcha');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_FOOT_COPYRIGHT', 		'Derechos Reservados 2024 &copy; SIASA | Sistemas Integrales de Automatizaci&oacute;n S.A. de C.V.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_FOOT_CONTACT', 		'marketing@siasa.com | SIASA Matriz: (999) 930.2575 | SIASA CDMX: (55) 5264.2272 | SIASA Latam: (305) 479.2303');
 -- INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_', '');
 
 -- Labels for en-US
@@ -94,6 +97,9 @@ INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_VMOTIVE',				'visit motive');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_SEND_EMAIL_PREREQ',	'send email to start pre-registration');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_PROC_PLEASE_WAIT',		'processing, please wait');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_CAPTURE_QR', 			'capture the captcha code');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_FOOT_COPYRIGHT', 		'All Rights Reserved 2024 &copy; SIASA | Sistemas Integrales de Automatizaci&oacute;n S.A. de C.V.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_FOOT_CONTACT', 		'marketing@siasa.com | SIASA Headquarters: (999) 930.2575 | SIASA CDMX: (55) 5264.2272 | SIASA Latin America: (305) 479.2303');
 -- INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_', '');
 
 

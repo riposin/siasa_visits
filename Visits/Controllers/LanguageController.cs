@@ -14,8 +14,6 @@ namespace Visits.Controllers
         public ActionResult Index(string id = "")
         {
 			return Redirect(Url.Content("~/Language/Labels/" + id));
-			//return View();
-			//return Content("{}", "application/json; charset=utf-8");
 		}
 
 		[HttpGet]
@@ -32,7 +30,7 @@ namespace Visits.Controllers
 			}
 			for (int i = 0; i < list.Count; i++)
 			{
-				labels.Add(list[i].label1, list[i].translation);
+				labels.Add(list[i].label1, System.Net.WebUtility.HtmlDecode(list[i].translation));
 			}
 
 			return Content(JsonConvert.SerializeObject(new Dictionary<string, string>[]{ labels }), "application/json; charset=utf-8");

@@ -35,7 +35,7 @@
 	</style>
 }
 
-<h2 class="text-center ucfirst" data-translate="true" data-label="LBL_SCR_TITLE_REQ"></h2>
+<h2 class="text-center ucfirst" data-translate="true" data-label="LBL_SCR_TITLE_REQ"  data-translate-inner></h2>
 <div class="row">
 	<div class="col-md-6 col-md-offset-3">
 
@@ -43,8 +43,8 @@
 		{
 			@Html.AntiForgeryToken()
 
-			@Html.LabelFor(d => d.CompanyKey)
-			@Html.TextBoxFor(d => d.CompanyKey, new { @class = "form-control", title = "Clave de la empresa", data_required = "1" })
+			@Html.LabelFor(d => d.CompanyKey, new {@class = "ucfirst",  data_translate = "", data_label = "LBL_COMP_KEY", data_translate_inner = "" })
+			@Html.TextBoxFor(d => d.CompanyKey, new { @class = "form-control", title = "", data_required = "1", data_translate = "", data_label = "LBL_COMP_KEY", data_translate_title = "", data_translate_ucfirst = "" })
 			@Html.ValidationMessage("CompanyKey", new { @class = "text-danger" })<br /><br />
 
 			@Html.LabelFor(d => d.FullName)
@@ -93,8 +93,8 @@
 			@Html.ValidationMessage("CaptchaCode", new { @class = "text-danger" })
 			<br /><br />
 			<div class="text-center">
-				<input type="submit" class="btn btn-success" value="Enviar correo para iniciar el pre-registro" title="Enviar correo para iniciar el pre-registro" />
-				<div id="loader" class="text-primary"><span class="glyphicon glyphicon-repeat spin" aria-hidden="true"></span> procesando, espere un momento por favor.</div>
+				<input type="submit" class="btn btn-success" value="" title="" data-translate data-label="LBL_SEND_EMAIL_PREREQ" data-translate-title data-translate-value data-translate-ucfirst/>
+				<div id="loader" class="text-primary"><span class="glyphicon glyphicon-repeat spin" aria-hidden="true"></span> <span data-translate data-label="LBL_PROC_PLEASE_WAIT" data-translate-inner></span>.</div>
 			</div>
 
 		}
@@ -261,6 +261,7 @@
 					document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.removeAttribute('disabled'); });
 				})
 				.catch(function (error) {
+					alert('AJAX: Error while sending preregistration');
 					location.reload();
 				});
 		}

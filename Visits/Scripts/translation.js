@@ -41,12 +41,21 @@ function initializeLabelsVersion() {
 function getLabelsAndApply() {
 	let currLangTransLSKey = prefixTranslationsLS + localStorage.getItem(currentLangLSKey);
 	if (localStorage.getItem(currLangTransLSKey) === null) {
-		// Get LBLs from BE but only from the currentLangLSKey and save them to LS, the else is needed because this will be async, will be an AJAX call
-		// Save the LS key using currLangTransLSKey
-		localStorage.setItem(prefixTranslationsLS + 'es-MX', '[{"LBL_VISITS":"visitas","LBL_SCR_TITLE_REQ":"solicitud de pre-registro de visitantes"}]');
-		localStorage.setItem(prefixTranslationsLS + 'en-US', '[{"LBL_VISITS":"visits","LBL_SCR_TITLE_REQ":"visitor pre-registration request"}]');
-
-		applyLabels();
+		fetch(visits.baseURL + 'Language/Labels/' + localStorage.getItem(currentLangLSKey), {
+			method: "GET",
+			headers: {'Accept': 'application/json'}
+		})
+		.then(function (response) {
+			return response.json();
+		})
+		.then(function (json) {
+			localStorage.setItem(prefixTranslationsLS + localStorage.getItem(currentLangLSKey), JSON.stringify(json));
+			applyLabels();
+		})
+		.catch(function (error) {
+			alert('AJAX: Error when getting labels');
+			location.reload();
+		});
 	} else {
 		applyLabels();
 	}
@@ -58,19 +67,32 @@ function applyLabels() {
 	let currLabel = '';
 	let currTrans = '';
 
+
 	if (labels[currLangTransLSKey] == null) {
-		labels[currLangTransLSKey] = JSON.parse(localStorage.getItem(currLangTransLSKey))[0];
+		labels[currLangTransLSKey] = JSON.parse(localStorage.getItem(currLangTransLSKey));
 	}
 
 	for (let i = 0; i < elemsToTranslate.length; i++) {
 		currLabel = elemsToTranslate[i].getAttribute('data-label');
 
 		if (labels[currLangTransLSKey][currLabel] == null) {
-			elemsToTranslate[i].innerHTML = currLabel;
+			currTrans = currLabel;
 		} else {
-			elemsToTranslate[i].innerHTML = labels[currLangTransLSKey][currLabel];
+			currTrans = labels[currLangTransLSKey][currLabel];
 		}
-		
+
+		if (elemsToTranslate[i].hasAttribute('data-translate-ucfirst')) {
+			currTrans = currTrans.charAt(0).toUpperCase() + currTrans.slice(1).toLocaleLowerCase();
+		}
+		if (elemsToTranslate[i].hasAttribute('data-translate-inner')) {
+			elemsToTranslate[i].innerHTML = currTrans;
+		}
+		if (elemsToTranslate[i].hasAttribute('data-translate-value')) {
+			elemsToTranslate[i].setAttribute('value', currTrans);
+		}
+		if (elemsToTranslate[i].hasAttribute('data-translate-title')) {
+			elemsToTranslate[i].setAttribute('title', currTrans);
+		}
 	}
 }
 

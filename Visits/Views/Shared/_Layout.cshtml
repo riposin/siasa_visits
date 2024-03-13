@@ -13,7 +13,7 @@
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<span class="navbar-brand ucfirst" data-translate="true" data-label="LBL_VISITS"></span>
+				<span class="navbar-brand ucfirst" data-translate data-label="LBL_VISITS" data-translate-inner></span>
 			</div>
 			<!--RPOOL: Disabling feature for Release version-->
 			@if (ViewBag.Debug == true)
@@ -46,6 +46,7 @@
 		</p>
 	</footer>
 
+	@RenderPage("_jsGlobals.cshtml")
 	@Scripts.Render("~/bundles/jquery")
 	@Scripts.Render("~/bundles/bootstrap")
 	@Scripts.Render("~/Scripts/translation.js")

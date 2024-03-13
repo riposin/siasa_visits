@@ -113,11 +113,13 @@
 			aLangs[0].innerHTML = liCurrentLang.getAttribute('data-display');
 			localStorage.setItem(currentLangLSKey, this.parentNode.getAttribute('data-lang'));
 			getLabelsAndApply();
+			document.getElementById(langSelectorID).dispatchEvent(new CustomEvent("languageChange", { detail: { lang: this.parentNode.getAttribute('data-lang') }}));
 		}
 	};
 
 	return {
-		init: init
+		init: init,
+		selector: document.getElementById(langSelectorID)
 	};
 })();
 

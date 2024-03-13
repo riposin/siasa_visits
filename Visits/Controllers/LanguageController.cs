@@ -11,10 +11,12 @@ namespace Visits.Controllers
     public class LanguageController : Controller
     {
         // GET: Language
-        public ActionResult Index(string lang = "")
+        public ActionResult Index(string id = "")
         {
-            return View();
-        }
+			return Redirect(Url.Content("~/Language/Labels/" + id));
+			//return View();
+			//return Content("{}", "application/json; charset=utf-8");
+		}
 
 		[HttpGet]
 		public ActionResult Labels(string id = "")
@@ -33,7 +35,7 @@ namespace Visits.Controllers
 				labels.Add(list[i].label1, list[i].translation);
 			}
 
-			return Content(JsonConvert.SerializeObject(labels), "application/json; charset=utf-8");
+			return Content(JsonConvert.SerializeObject(new Dictionary<string, string>[]{ labels }), "application/json; charset=utf-8");
 		}
 	}
 }

@@ -11,8 +11,8 @@
           </Key>
           <Property Name="id" Type="integer" Nullable="false" />
           <Property Name="locale_id" Type="nvarchar" MaxLength="5" Nullable="false" />
-          <Property Name="label" Type="nvarchar" MaxLength="25" Nullable="false" />
-          <Property Name="translation" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="label" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="translation" Type="nvarchar" MaxLength="300" Nullable="false" />
         </EntityType>
         <EntityType Name="locales">
           <Key>
@@ -22,6 +22,7 @@
           <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="selector_id" Type="nvarchar" MaxLength="5" Nullable="false" />
           <Property Name="selector_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="date_time_format" Type="nvarchar" MaxLength="25" Nullable="false" />
         </EntityType>
         <EntityType Name="preregistrations">
           <Key>
@@ -80,35 +81,15 @@
     <edmx:ConceptualModels>
       <Schema Namespace="visitsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="visitsEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="labels" EntityType="visitsModel.label" />
-          <EntitySet Name="locales" EntityType="visitsModel.locale" />
           <EntitySet Name="preregistrations" EntityType="visitsModel.preregistration" />
           <EntitySet Name="preregistrations_settings" EntityType="visitsModel.preregistrations_settings" />
+          <EntitySet Name="labels" EntityType="visitsModel.label" />
+          <EntitySet Name="locales" EntityType="visitsModel.locale" />
           <AssociationSet Name="FK_labels_0_0" Association="visitsModel.FK_labels_0_0">
             <End Role="locale" EntitySet="locales" />
             <End Role="label" EntitySet="labels" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="label">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" />
-          <Property Name="locale_id" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
-          <Property Name="label1" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="translation" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="locale" Relationship="visitsModel.FK_labels_0_0" FromRole="label" ToRole="locale" />
-        </EntityType>
-        <EntityType Name="locale">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="selector_id" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
-          <Property Name="selector_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="labels" Relationship="visitsModel.FK_labels_0_0" FromRole="locale" ToRole="label" />
-        </EntityType>
         <EntityType Name="preregistration">
           <Key>
             <PropertyRef Name="guid" />
@@ -139,6 +120,27 @@
           <Property Name="lang_locale_default" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="lang_labels_version" Type="Int64" Nullable="false" />
         </EntityType>
+        <EntityType Name="label">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="locale_id" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="label1" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="translation" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="locale" Relationship="visitsModel.FK_labels_0_0" FromRole="label" ToRole="locale" />
+        </EntityType>
+        <EntityType Name="locale">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="selector_id" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="selector_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="date_time_format" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="labels" Relationship="visitsModel.FK_labels_0_0" FromRole="locale" ToRole="label" />
+        </EntityType>
         <Association Name="FK_labels_0_0">
           <End Type="visitsModel.locale" Role="locale" Multiplicity="1" />
           <End Type="visitsModel.label" Role="label" Multiplicity="*" />
@@ -157,26 +159,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="visitsModelStoreContainer" CdmEntityContainer="visitsEntities">
-          <EntitySetMapping Name="labels">
-            <EntityTypeMapping TypeName="visitsModel.label">
-              <MappingFragment StoreEntitySet="labels">
-                <ScalarProperty Name="translation" ColumnName="translation" />
-                <ScalarProperty Name="label1" ColumnName="label" />
-                <ScalarProperty Name="locale_id" ColumnName="locale_id" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="locales">
-            <EntityTypeMapping TypeName="visitsModel.locale">
-              <MappingFragment StoreEntitySet="locales">
-                <ScalarProperty Name="selector_name" ColumnName="selector_name" />
-                <ScalarProperty Name="selector_id" ColumnName="selector_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="preregistrations">
             <EntityTypeMapping TypeName="visitsModel.preregistration">
               <MappingFragment StoreEntitySet="preregistrations">
@@ -205,6 +187,27 @@
                 <ScalarProperty Name="email_subject" ColumnName="email_subject" />
                 <ScalarProperty Name="link_url_format" ColumnName="link_url_format" />
                 <ScalarProperty Name="link_expiration_hours" ColumnName="link_expiration_hours" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="labels">
+            <EntityTypeMapping TypeName="visitsModel.label">
+              <MappingFragment StoreEntitySet="labels">
+                <ScalarProperty Name="translation" ColumnName="translation" />
+                <ScalarProperty Name="label1" ColumnName="label" />
+                <ScalarProperty Name="locale_id" ColumnName="locale_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="locales">
+            <EntityTypeMapping TypeName="visitsModel.locale">
+              <MappingFragment StoreEntitySet="locales">
+                <ScalarProperty Name="date_time_format" ColumnName="date_time_format" />
+                <ScalarProperty Name="selector_name" ColumnName="selector_name" />
+                <ScalarProperty Name="selector_id" ColumnName="selector_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -161,14 +161,7 @@
 	@Scripts.Render("~/Scripts/bootstrap-datetimepicker.min.js")
 
 <script type="text/javascript">
-		/*Visits.Language.selector.addEventListener("languageChange", function (event) {
-			alert(event.detail.lang);
-		});*/
-
 		/* VISIT DTP */
-		//let dtFormat = 'MM-DD-YYYY hh:mm A'; // en-US
-		//$('#visitDTP').data("DateTimePicker").options({format: 'MM-DD-YYYY hh:mm A'});
-		const dtFormat = 'DD-MM-YYYY hh:mm A'; // es-MX
 		const preregistrationFormID = 'preregistration';
 		const visitDateMaskID = 'VisitDateMask';
 		const visitDateID = 'VisitDate';
@@ -179,19 +172,23 @@
 
 		$(function () {
 			$('#visitDTP').datetimepicker({
-				format: dtFormat,
+				format: Visits.Language.getCurrentFormat(),
 				minDate: Date.now()
 			});
 
 			let visitDT = document.getElementById(visitDateID).value;
 			if (visitDT.length > 0 && moment(visitDT).isValid()) {
 				let visitMoment = moment(visitDT);
-				document.getElementById(visitDateMaskID).value = visitMoment.format(dtFormat);
+				document.getElementById(visitDateMaskID).value = visitMoment.format(Visits.Language.getCurrentFormat());
 			}
 
 			$(confirmDialogID).modal({ show: false });
 
 			document.querySelector('a[title ~= "BotDetect"]').remove();
+
+			Visits.Language.selector.addEventListener("languageChange", function (event) {
+				$('#visitDTP').data("DateTimePicker").options({ format: event.detail.format });
+			});
 		});
 
 		document.getElementById(preregistrationFormID).addEventListener("submit", onFormSubmit);
@@ -224,8 +221,8 @@
 		function processPreregistration() {
 			let visitDT = document.getElementById(visitDateMaskID).value;
 
-			if (visitDT.length > 0 && moment(visitDT, dtFormat).isValid()) {
-				let visitMoment = moment(visitDT, dtFormat);
+			if (visitDT.length > 0 && moment(visitDT, Visits.Language.getCurrentFormat()).isValid()) {
+				let visitMoment = moment(visitDT, Visits.Language.getCurrentFormat());
 				document.getElementById(visitDateID).value = visitMoment.format();
 			}
 

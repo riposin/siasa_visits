@@ -35,7 +35,8 @@ CREATE TABLE locales(
 	id NVARCHAR(5) PRIMARY KEY,
 	name NVARCHAR(50) NOT NULL,
 	selector_id NVARCHAR(5) NOT NULL,
-	selector_name NVARCHAR(50) NOT NULL
+	selector_name NVARCHAR(50) NOT NULL,
+	date_time_format NVARCHAR(25) NOT NULL
 );
 
 CREATE TABLE labels(
@@ -69,8 +70,8 @@ UPDATE preregistrations_settings SET smtp_password = 			'spartan117';
 
 -- -- -- -- LABELS -- -- -- --
 
-INSERT INTO locales(id, name, selector_id, selector_name) VALUES('es-MX', 'Spanish (M&eacute;xico)', 'ES', 'Espa&ntilde;ol');
-INSERT INTO locales(id, name, selector_id, selector_name) VALUES('en-US', 'English (United States)', 'US', 'English');
+INSERT INTO locales(id, name, selector_id, selector_name, date_time_format) VALUES('es-MX', 'Spanish (M&eacute;xico)', 'ES', 'Espa&ntilde;ol',	'DD-MM-YYYY hh:mm A');
+INSERT INTO locales(id, name, selector_id, selector_name, date_time_format) VALUES('en-US', 'English (United States)', 'US', 'English', 		'MM-DD-YYYY hh:mm A');
 
 -- Labels for es-MX
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_VISITS',				'visitas');

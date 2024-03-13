@@ -7,6 +7,7 @@
 	let labels = {};
 	let liCurrentLang;
 	let aLangs;
+	let currentLangDTFormat = '';
 
 	var init = function () {
 		initLS();
@@ -34,7 +35,8 @@
 		liCurrentLang.classList.add("active");
 
 		aLangs = document.getElementById(langSelectorID).querySelectorAll('ul li a');
-		aLangs[0].innerHTML = liCurrentLang.getAttribute('data-display');
+		aLangs[0].children.item(0).innerHTML = liCurrentLang.getAttribute('data-display');
+		currentLangDTFormat = liCurrentLang.getAttribute('data-format');
 
 		for (let i = 1; i < aLangs.length; i++) {
 			aLangs[i].addEventListener("click", onLangChangeClick);
@@ -110,16 +112,22 @@
 			liCurrentLang.classList.remove('active');
 			this.parentNode.classList.add('active');
 			liCurrentLang = this.parentNode;
-			aLangs[0].innerHTML = liCurrentLang.getAttribute('data-display');
+			aLangs[0].children.item(0).innerHTML = liCurrentLang.getAttribute('data-display');
+			currentLangDTFormat = liCurrentLang.getAttribute('data-format');
 			localStorage.setItem(currentLangLSKey, this.parentNode.getAttribute('data-lang'));
 			getLabelsAndApply();
-			document.getElementById(langSelectorID).dispatchEvent(new CustomEvent("languageChange", { detail: { lang: this.parentNode.getAttribute('data-lang') }}));
+			document.getElementById(langSelectorID).dispatchEvent(new CustomEvent("languageChange", { detail: { lang: this.parentNode.getAttribute('data-lang'), format: currentLangDTFormat }}));
 		}
 	};
 
+	var getCurrentFormat = function () {
+		return currentLangDTFormat;
+	}
+
 	return {
 		init: init,
-		selector: document.getElementById(langSelectorID)
+		selector: document.getElementById(langSelectorID),
+		getCurrentFormat: getCurrentFormat,
 	};
 })();
 

@@ -122,12 +122,24 @@
 
 	var getCurrentFormat = function () {
 		return currentLangDTFormat;
-	}
+	};
+
+	var getTranslation = function (label) {
+		let currLangTransLSKey = prefixTranslationsLS + localStorage.getItem(currentLangLSKey);
+		let translation = label;
+
+		if (labels[currLangTransLSKey][label] != null) {
+			translation = labels[currLangTransLSKey][label];
+		}
+
+		return translation;
+	};
 
 	return {
 		init: init,
 		selector: document.getElementById(langSelectorID),
 		getCurrentFormat: getCurrentFormat,
+		getTranslation: getTranslation,
 	};
 })();
 

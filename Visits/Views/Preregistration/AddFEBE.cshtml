@@ -107,14 +107,12 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="confirmDialogLabel">Confirmación</h4>
+				<h4 class="modal-title ucfirst" id="confirmDialogLabel" data-translate data-label="LBL_CONFIRMATION" data-translate-inner></h4>
 			</div>
-			<div class="modal-body">
-				¿Los datos proporcionados son correctos?
-			</div>
+			<div class="modal-body" data-translate data-label="LBL_Q_ISALLDATAOK" data-translate-inner></div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-				<button type="button" class="btn btn-primary" id="confirmButton">Si</button>
+				<button type="button" class="btn btn-default ucfirst" data-dismiss="modal" data-translate data-label="LBL_NO" data-translate-inner></button>
+				<button type="button" class="btn btn-primary ucfirst" id="confirmButton" data-translate data-label="LBL_YES" data-translate-inner></button>
 			</div>
 		</div>
 	</div>
@@ -125,14 +123,11 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="successDialogLabel">Éxito</h4>
+				<h4 class="modal-title ucfirst" id="successDialogLabel" data-translate data-label="LBL_SUCCESS" data-translate-inner></h4>
 			</div>
-			<div class="modal-body">
-				La solicitud se realizó de forma correcta.
-				Se ha enviado un correo a la dirección proporcionada para continuar con el proceso de pre-registro.
-			</div>
+			<div class="modal-body" data-translate data-label="LBL_REQ_PREREG_OK" data-translate-inner></div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+				<button type="button" class="btn btn-primary ucfirst" data-dismiss="modal" data-translate data-label="LBL_OK" data-translate-inner></button>
 			</div>
 		</div>
 	</div>
@@ -143,13 +138,11 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="emailDialogLabel">Error</h4>
+				<h4 class="modal-title ucfirst" id="emailDialogLabel" data-translate data-label="LBL_ERROR" data-translate-inner></h4>
 			</div>
-			<div class="modal-body">
-				La solicitud de pre-registro no se realizó de forma exitosa, por favor reintente.
-			</div>
+			<div class="modal-body" data-translate data-label="LBL_REQ_PREREG_ERR" data-translate-inner></div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+				<button type="button" class="btn btn-primary ucfirst" data-dismiss="modal" data-translate data-label="LBL_OK" data-translate-inner></button>
 			</div>
 		</div>
 	</div>
@@ -253,7 +246,10 @@
 						$(emailDialogID).modal('show');
 					}
 					Object.entries(json.error).forEach((entry) => {
-						document.querySelector('[data-valmsg-for="' + entry[0] + '"]').innerText = entry[1];
+						document.querySelector('[data-valmsg-for="' + entry[0] + '"]').innerText = Visits.Language.getTranslation(entry[1]);
+						document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-translate', '');
+						document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-label', entry[1]);
+						document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-translate-inner', '');
 					});
 
 					document.getElementById("Captcha_ReloadLink").click();

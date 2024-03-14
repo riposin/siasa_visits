@@ -9,36 +9,36 @@ namespace Visits.Models.ViewModels
 {
 	public class PreregistrationsViewModel
 	{
-		[Required(ErrorMessage = "La {0} es requerida")]
+		[Required(ErrorMessage = "LBL_REQ_FIELD")]
 		[StringLength(20, ErrorMessage = "El {0} debe tener entre {2} y {1} caracteres", MinimumLength = 1)]
-		[Display(Name = "Clave de empresa")]
+		[Display(Name = "LBL_COMP_KEY")]
 		public string CompanyKey { get; set; }
 
-		[Required(ErrorMessage = "El {0} es requerido")]
+		[Required(ErrorMessage = "LBL_REQ_FIELD")]
 		[StringLength(100, ErrorMessage = "El {0} debe tener entre {2} y {1} caracteres", MinimumLength = 3)]
-		[Display(Name = "Nombre completo")]
+		[Display(Name = "LBL_FNAME")]
 		public string FullName { get; set; }
 
-		[Required(ErrorMessage = "El {0} es requerido")]
+		[Required(ErrorMessage = "LBL_REQ_FIELD")]
 		[StringLength(100, ErrorMessage = "El {0} debe tener entre {2} y {1} caracteres", MinimumLength = 5)]
 		[EmailAddress(ErrorMessage = "El {0} no es válido")]
-		[Display(Name ="Correo electrónico")]
+		[Display(Name = "LBL_EMAIL")]
 		public string Email { get; set; }
 
 		//[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
-		[Required(ErrorMessage = "La {0} es requerida")]
+		[Required(ErrorMessage = "LBL_REQ_FIELD")]
 		[DataType(DataType.DateTime)]
-		[Display(Name = "Fecha y Hora")]
+		[Display(Name = "LBL_DATETIME")]
 		[DateTimeGreaterThanToday]
 		public DateTime VisitDate { get; set; }
 
 		//[Required(ErrorMessage = "El {0} es requerido")]
 		//[StringLength(150, ErrorMessage = "El {0} debe tener entre {2} y {1} caracteres", MinimumLength = 4)]
 		[StringLength(150, ErrorMessage = "El {0} debe tener máximo {1} caracteres")]
-		[Display(Name = "Motivo de visita")]
+		[Display(Name = "LBL_VMOTIVE")]
 		public string Motive { get; set; }
 
-		[Required(ErrorMessage = "Captura el código de 4 dígitos ({0}) en la caja de texto")]
+		[Required(ErrorMessage = "LBL_CAPTURECAPTCHA")]
 		[Display(Name = "Captcha")]
 		public string CaptchaCode { get; set; }
 

@@ -1,7 +1,7 @@
 ﻿
 @model Visits.Models.preregistration
 @{
-	ViewBag.Title = "Confirmación de visita";
+	ViewBag.Title = "LBL_SCR_TITLE_CONFIRM";
 }
 @section content{
 	<style type="text/css">
@@ -12,7 +12,7 @@
 }
 
 
-<h2 class="text-center" id="">@(ViewBag.Status == -4 ? "Visita confirmada" : "Confirmación de visita")</h2>
+<h2 class="text-center ucfirst" data-translate="true" data-label="@(ViewBag.Status == -4 ? "LBL_SCR_TITLE_CONFIRMED" : "LBL_SCR_TITLE_CONFIRM")" data-translate-inner>@(ViewBag.Status == -4 ? "LBL_SCR_TITLE_CONFIRMED" : "LBL_SCR_TITLE_CONFIRM")</h2>
 <div class="row">
 	<div class="col-md-6 col-md-offset-3">
 		@if (ViewBag.Status == -1 || ViewBag.Status == -2)
@@ -43,11 +43,11 @@
 					Importante acuda a su visita teniendo a la mano el QR.
 				</div>
 				<p>
-					<strong>Clave de la empresa: </strong>@Model.company_key<br />
-					<strong>Nombre: </strong>@Model.full_name<br />
-					<strong>Correo electrónico: </strong>@Model.email<br />
-					<strong>Fecha y hora de la visita: </strong>@Model.visit_date.ToString(ViewBag.Settings.email_date_time_format)<br />
-					<strong>Motivo: </strong>@Model.motive
+					<strong><span data-translate data-label="LBL_COMP_KEY" data-translate-inner data-translate-ucfirst></span>: </strong>@Model.company_key<br />
+					<strong><span data-translate data-label="LBL_FNAME" data-translate-inner data-translate-ucfirst>Nombre</span>: </strong>@Model.full_name<br />
+					<strong><span data-translate data-label="LBL_EMAIL" data-translate-inner data-translate-ucfirst>Correo electrónico</span>: </strong>@Model.email<br />
+					<strong><span data-translate data-label="LBL_DATETIME" data-translate-inner data-translate-ucfirst>Fecha y hora de la visita</span>: </strong>@Model.visit_date.ToString(ViewBag.Settings.email_date_time_format)<br />
+					<strong><span data-translate data-label="LBL_VMOTIVE" data-translate-inner data-translate-ucfirst>Motivo</span>: </strong>@Model.motive
 				</p>
 			</div>
 			<div class="text-center">

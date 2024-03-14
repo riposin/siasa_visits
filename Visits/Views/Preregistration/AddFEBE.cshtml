@@ -89,7 +89,7 @@
 					@Html.Captcha(SIASAVisitsPrereg)
 				</div>
 			</div>
-			@Html.TextBox("CaptchaCode", "", new { @class = "form-control", title = "Captura el código captcha", data_required = "1", data_translate = "", data_label = "LBL_CAPTURE_QR", data_translate_title = "", data_translate_ucfirst = "" })
+			@Html.TextBox("CaptchaCode", "", new { @class = "form-control", title = "", data_required = "1", data_translate = "", data_label = "LBL_CAPTURECAPTCHA", data_translate_title = "", data_translate_ucfirst = "" })
 			@Html.ValidationMessage("CaptchaCode", new { @class = "text-danger" })
 			<br /><br />
 			<div class="text-center">
@@ -149,118 +149,125 @@
 </div>
 
 @section scripts {
-	@Scripts.Render("~/Scripts/moment.min.js")
-	@Scripts.Render("~/locales/moment/es-mx.js")
-	@Scripts.Render("~/Scripts/bootstrap-datetimepicker.min.js")
+
+@Scripts.Render("~/Scripts/moment.min.js")
+@Scripts.Render("~/locales/moment/es-mx.js")
+@Scripts.Render("~/Scripts/bootstrap-datetimepicker.min.js")
 
 <script type="text/javascript">
-		/* VISIT DTP */
-		const preregistrationFormID = 'preregistration';
-		const visitDateMaskID = 'VisitDateMask';
-		const visitDateID = 'VisitDate';
-		const confirmDialogID = '#confirmDialog';
-		const successDialogID = '#successDialog';
-		const emailDialogID = '#emailDialog';
-		let isAllRequiredFilled = false;
+visits.components.waitFor('@ViewBag.Title');
 
-		$(function () {
-			$('#visitDTP').datetimepicker({
-				format: Visits.Language.getCurrentFormat(),
-				minDate: Date.now()
-			});
+/* VISIT DTP */
+const preregistrationFormID = 'preregistration';
+const visitDateMaskID = 'VisitDateMask';
+const visitDateID = 'VisitDate';
+const confirmDialogID = '#confirmDialog';
+const successDialogID = '#successDialog';
+const emailDialogID = '#emailDialog';
+let isAllRequiredFilled = false;
 
-			let visitDT = document.getElementById(visitDateID).value;
-			if (visitDT.length > 0 && moment(visitDT).isValid()) {
-				let visitMoment = moment(visitDT);
-				document.getElementById(visitDateMaskID).value = visitMoment.format(Visits.Language.getCurrentFormat());
+$(function () {
+	$('#visitDTP').datetimepicker({
+		format: visits.language.getCurrentFormat(),
+		minDate: Date.now()
+	});
+
+	let visitDT = document.getElementById(visitDateID).value;
+	if (visitDT.length > 0 && moment(visitDT).isValid()) {
+		let visitMoment = moment(visitDT);
+		document.getElementById(visitDateMaskID).value = visitMoment.format(visits.language.getCurrentFormat());
+	}
+
+	$(confirmDialogID).modal({ show: false });
+
+	document.querySelector('a[title ~= "BotDetect"]').remove();
+
+	visits.language.selector.addEventListener("languageChange", function (event) {
+		$('#visitDTP').data("DateTimePicker").options({ format: event.detail.format });
+	});
+});
+
+document.getElementById(preregistrationFormID).addEventListener("submit", onFormSubmit);
+document.getElementById("confirmButton").addEventListener("click", onConfirmButtonClick);
+
+function onFormSubmit(event) {
+	isAllRequiredFilled = true;
+	document.querySelectorAll('[data-valmsg-for]').forEach(function (item) { item.innerText = '' });
+	for (const input of document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"][data-required = "1"]')) {
+		if (input.value.trim().length == 0) {
+			isAllRequiredFilled = false;
+			break;
+		}
+	}
+
+	if (isAllRequiredFilled) {
+		$(confirmDialogID).modal('show');
+	} else {
+		isDataConfirmed = true;
+		processPreregistration();
+	}
+	event.preventDefault();
+}
+
+function onConfirmButtonClick(event) {
+	$(confirmDialogID).modal('hide');
+	processPreregistration();
+}
+
+function processPreregistration() {
+	let visitDT = document.getElementById(visitDateMaskID).value;
+
+	if (visitDT.length > 0 && moment(visitDT, visits.language.getCurrentFormat()).isValid()) {
+		let visitMoment = moment(visitDT, visits.language.getCurrentFormat());
+		document.getElementById(visitDateID).value = visitMoment.format();
+	}
+
+	let data = new URLSearchParams(new FormData(document.getElementById(preregistrationFormID))).toString();
+
+	document.getElementById('loader').style.visibility = 'visible';
+	document.querySelector('input[type="submit"]').setAttribute('disabled', 'disabled');
+	document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.setAttribute('disabled', 'disabled'); });
+
+
+	fetch('@Url.Content("~")Preregistration/AddFEBE', {
+		method: "POST",
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/x-www-form-urlencoded'
+		},
+		body: data
+	})
+		.then(function (response) {
+			return response.json();
+		})
+		.then(function (json) {
+
+			if (json.success == 1) {
+				$(successDialogID).modal('show');
+				document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.value = ''; });
+			} else if (json.success == 3) {
+				$(emailDialogID).modal('show');
 			}
+			Object.entries(json.error).forEach((entry) => {
+				document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-translate', '');
+				document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-label', entry[1]);
+				document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-translate-inner', '');
+				document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-translate-ucfirst', '');
+				document.querySelector('[data-valmsg-for="' + entry[0] + '"]').innerText = visits.language.getTranslation(entry[1], 'ucfirst');
 
-			$(confirmDialogID).modal({ show: false });
-
-			document.querySelector('a[title ~= "BotDetect"]').remove();
-
-			Visits.Language.selector.addEventListener("languageChange", function (event) {
-				$('#visitDTP').data("DateTimePicker").options({ format: event.detail.format });
 			});
+
+			document.getElementById("Captcha_ReloadLink").click();
+			document.getElementById('loader').style.visibility = 'hidden';
+			document.querySelector('input[type="submit"]').removeAttribute('disabled');
+			document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.removeAttribute('disabled'); });
+		})
+		.catch(function (error) {
+			alert('AJAX: Error while sending preregistration');
+			location.reload();
 		});
+}
 
-		document.getElementById(preregistrationFormID).addEventListener("submit", onFormSubmit);
-		document.getElementById("confirmButton").addEventListener("click", onConfirmButtonClick);
-
-		function onFormSubmit(event) {
-			isAllRequiredFilled = true;
-			document.querySelectorAll('[data-valmsg-for]').forEach(function (item) { item.innerText = '' });
-			for (const input of document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"][data-required = "1"]')) {
-				if (input.value.trim().length == 0) {
-					isAllRequiredFilled = false;
-					break;
-				}
-			}
-
-			if (isAllRequiredFilled) {
-				$(confirmDialogID).modal('show');
-			} else {
-				isDataConfirmed = true;
-				processPreregistration();
-			}
-			event.preventDefault();
-		}
-
-		function onConfirmButtonClick(event) {
-			$(confirmDialogID).modal('hide');
-			processPreregistration();
-		}
-
-		function processPreregistration() {
-			let visitDT = document.getElementById(visitDateMaskID).value;
-
-			if (visitDT.length > 0 && moment(visitDT, Visits.Language.getCurrentFormat()).isValid()) {
-				let visitMoment = moment(visitDT, Visits.Language.getCurrentFormat());
-				document.getElementById(visitDateID).value = visitMoment.format();
-			}
-
-			let data = new URLSearchParams(new FormData(document.getElementById(preregistrationFormID))).toString();
-
-			document.getElementById('loader').style.visibility = 'visible';
-			document.querySelector('input[type="submit"]').setAttribute('disabled', 'disabled');
-			document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.setAttribute('disabled', 'disabled'); });
-
-
-			fetch('@Url.Content("~")Preregistration/AddFEBE', {
-				method: "POST",
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/x-www-form-urlencoded'
-				},
-				body: data
-			})
-				.then(function (response) {
-					return response.json();
-				})
-				.then(function (json) {
-
-					if (json.success == 1) {
-						$(successDialogID).modal('show');
-						document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.value = ''; });
-					} else if (json.success == 3) {
-						$(emailDialogID).modal('show');
-					}
-					Object.entries(json.error).forEach((entry) => {
-						document.querySelector('[data-valmsg-for="' + entry[0] + '"]').innerText = Visits.Language.getTranslation(entry[1]);
-						document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-translate', '');
-						document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-label', entry[1]);
-						document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-translate-inner', '');
-					});
-
-					document.getElementById("Captcha_ReloadLink").click();
-					document.getElementById('loader').style.visibility = 'hidden';
-					document.querySelector('input[type="submit"]').removeAttribute('disabled');
-					document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.removeAttribute('disabled'); });
-				})
-				.catch(function (error) {
-					alert('AJAX: Error while sending preregistration');
-					location.reload();
-				});
-		}
+visits.components.isReady('@ViewBag.Title');
 </script>
 }

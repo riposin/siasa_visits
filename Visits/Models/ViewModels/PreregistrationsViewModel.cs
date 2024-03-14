@@ -39,7 +39,7 @@ namespace Visits.Models.ViewModels
 		public string Motive { get; set; }
 
 		[Required(ErrorMessage = "LBL_CAPTURECAPTCHA")]
-		[Display(Name = "Captcha")]
+		[Display(Name = "LBL_CAPTCHA")]
 		public string CaptchaCode { get; set; }
 
 		public string CaptchaId { get; set; }

@@ -3,7 +3,94 @@
 	padding-bottom: 20px;
 }
 
-/* Sticky footer styles -------------------------------------------------- */
+/* App  overlay  -------------------------------------------------- */
+.overlay {
+	width: 100%;
+	height: 100%;
+	background-color: white;
+	/*opacity: 50%;*/
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1031; /* To cover the navbar also */
+}
+
+.hourglass {
+	background: #f7f7f7;
+	margin: 3em auto;
+	width: 2em;
+	height: 4em;
+	animation: hourglass 1s linear infinite;
+	/*animation-delay: .3s;*/
+	position: absolute;
+	top: 30%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.hourglass > .middle {
+	fill: #f7f7f7;
+}
+
+.hourglass > .outer {
+	fill: #007cba;
+}
+
+@keyframes hourglass {
+	0% {
+		transform: rotate(0deg);
+		box-shadow: inset #f7f7f7 0 0 0 0, inset #007cba 0 2em 0 0, inset #f7f7f7 0 4em 0 0, inset #007cba 0 4em 0 0;
+	}
+
+	80% {
+		transform: rotate(0deg);
+		box-shadow: inset #f7f7f7 0 2em 0 0, inset #007cba 0 2em 0 0, inset #f7f7f7 0 2em 0 0, inset #007cba 0 4em 0 0;
+	}
+
+	100% {
+		transform: rotate(180deg);
+		box-shadow: inset #f7f7f7 0 2em 0 0, inset #007cba 0 2em 0 0, inset #f7f7f7 0 2em 0 0, inset #007cba 0 4em 0 0;
+	}
+}
+
+/* Navbar cuustomization  -------------------------------------------------- */
+.navbar {
+	background-color: #007CBA;
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+	background-image: linear-gradient(261deg,rgba(34,225,255,.5),rgba(29,143,225,.8) 48%,rgba(98,94,177,.8));
+	font-weight: bold;
+}
+
+.navbar-brand { /* Centered */
+	transform: translateX(-50%);
+	left: 50%;
+	position: absolute;
+}
+
+.navbar .navbar-brand, .navbar-inverse .navbar-brand {
+	color: white;
+}
+
+.navbar .navbar-brand:hover {
+	color: white;
+}
+
+.navbar, .navbar-inverse {
+	border: none;
+	border-block-color: black;
+}
+
+.navbar .navbar-nav > li > a, .navbar-inverse .navbar-nav > li > a {
+	color: white;
+}
+
+.navbar .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:hover {
+	color: white;
+	text-decoration: auto;
+	text-decoration-line: underline;
+}
+
+/* Sticky footer -------------------------------------------------- */
 html {
 	position: relative;
 	min-height: 100%;
@@ -24,41 +111,20 @@ body {
 	background-color: #757575;
 }
 
-/* Center brand  -------------------------------------------------- */
-
-.navbar-brand {
-	transform: translateX(-50%);
-	left: 50%;
-	position: absolute;
-}
-
-/* Visits  -------------------------------------------------- */
-.navbar {
-	background-color: #007CBA;
-	box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
-	background-image: linear-gradient(261deg,rgba(34,225,255,.5),rgba(29,143,225,.8) 48%,rgba(98,94,177,.8));
-	font-weight: bold;
-}
-
-.navbar .navbar-brand, .navbar-inverse .navbar-brand {
-	color: white;
-}
-
-.navbar, .navbar-inverse {
-	border: none;
-	border-block-color: black;
-}
-
-.navbar .navbar-nav > li > a, .navbar-inverse .navbar-nav > li > a {
-	color: white;
-}
-
-.navbar .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:hover {
-	color: white;
-	text-decoration: auto;
-	text-decoration-line: underline;
+/* Any  -------------------------------------------------- */
+.ucfirst {
+	text-transform: lowercase;
 }
 
 .ucfirst:first-letter{
     text-transform: uppercase;
+}
+
+.displaynone{
+	display: none;
+}
+
+.fade-out {
+	opacity: 0;
+	transition: opacity 0.3s linear;
 }

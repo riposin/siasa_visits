@@ -1,4 +1,4 @@
-﻿Visits.Language = (function(){
+﻿visits.language = (function(){
 	const currentLangLSKey = 'currentLang';
 	const translationVersionLSKey = 'translationVersion';
 	const langSelectorID = 'languageSelector';
@@ -8,8 +8,10 @@
 	let liCurrentLang;
 	let aLangs;
 	let currentLangDTFormat = '';
+	let isFirstLoadCompleted = false;
 
 	var init = function () {
+		visits.components.waitFor('language');
 		initLS();
 		initSelector();
 		getLabelsAndApply();
@@ -46,7 +48,7 @@
 	var getLabelsAndApply = function () {
 		let currLangTransLSKey = prefixTranslationsLS + localStorage.getItem(currentLangLSKey);
 		if (localStorage.getItem(currLangTransLSKey) === null) {
-			fetch(Visits.baseURL + 'Language/Labels/' + localStorage.getItem(currentLangLSKey), {
+			fetch(visits.baseURL + 'Language/Labels/' + localStorage.getItem(currentLangLSKey), {
 				method: "GET",
 				headers: { 'Accept': 'application/json' }
 			})
@@ -87,7 +89,7 @@
 			}
 
 			if (elemsToTranslate[i].hasAttribute('data-translate-ucfirst')) {
-				currTrans = currTrans.charAt(0).toUpperCase() + currTrans.slice(1).toLocaleLowerCase();
+				currTrans = ucfirst(currTrans)
 			}
 			if (elemsToTranslate[i].hasAttribute('data-translate-inner')) {
 				elemsToTranslate[i].innerHTML = currTrans;
@@ -105,6 +107,17 @@
 		} else {
 			document.title = document.title + labels[currLangTransLSKey][lblPageTitleSuffix];
 		}
+
+		translationCompleted();
+	};
+
+	var translationCompleted = function () {
+		if (!isFirstLoadCompleted) {
+			// Emite
+			//document.getElementById(langSelectorID).dispatchEvent(new CustomEvent("firstLoadCompleted", { detail: {} }));
+			visits.components.isReady('language');
+		}
+		isFirstLoadCompleted = true;
 	};
 
 	var onLangChangeClick = function (event) {
@@ -120,16 +133,24 @@
 		}
 	};
 
+	var ucfirst = function (lbl) {
+		return lbl.charAt(0).toUpperCase() + lbl.slice(1).toLocaleLowerCase();
+	};
+
 	var getCurrentFormat = function () {
 		return currentLangDTFormat;
 	};
 
-	var getTranslation = function (label) {
+	var getTranslation = function (label, transform) {
 		let currLangTransLSKey = prefixTranslationsLS + localStorage.getItem(currentLangLSKey);
 		let translation = label;
 
 		if (labels[currLangTransLSKey][label] != null) {
 			translation = labels[currLangTransLSKey][label];
+		}
+
+		if (transform == 'ucfirst') {
+			translation = ucfirst(translation);
 		}
 
 		return translation;
@@ -143,4 +164,4 @@
 	};
 })();
 
-Visits.Language.init();
+visits.language.init();

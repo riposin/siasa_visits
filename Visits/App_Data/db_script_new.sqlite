@@ -83,7 +83,6 @@ INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_VMOTIVE',				'motivo de visita');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_SEND_EMAIL_PREREQ',	'enviar correo para iniciar el pre-registro');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_PROC_PLEASE_WAIT',		'procesando, espere un momento por favor');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_CAPTURE_QR', 			'captura el c&oacute;digo captcha');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_FOOT_COPYRIGHT', 		'Derechos Reservados 2024 &copy; SIASA | Sistemas Integrales de Automatizaci&oacute;n S.A. de C.V.');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_FOOT_CONTACT', 		'marketing@siasa.com | SIASA Matriz: (999) 930.2575 | SIASA CDMX: (55) 5264.2272 | SIASA Latam: (305) 479.2303');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_PTITLE_SUFFIX', 		' - Visitas SIASA');
@@ -98,6 +97,9 @@ INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_REQ_PREREG_ERR',		'La solicitud de pre-registro no se realiz&oacute; de forma exitosa, por favor reintente.');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_REQ_FIELD',			'Este campo es requerido');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_CAPTURECAPTCHA',		'Captura el c&oacute;digo de 4 d&iacute;gitos (Captcha) en la caja de texto');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_CAPTCHA',				'Captcha');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_SCR_TITLE_CONFIRM',	'confirmaci&oacute;n de visita');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_SCR_TITLE_CONFIRMED',	'visita confirmada');
 -- INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_', '');
 
 
@@ -111,7 +113,6 @@ INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_VMOTIVE',				'visit motive');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_SEND_EMAIL_PREREQ',	'send email to start pre-registration');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_PROC_PLEASE_WAIT',		'processing, please wait');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_CAPTURE_QR', 			'capture the captcha code');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_FOOT_COPYRIGHT', 		'All Rights Reserved 2024 &copy; SIASA | Sistemas Integrales de Automatizaci&oacute;n S.A. de C.V.');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_FOOT_CONTACT', 		'marketing@siasa.com | SIASA Headquarters: (999) 930.2575 | SIASA CDMX: (55) 5264.2272 | SIASA Latin America: (305) 479.2303');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_PTITLE_SUFFIX', 		' - Visits SIASA');
@@ -126,6 +127,9 @@ INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_REQ_PREREG_ERR',		'The pre-registration request was not successful, please retry.');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_REQ_FIELD',			'This field is required');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_CAPTURECAPTCHA',		'Capture the 4-digit code (Captcha) in the text box');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_CAPTCHA',				'Captcha');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_SCR_TITLE_CONFIRM',	'visit confirmation');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_SCR_TITLE_CONFIRMED',	'visit confirmed');
 -- INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_', '');
 
 

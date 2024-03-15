@@ -96,7 +96,7 @@ namespace Visits.Controllers
 				errors.Add(keys[i], "");
 				if (values[i].Errors.Count > 0)
 				{
-					errors[ModelState.Keys.ToArray()[i]] = values[i].Errors[0].ErrorMessage;
+					errors[keys[i]] = values[i].Errors[0].ErrorMessage;
 				}
 			}
 

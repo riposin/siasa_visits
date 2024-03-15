@@ -44,15 +44,15 @@
 			@Html.AntiForgeryToken()
 
 			@Html.LabelFor(d => d.CompanyKey, new {@class = "ucfirst",  data_translate = "", data_label = "LBL_COMP_KEY", data_translate_inner = "" })
-			@Html.TextBoxFor(d => d.CompanyKey, new { @class = "form-control", title = "", data_required = "1", data_translate = "", data_label = "LBL_COMP_KEY", data_translate_title = "", data_translate_ucfirst = "" })
+			@Html.TextBoxFor(d => d.CompanyKey, new { @class = "form-control", title = "", data_required = "1", data_translate = "", data_label = "LBL_COMP_KEY", data_translate_title = "", data_translate_ucfirst = "", maxlength = "20" })
 			@Html.ValidationMessage("CompanyKey", new { @class = "text-danger" })<br /><br />
 
 			@Html.LabelFor(d => d.FullName, new { @class = "ucfirst", data_translate = "", data_label = "LBL_FNAME", data_translate_inner = "" })
-			@Html.TextBoxFor(d => d.FullName, new { @class = "form-control", title = "", data_required = "1", data_translate = "", data_label = "LBL_FNAME", data_translate_title = "", data_translate_ucfirst = "" })
+			@Html.TextBoxFor(d => d.FullName, new { @class = "form-control", title = "", data_required = "1", data_translate = "", data_label = "LBL_FNAME", data_translate_title = "", data_translate_ucfirst = "", maxlength = "100" })
 			@Html.ValidationMessage("FullName", new { @class = "text-danger" })<br /><br />
 
 			@Html.LabelFor(d => d.Email, new { @class = "ucfirst", data_translate = "", data_label = "LBL_EMAIL", data_translate_inner = "" })
-			@Html.TextBoxFor(d => d.Email, new { @class = "form-control", title = "", data_required = "1", data_translate = "", data_label = "LBL_EMAIL", data_translate_title = "", data_translate_ucfirst = "" })
+			@Html.TextBoxFor(d => d.Email, new { @class = "form-control", title = "", data_required = "1", data_translate = "", data_label = "LBL_EMAIL", data_translate_title = "", data_translate_ucfirst = "", maxlength = "100" })
 			@Html.ValidationMessage("Email", new { @class = "text-danger" })<br /><br />
 
 			<div class="form-group">
@@ -75,7 +75,7 @@
 			</div>
 
 			@Html.LabelFor(d => d.Motive, new { @class = "ucfirst", data_translate = "", data_label = "LBL_VMOTIVE", data_translate_inner = "" })
-			@Html.TextBoxFor(d => d.Motive, new { @class = "form-control", title = "", data_translate = "", data_label = "LBL_VMOTIVE", data_translate_title = "", data_translate_ucfirst = "" })
+			@Html.TextBoxFor(d => d.Motive, new { @class = "form-control", title = "", data_translate = "", data_label = "LBL_VMOTIVE", data_translate_title = "", data_translate_ucfirst = "", maxlength = "150" })
 			@Html.ValidationMessage("Motive", new { @class = "text-danger" })<br /><br />
 
 			MvcCaptcha SIASAVisitsPrereg = new MvcCaptcha("Captcha");
@@ -89,7 +89,7 @@
 					@Html.Captcha(SIASAVisitsPrereg)
 				</div>
 			</div>
-			@Html.TextBox("CaptchaCode", "", new { @class = "form-control", title = "", data_required = "1", data_translate = "", data_label = "MSG_CAPTURECAPTCHA", data_translate_title = "", data_translate_ucfirst = "" })
+			@Html.TextBox("CaptchaCode", "", new { @class = "form-control", title = "", data_required = "1", data_translate = "", data_label = "MSG_CAPTURECAPTCHA", data_translate_title = "", data_translate_ucfirst = "", maxlength = "4" })
 			@Html.ValidationMessage("CaptchaCode", new { @class = "text-danger" })
 			<br /><br />
 			<div class="text-center">

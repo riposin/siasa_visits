@@ -97,6 +97,11 @@ INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_INVALID_LINK',			'El enlace no es v&aacute;lido.');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_VDATE_EXPIRED',		'La fecha de la visita ya ha pasado.');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_VLINK_EXPIRED',		'El enlace de confirmaci&oacute;n ha dejado de estar vigente.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_EMAIL_INVALID',		'El correo electr&oacute;nico no es v&aacute;lido');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_COMPKEY_LENGTH',		'Este campo debe tener entre 1 y 20 caracteres');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_FNAME_LENGTH',			'Este campo debe tener entre 3 y 100 caracteres');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_EMAIL_LENGTH',			'Este campo debe tener entre 5 y 100 caracteres');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_MOTIV_LENGTH',			'Este campo debe tener como m&aacute;ximo 150 caracteres');
 
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_VISITS',				'visitas');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_COMP_KEY',				'clave de empresa');
@@ -144,6 +149,11 @@ INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_INVALID_LINK',			'The link is not valid.');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_VDATE_EXPIRED',		'The visit date has already passed.');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_VLINK_EXPIRED',		'The confirmation link has expired.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_EMAIL_INVALID',		'The email is invalid');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_COMPKEY_LENGTH',		'This field must be between 1 and 20 characters');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_FNAME_LENGTH',			'This field must be between 3 and 100 characters');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_EMAIL_LENGTH',			'This field must be between 5 and 100 characters');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_MOTIV_LENGTH',			'This field must have a maximum of 150 characters');
 
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_VISITS',				'visits');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_COMP_KEY',				'company key');

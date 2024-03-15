@@ -33,7 +33,7 @@ namespace Visits
 			routes.MapRoute(
 				name: "Default",
 				url: "{controller}/{action}/{id}",
-				defaults: new { controller = "Preregistration", action = "AddFEBE", id = UrlParameter.Optional }
+				defaults: new { controller = "Preregistration", action = "Add", id = UrlParameter.Optional }
 			);
 		}
 	}

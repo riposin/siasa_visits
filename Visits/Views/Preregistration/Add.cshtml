@@ -223,7 +223,7 @@
 			document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.setAttribute('disabled', 'disabled'); });
 
 
-			fetch('@Url.Content("~")Preregistration/AddFEBE', {
+			fetch('@Url.Content("~")Preregistration/Add', {
 				method: "POST",
 				headers: {
 					'Accept': 'application/json',

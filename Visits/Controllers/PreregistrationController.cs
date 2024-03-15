@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Visits.Models;
 using Visits.Models.TableViewModels;
 using Visits.Models.ViewModels;
 using System.Text;
 using BotDetect.Web.Mvc;
-using BotDetect.Web;
 using Newtonsoft.Json;
 using System.Net.Mail;
-
 
 namespace Visits.Controllers
 {
@@ -45,7 +42,7 @@ namespace Visits.Controllers
 
 		public ActionResult Index()
 		{
-			return View("AddFEBE");
+			return View("Add");
 		}
 
 		[HttpGet]
@@ -54,22 +51,6 @@ namespace Visits.Controllers
 			List<PreregistrationsTableViewModel> list = null;
 			using (visitsEntities db = new visitsEntities())
 			{
-				/*
-				preregistration pre = new preregistration();
-				Guid g = Guid.NewGuid();
-				byte[] bytes = Encoding.ASCII.GetBytes(g.ToString());
-				pre.guid = bytes;
-				pre.company_key = "Foo";
-				pre.full_name = "Bar";
-				pre.email = "r@siasa.com";
-				pre.visit_date = DateTime.Parse("2024-03-01 11:15:00");
-				pre.motive = "Tour";
-				pre.created_at = DateTime.Now;
-
-				db.preregistrations.Add(pre);
-				db.SaveChanges();
-				*/
-
 				list = (from d in db.preregistrations
 						orderby d.created_at descending
 						select new PreregistrationsTableViewModel
@@ -81,11 +62,6 @@ namespace Visits.Controllers
 							VisitDate = d.visit_date,
 							Motive = d.motive
 						}).ToList();
-
-				/*var list = from d in db.preregistrations
-						   where d.confirmed_at == null
-						   select d;
-				ViewBag.Message = "Conteo de solicitudes de visitas no confirmadas: " + list.Count().ToString();*/
 			}
 
 			// RPOOL: Disabling feature for Release version
@@ -98,92 +74,15 @@ namespace Visits.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult AddFE()
+		public ActionResult Add()
 		{
 			return View();
-		}
-
-		[HttpGet]
-		public ActionResult AddBE()
-		{
-			return View();
-		}
-
-		[HttpGet]
-		public ActionResult AddFEBE()
-		{
-			return View();
-		}
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult AddFE(PreregistrationsViewModel model)
-		{
-			SimpleCaptcha captcha = new SimpleCaptcha();
-			bool isHuman = captcha.Validate(model.CaptchaCode, model.CaptchaId);
-			MvcCaptcha.ResetCaptcha("CaptchaCode");
-
-			if (!ModelState.IsValid || !isHuman)
-			{
-				return Content("{\"success\":false}", "application/json; charset=utf-8");
-			}
-
-			using (var db = new visitsEntities())
-			{
-				preregistration pre = new preregistration();
-				Guid g = Guid.NewGuid();
-				byte[] bytes = Encoding.ASCII.GetBytes(g.ToString());
-				pre.guid = bytes;
-				pre.company_key = model.CompanyKey;
-				pre.full_name = model.FullName;
-				pre.email = model.Email;
-				pre.visit_date = model.VisitDate;
-				pre.motive = model.Motive;
-				pre.created_at = DateTime.Now;
-
-				db.preregistrations.Add(pre);
-				db.SaveChanges();
-			}
-
-			return Content("{\"success\":true}", "application/json; charset=utf-8");
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[CaptchaValidationActionFilter("CaptchaCode", "Captcha", "¡El Captcha no es correcto!")]
-		public ActionResult AddBE(PreregistrationsViewModel model)
-		{
-			MvcCaptcha.ResetCaptcha("CaptchaCode");
-
-			if (!ModelState.IsValid)
-			{
-				return View(model);
-			}
-
-			using (var db = new visitsEntities())
-			{
-				preregistration pre = new preregistration();
-				Guid g = Guid.NewGuid();
-				byte[] bytes = Encoding.ASCII.GetBytes(g.ToString());
-				pre.guid = bytes;
-				pre.company_key = model.CompanyKey;
-				pre.full_name = model.FullName;
-				pre.email = model.Email;
-				pre.visit_date = model.VisitDate;
-				pre.motive = model.Motive;
-				pre.created_at = DateTime.Now;
-
-				db.preregistrations.Add(pre);
-				db.SaveChanges();
-			}
-			
-			return Redirect(Url.Content("~/Home"));
-		}
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		[CaptchaValidationActionFilter("CaptchaCode", "Captcha", "¡El Captcha no es correcto!")]
-		public ActionResult AddFEBE(PreregistrationsViewModel model)
+		public ActionResult Add(PreregistrationsViewModel model)
 		{
 			MvcCaptcha.ResetCaptcha("Captcha");
 			Dictionary<string, string> errors = new Dictionary<string, string>();

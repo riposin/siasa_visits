@@ -258,10 +258,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Preregistration\AddFE.cshtml" />
     <Content Include="Views\Preregistration\List.cshtml" />
-    <Content Include="Views\Preregistration\AddBE.cshtml" />
-    <Content Include="Views\Preregistration\AddFEBE.cshtml" />
+    <Content Include="Views\Preregistration\Add.cshtml" />
     <Content Include="Views\Confirmation\Show.cshtml" />
     <Content Include="Views\Shared\_jsGlobals.cshtml" />
   </ItemGroup>

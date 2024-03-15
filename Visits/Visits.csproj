@@ -208,6 +208,8 @@
       <DependentUpon>visits.edmx</DependentUpon>
       <LastGenOutput>visits.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\App\components.js" />
+    <Content Include="Scripts\App\helpers.js" />
     <Content Include="Scripts\App\visits.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />

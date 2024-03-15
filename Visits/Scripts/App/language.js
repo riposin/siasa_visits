@@ -1,4 +1,5 @@
-﻿visits.language = (function(){
+﻿visits.language = (function () {
+	const namespace = 'visits.language';
 	const currentLangLSKey = 'currentLang';
 	const translationVersionLSKey = 'translationVersion';
 	const langSelectorID = 'languageSelector';
@@ -85,7 +86,7 @@
 
 			if (labels[currLangTransLSKey][currLabel] == null) {
 				currTrans = currLabel;
-				console.log('Translation not found: ' + currLabel);
+				console.error(namespace + '.applyLabels: Translation not found for ' + currLabel);
 			} else {
 				currTrans = labels[currLangTransLSKey][currLabel];
 			}
@@ -106,7 +107,7 @@
 
 		if (labels[currLangTransLSKey][lblPageTitleSuffix] == null) {
 			document.title = document.title + lblPageTitleSuffix;
-			console.log('visits.language.applyLabels: Translation not found for ' + lblPageTitleSuffix);
+			console.error(namespace + '.applyLabels: Translation not found for ' + lblPageTitleSuffix);
 		} else {
 			document.title = document.title + labels[currLangTransLSKey][lblPageTitleSuffix];
 		}
@@ -149,7 +150,7 @@
 		if (labels[currLangTransLSKey][label] != null) {
 			translation = labels[currLangTransLSKey][label];
 		} else {
-			console.log('visits.language.getTranslation: Translation not found for ' + label);
+			console.log(namespace + '.getTranslation: Translation not found for ' + label);
 		}
 
 		if (transform == 'ucfirst') {

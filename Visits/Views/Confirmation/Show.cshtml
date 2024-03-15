@@ -4,13 +4,12 @@
 	ViewBag.Title = "TTL_SCR_CONFIRM";
 }
 @section content{
-	<style type="text/css">
-		#qrcode {
-			display: inline-block;
-		}
-	</style>
+<style type="text/css">
+	#qrcode {
+		display: inline-block;
+	}
+</style>
 }
-
 
 <h2 class="text-center ucfirst" data-translate="true" data-label="@(ViewBag.Status == -4 ? "TTL_SCR_CONFIRMED" : "TTL_SCR_CONFIRM")" data-translate-inner>@(ViewBag.Status == -4 ? "TTL_SCR_CONFIRMED" : "TTL_SCR_CONFIRM")</h2>
 <div class="row">
@@ -110,107 +109,115 @@
 @Scripts.Render("~/Scripts/qrcode.min.js")
 
 <script type="text/javascript">
-visits.components.waitFor('@ViewBag.Title');
+	@if(ViewBag.Status == 0 || ViewBag.Status == -4)
+	{
+		<text>
+		visits.show = (function () {
+			const QRDialogID = 'QRDialog';
+			const qrContainerID = 'qrcode';
+			const guid = "@ViewBag.Guid";
+			let status = @ViewBag.Status;
+			let qrData = '';
 
-@if(ViewBag.Status == 0 || ViewBag.Status == -4)
-{
-	<text>
-	const QRDialogID = 'QRDialog';
-	const qrContainerID = 'qrcode';
-	const guid = "@ViewBag.Guid";
-	let status = @ViewBag.Status;
-	let qrData = '';
+			qrData += "{";
+			qrData += "'name':'@Model.full_name',";
+			qrData += "'email':'@Model.email',";
+			qrData += "'reason':'@Model.motive',";
+			qrData += "'date':'@Model.visit_date.ToString("yyyy'-'MM'-'dd'T'HH':'mm")',";
+			qrData += "'companyKey':'@Model.company_key'";
+			qrData += "}";
 
-	qrData += "{";
-	qrData += "'name':'@Model.full_name',";
-	qrData += "'email':'@Model.email',";
-	qrData += "'reason':'@Model.motive',";
-	qrData += "'date':'@Model.visit_date.ToString("yyyy'-'MM'-'dd'T'HH':'mm")',";
-	qrData += "'companyKey':'@Model.company_key'";
-	qrData += "}";
+			var run = function () {
+				new QRCode(document.getElementById(qrContainerID), qrData);
 
-	new QRCode(document.getElementById(qrContainerID), qrData);
+				$('#' + QRDialogID).modal({ show: false });
+				if (document.querySelector('#' + qrContainerID + ' img')) {
+					document.getElementById('qrDownloadLink').href = document.getElementById(qrContainerID).getElementsByTagName('img')[0].src;
+				}
 
-	$(function () {
-		$('#' + QRDialogID).modal({ show: false });
-		if (document.querySelector('#' + qrContainerID + ' img')) {
-			document.getElementById('qrDownloadLink').href = document.getElementById(qrContainerID).getElementsByTagName('img')[0].src;
-		}
-	});
+				document.getElementById('showQR').addEventListener('click', onShowQRClick);
+				document.getElementById('qrPrintButton').addEventListener('click', onPrintQRClick);
+			};
 
-	document.getElementById('showQR').addEventListener('click', onShowQRClick);
-	document.getElementById('qrPrintButton').addEventListener('click', onPrintQRClick);
-
-
-	function onShowQRClick(event) {
-		if (status == -4) {
-			$('#' + QRDialogID).modal('show');
-		}
-		else {
-			@if (ViewBag.Debug)
-			{
-				<text>
-				$('#' + QRDialogID).modal('show');
-				</text>
-			} else
-			{
-				<text>
-				confirmVisit();
-				</text>
+			var confirmVisit = function () {
+				fetch('@Url.Content("~")Confirmation/Confirm/' + guid, {
+					method: "POST",
+					headers: {
+						'Accept': 'application/json',
+					}
+				})
+				.then(function (response) {
+					return response.json();
+				})
+				.then(function (json) {
+					$('#' + QRDialogID).modal('show');
+					status = -4;
+				})
+				.catch(function (error) {
+					alert('AJAX: Error when confirming');
+					location.reload();
+				});
 			}
-		}
-	}
 
-	function confirmVisit() {
-		fetch('@Url.Content("~")Confirmation/Confirm/' + guid, {
-			method: "POST",
-			headers: {
-				'Accept': 'application/json',
-			}
-		})
-		.then(function (response) {
-			return response.json();
-		})
-		.then(function (json) {
-			$('#' + QRDialogID).modal('show');
-			status = -4;
-		})
-		.catch(function (error) {
-			alert('AJAX: Error when confirming');
-			location.reload();
+			var onShowQRClick = function (event) {
+				if (status == -4) {
+					$('#' + QRDialogID).modal('show');
+				}
+				else {
+					@if (ViewBag.Debug)
+					{
+						<text>
+						$('#' + QRDialogID).modal('show');
+						</text>
+					} else
+					{
+						<text>
+						confirmVisit();
+						</text>
+					}
+				}
+			};
+
+			var onPrintQRClick = function () {
+				var mywindow = window.open('', 'PRINT', 'fullscreen=yes');
+
+				mywindow.document.write('<html>');
+				mywindow.document.write('<head><title>' + document.title + '</title></head>');
+				mywindow.document.write('<body style="font-family: system-ui;">');
+
+				mywindow.document.write('<center><h1>' + document.getElementsByTagName('h2')[0].innerHTML + '</h1></center>');
+				mywindow.document.write(document.getElementById('visitData').innerHTML);
+				mywindow.document.write(document.getElementById(qrContainerID).innerHTML);
+				mywindow.document.write('<center>' + document.getElementsByTagName('footer')[0].innerHTML + '</center>');
+
+				mywindow.document.write('</body>');
+				mywindow.document.write('<html>');
+
+				mywindow.document.close();								// necessary for IE >= 10
+				mywindow.focus();										// necessary for IE >= 10
+
+				mywindow.onafterprint = function () {					// For Chrome
+					mywindow.close();
+				}
+
+				mywindow.print();
+
+				setTimeout(function () { mywindow.close(); }, 100);		// For EDGE
+
+				return true;
+			};
+
+			return {
+				run: run,
+			};
+		})();
+
+		$(function () {
+			visits.components.waitFor('@ViewBag.Title');
+			visits.show.run();
+			visits.components.isReady('@ViewBag.Title');
 		});
+		</text>
 	}
-
-	function onPrintQRClick() {
-		var mywindow = window.open('', 'PRINT', 'fullscreen=yes');
-
-		mywindow.document.write('<html>');
-		mywindow.document.write('<head><title>' + document.title + '</title></head>');
-		mywindow.document.write('<body style="font-family: system-ui;">');
-
-		mywindow.document.write('<center><h1>' + document.getElementsByTagName('h2')[0].innerHTML + '</h1></center>');
-		mywindow.document.write(document.getElementById('visitData').innerHTML);
-		mywindow.document.write(document.getElementById(qrContainerID).innerHTML);
-		mywindow.document.write('<center>' + document.getElementsByTagName('footer')[0].innerHTML + '</center>');
-
-		mywindow.document.write('</body>');
-		mywindow.document.write('<html>');
-
-		mywindow.document.close(); // necessary for IE >= 10
-		mywindow.focus(); // necessary for IE >= 10
-
-		mywindow.onafterprint = function () {					// For Chrome
-			mywindow.close();
-		}
-
-		mywindow.print();
-
-		setTimeout(function () { mywindow.close(); }, 100);		// For EDGE
-
-		return true;
-	}
-	</text>
-}
-visits.components.isReady('@ViewBag.Title');
 </script>
 }

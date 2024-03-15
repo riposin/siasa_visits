@@ -139,11 +139,11 @@
 		return lbl.charAt(0).toUpperCase() + lbl.slice(1).toLocaleLowerCase();
 	};
 
-	var getCurrentFormat = function () {
+	var currentDTF = function () {
 		return currentLangDTFormat;
 	};
 
-	var getTranslation = function (label, transform) {
+	var translate = function (label, transform) {
 		let currLangTransLSKey = prefixTranslationsLS + localStorage.getItem(currentLangLSKey);
 		let translation = label;
 
@@ -160,11 +160,16 @@
 		return translation;
 	};
 
+	var currentLang = function () {
+		return localStorage.getItem(currentLangLSKey);
+	};
+
 	return {
 		init: init,
 		selector: document.getElementById(langSelectorID),
-		getCurrentFormat: getCurrentFormat,
-		getTranslation: getTranslation,
+		getCurrentDateTimeFormat: currentDTF,
+		getTranslation: translate,
+		getCurrentLang: currentLang,
 	};
 })();
 

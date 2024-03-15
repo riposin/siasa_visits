@@ -41,9 +41,10 @@
 
 		@using (Html.BeginForm("AddFEBE", "Preregistration", FormMethod.Post, new { role = "from", @class = "", id = "preregistration" }))
 		{
+			<input id="language" name="language" type="hidden" value="@ViewBag.Settings.lang_locale_default" />
 			@Html.AntiForgeryToken()
 
-			@Html.LabelFor(d => d.CompanyKey, new {@class = "ucfirst",  data_translate = "", data_label = "LBL_COMP_KEY", data_translate_inner = "" })
+			@Html.LabelFor(d => d.CompanyKey, new { @class = "ucfirst", data_translate = "", data_label = "LBL_COMP_KEY", data_translate_inner = "" })
 			@Html.TextBoxFor(d => d.CompanyKey, new { @class = "form-control", title = "", data_required = "1", data_translate = "", data_label = "LBL_COMP_KEY", data_translate_title = "", data_translate_ucfirst = "", maxlength = "20" })
 			@Html.ValidationMessage("CompanyKey", new { @class = "text-danger" })<br /><br />
 
@@ -58,12 +59,14 @@
 			<div class="form-group">
 				<label for="VisitDateMask" class="ucfirst" data-translate data-label="LBL_DATETIME" data-translate-inner></label>
 				<div class='input-group date' id='visitDTP'>
-					<input type='text' class="form-control" id="VisitDateMask" name="VisitDateMask" data-required="1" data-translate data-label="LBL_DATETIME" data-translate-title data-translate-ucfirst/>
+					<input type='text' class="form-control" id="VisitDateMask" name="VisitDateMask" data-required="1" data-translate data-label="LBL_DATETIME" data-translate-title data-translate-ucfirst />
 					<span class="input-group-addon">
 						<span class="glyphicon glyphicon-calendar"></span>
 					</span>
 				</div>
 				@Html.ValidationMessage("VisitDate", new { @class = "text-danger" })<br /><br />
+				@Html.Hidden("VisitDate", "")
+				@*
 				@if (Model == null)
 				{
 					@Html.Hidden("VisitDate", "")
@@ -72,6 +75,7 @@
 				{
 					@Html.Hidden("VisitDate", Model.VisitDate)
 				}
+				*@
 			</div>
 
 			@Html.LabelFor(d => d.Motive, new { @class = "ucfirst", data_translate = "", data_label = "LBL_VMOTIVE", data_translate_inner = "" })
@@ -93,7 +97,7 @@
 			@Html.ValidationMessage("CaptchaCode", new { @class = "text-danger" })
 			<br /><br />
 			<div class="text-center">
-				<input type="submit" class="btn btn-success" value="" title="" data-translate data-label="LBL_SEND_EMAIL_PREREQ" data-translate-title data-translate-value data-translate-ucfirst/>
+				<input type="submit" class="btn btn-success" value="" title="" data-translate data-label="LBL_SEND_EMAIL_PREREQ" data-translate-title data-translate-value data-translate-ucfirst />
 				<div id="loader" class="text-primary"><span class="glyphicon glyphicon-repeat spin" aria-hidden="true"></span> <span data-translate data-label="MSG_PROC_PLEASE_WAIT" data-translate-inner></span>.</div>
 			</div>
 
@@ -160,6 +164,7 @@
 		const preregistrationFormID = 'preregistration';
 		const visitDateMaskID = 'VisitDateMask';
 		const visitDateID = 'VisitDate';
+		const languageID = 'language';
 		const confirmDialogID = '#confirmDialog';
 		const successDialogID = '#successDialog';
 		const emailDialogID = '#emailDialog';
@@ -167,7 +172,7 @@
 
 		var run = function () {
 			$('#visitDTP').datetimepicker({
-				format: visits.language.getCurrentFormat(),
+				format: visits.language.getCurrentDateTimeFormat(),
 				minDate: Date.now()
 			});
 
@@ -211,10 +216,12 @@
 		var processPreregistration = function () {
 			let visitDT = document.getElementById(visitDateMaskID).value;
 
-			if (visitDT.length > 0 && moment(visitDT, visits.language.getCurrentFormat()).isValid()) {
-				let visitMoment = moment(visitDT, visits.language.getCurrentFormat());
+			if (visitDT.length > 0 && moment(visitDT, visits.language.getCurrentDateTimeFormat()).isValid()) {
+				let visitMoment = moment(visitDT, visits.language.getCurrentDateTimeFormat());
 				document.getElementById(visitDateID).value = visitMoment.format();
 			}
+
+			document.getElementById(languageID).value = visits.language.getCurrentLang();
 
 			let data = new URLSearchParams(new FormData(document.getElementById(preregistrationFormID))).toString();
 
@@ -247,7 +254,7 @@
 					document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-label', entry[1]);
 					document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-translate-inner', '');
 					document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-translate-ucfirst', '');
-					document.querySelector('[data-valmsg-for="' + entry[0] + '"]').innerText = visits.language.getTranslation(entry[1], 'ucfirst');
+					document.querySelector('[data-valmsg-for="' + entry[0] + '"]').innerText = (entry[1] == '' ? '' : visits.language.getTranslation(entry[1], 'ucfirst'));
 
 				});
 

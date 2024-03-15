@@ -43,5 +43,7 @@ namespace Visits.Models.ViewModels
 		public string CaptchaCode { get; set; }
 
 		public string CaptchaId { get; set; }
+
+		public string Language { get; set; }
 	}
 }

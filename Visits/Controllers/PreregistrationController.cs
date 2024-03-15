@@ -90,12 +90,28 @@ namespace Visits.Controllers
 			ModelState[] values = ModelState.Values.ToArray();
 			bool isEmailOk = false;
 			Guid g = Guid.NewGuid();
+			List<locale> currentLocale = new List<locale>();
+			List<locale> locales = ViewBag.locales; // Convert.ChangeType(ViewBag.locales, typeof(List<locale>));
+
+			if (!String.IsNullOrEmpty(model.Language))
+			{
+				currentLocale = (from l in locales
+								 where l.id == model.Language
+								 select l).ToList();
+			}
+
+			if(currentLocale.Count == 0)
+			{
+				currentLocale = (from l in locales
+								 where l.id == ViewBag.Settings.lang_locale_default
+								 select l).ToList();
+			}
 
 			for (int i = 0; i < ModelState.Keys.Count; i++)
 			{
-				errors.Add(keys[i], "");
 				if (values[i].Errors.Count > 0)
 				{
+					errors.Add(keys[i], "");
 					errors[keys[i]] = values[i].Errors[0].ErrorMessage;
 				}
 			}
@@ -112,7 +128,7 @@ namespace Visits.Controllers
 			StringBuilder sbLink = new StringBuilder();
 			StringBuilder sbBody = new StringBuilder();
 			sbLink.AppendFormat(string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~")) + ViewBag.Settings.link_url_format, g.ToString());
-			sbBody.AppendFormat(ViewBag.Settings.email_body_format, model.CompanyKey.ToUpper(), model.FullName, model.VisitDate.ToString(ViewBag.Settings.email_date_time_format), model.Motive, sbLink.ToString());
+			sbBody.AppendFormat(ViewBag.Settings.email_body_format, model.CompanyKey.ToUpper(), model.FullName, model.VisitDate.ToString(currentLocale[0].date_time_format), model.Motive, sbLink.ToString());
 			mail.Body = sbBody.ToString();
 			mail.IsBodyHtml = true;
 			SmtpClient smtp = new SmtpClient();

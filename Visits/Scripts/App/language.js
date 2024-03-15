@@ -48,7 +48,7 @@
 	var getLabelsAndApply = function () {
 		let currLangTransLSKey = prefixTranslationsLS + localStorage.getItem(currentLangLSKey);
 		if (localStorage.getItem(currLangTransLSKey) === null) {
-			fetch(visits.baseURL + 'Language/Labels/' + localStorage.getItem(currentLangLSKey), {
+			fetch(visits.baseURL.get() + 'Language/Labels/' + localStorage.getItem(currentLangLSKey), {
 				method: "GET",
 				headers: { 'Accept': 'application/json' }
 			})

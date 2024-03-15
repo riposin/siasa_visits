@@ -1,7 +1,17 @@
 ﻿// Namespace
 const visits = {};
 
-visits.baseURL = (document.body.hasAttribute("data-baseurl") ? document.body.getAttribute('data-baseurl') : '/');
+visits.baseURL = (function () {
+	const baseURL = (document.body.hasAttribute("data-baseurl") ? document.body.getAttribute('data-baseurl') : '/');
+
+	var get = function () {
+		return baseURL;
+	};
+
+	return {
+		get: get,
+	};
+})();
 
 visits.helpers = {};
 visits.helpers.ucfirst = (text) => {

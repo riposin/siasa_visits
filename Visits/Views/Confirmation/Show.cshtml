@@ -1,7 +1,7 @@
 ﻿
 @model Visits.Models.preregistration
 @{
-	ViewBag.Title = "LBL_SCR_TITLE_CONFIRM";
+	ViewBag.Title = "TTL_SCR_CONFIRM";
 }
 @section content{
 	<style type="text/css">
@@ -12,36 +12,56 @@
 }
 
 
-<h2 class="text-center ucfirst" data-translate="true" data-label="@(ViewBag.Status == -4 ? "LBL_SCR_TITLE_CONFIRMED" : "LBL_SCR_TITLE_CONFIRM")" data-translate-inner>@(ViewBag.Status == -4 ? "LBL_SCR_TITLE_CONFIRMED" : "LBL_SCR_TITLE_CONFIRM")</h2>
+<h2 class="text-center ucfirst" data-translate="true" data-label="@(ViewBag.Status == -4 ? "TTL_SCR_CONFIRMED" : "TTL_SCR_CONFIRM")" data-translate-inner>@(ViewBag.Status == -4 ? "TTL_SCR_CONFIRMED" : "TTL_SCR_CONFIRM")</h2>
 <div class="row">
 	<div class="col-md-6 col-md-offset-3">
 		@if (ViewBag.Status == -1 || ViewBag.Status == -2)
 		{
-			<div class="alert alert-danger text-center" role="alert">
-				<strong><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></strong>
-				El enlace no es válido
-			</div>
+		<div class="alert alert-danger text-center" role="alert">
+			<strong><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></strong>
+			<span data-translate data-label="MSG_INVALID_LINK" data-translate-inner></span>
+		</div>
 		}
 		@if (ViewBag.Status == -3)
 		{
 			<div class="alert alert-warning text-center" role="alert">
 				<strong><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></strong>
-				La fecha de la visita ya ha pasado
+				<span data-translate data-label="MSG_VDATE_EXPIRED" data-translate-inner></span>
 			</div>
 		}
+		@if (ViewBag.Status == -5)
+		{
+			<div class="alert alert-warning text-center" role="alert">
+				<strong><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></strong>
+				<span data-translate data-label="MSG_VLINK_EXPIRED" data-translate-inner></span>
+			</div>
+		}
+			<div id="visitData">
 		@if (ViewBag.Status == -4)
 		{
-			<div id="visitData">
 				<div class="alert alert-success text-justify" role="alert">
 					<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
-					La visita ya fue confirmada, use el botón de abajo para ver el código QR.
+					<span data-translate data-label="MSG_VCONFIRMED" data-translate-inner></span>
 					<br />
 					<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
-					Favor de presentarse antes de la hora programada para su visita.
+					<span data-translate data-label="MSG_VARRIVE_EARLY" data-translate-inner></span>
 					<br />
 					<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
-					Importante acuda a su visita teniendo a la mano el QR.
+					<span data-translate data-label="MSG_QRONHAND" data-translate-inner></span>
 				</div>
+		}
+		@if (ViewBag.Status == 0)
+		{
+				<div class="alert alert-info text-justify" role="alert">
+					<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
+					<span data-translate data-label="MSG_VARRIVE_EARLY" data-translate-inner></span>
+					<br />
+					<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
+					<span data-translate data-label="MSG_QRONHAND" data-translate-inner></span>
+				</div>
+		}
+		@if (ViewBag.Status == -4 || ViewBag.Status == 0)
+		{
 				<p>
 					<strong><span data-translate data-label="LBL_COMP_KEY" data-translate-inner data-translate-ucfirst></span>: </strong>@Model.company_key<br />
 					<strong><span data-translate data-label="LBL_FNAME" data-translate-inner data-translate-ucfirst>Nombre</span>: </strong>@Model.full_name<br />
@@ -49,38 +69,18 @@
 					<strong><span data-translate data-label="LBL_DATETIME" data-translate-inner data-translate-ucfirst>Fecha y hora de la visita</span>: </strong>@Model.visit_date.ToString(ViewBag.Settings.email_date_time_format)<br />
 					<strong><span data-translate data-label="LBL_VMOTIVE" data-translate-inner data-translate-ucfirst>Motivo</span>: </strong>@Model.motive
 				</p>
-			</div>
-			<div class="text-center">
-				<button type="button" class="btn btn-success" id="showQR">Mostrar QR</button>
-			</div>
 		}
-		@if (ViewBag.Status == -5)
+			</div>
+		@if (ViewBag.Status == -4)
 		{
-			<div class="alert alert-warning text-center" role="alert">
-				<strong><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></strong>
-				El enlace de confirmación ha dejado de estar vigente
+			<div class="text-center">
+				<button type="button" class="btn btn-success" id="showQR"><span data-translate data-label="LBL_SHOW" data-translate-inner></span> QR</button>
 			</div>
 		}
 		@if (ViewBag.Status == 0)
 		{
-			<div id="visitData">
-				<div class="alert alert-info text-justify" role="alert">
-					<strong><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></strong>
-					Favor de presentarse antes de la hora programada para su visita.
-					<br />
-					<strong><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span></strong>
-					Importante acuda a su visita teniendo a la mano el QR.
-				</div>
-				<p>
-					<strong>Clave de la empresa: </strong>@Model.company_key<br />
-					<strong>Nombre: </strong>@Model.full_name<br />
-					<strong>Correo electrónico: </strong>@Model.email<br />
-					<strong>Fecha y hora de la visita: </strong>@Model.visit_date.ToString(ViewBag.Settings.email_date_time_format)<br />
-					<strong>Motivo: </strong>@Model.motive
-				</p>
-			</div>
 			<div class="text-center">
-				<button type="button" class="btn btn-primary" id="showQR">Confirmar visita (QR)</button>
+				<button type="button" class="btn btn-primary" id="showQR"><span data-translate data-label="LBL_CONFIRM_VISIT" data-translate-inner></span> (QR)</button>
 			</div>
 		}
 	</div>
@@ -92,122 +92,125 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="QRDialogLabel">Tome screenshot o imprima el QR</h4>
+				<h4 class="modal-title" id="QRDialogLabel" data-translate data-label="TTL_TAKESC_PRINTQR" data-translate-inner></h4>
 			</div>
 			<div class="modal-body">
 				<div class="text-center"><div id="qrcode"></div></div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-@(ViewBag.Status == 0 ? "primary" : "success")" id="qrPrintButton">Imprimir</button>
-				<a href="#" download="SIASA_QR_@(ViewBag.Status == 0 || ViewBag.Status == -4 ? Model.company_key + "_" + ViewBag.Guid : "" ).png" class="btn btn-@(ViewBag.Status == 0 ? "primary" : "success")" role="button" id="qrDownloadLink">Descargar</a>
-				<button type="button" class="btn btn-@(ViewBag.Status == 0 ? "primary" : "success")" data-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-@(ViewBag.Status == 0 ? "primary" : "success") ucfirst" id="qrPrintButton" data-translate data-label="LBL_PRINT" data-translate-inner></button>
+				<a href="#" download="SIASA_QR_@(ViewBag.Status == 0 || ViewBag.Status == -4 ? Model.company_key + "_" + ViewBag.Guid : "" ).png" class="btn btn-@(ViewBag.Status == 0 ? "primary" : "success") ucfirst" role="button" id="qrDownloadLink" data-translate data-label="LBL_DOWNLOAD" data-translate-inner></a>
+				<button type="button" class="btn btn-@(ViewBag.Status == 0 ? "primary" : "success") ucfirst" data-dismiss="modal" data-translate data-label="LBL_CLOSE" data-translate-inner></button>
 			</div>
 		</div>
 	</div>
 </div>
 
 @section scripts {
-	@Scripts.Render("~/Scripts/qrcode.min.js")
+@Scripts.Render("~/Scripts/qrcode.min.js")
+
 <script type="text/javascript">
+visits.components.waitFor('@ViewBag.Title');
 
-		@if(ViewBag.Status == 0 || ViewBag.Status == -4)
-		{
-			<text>
-			const QRDialogID = 'QRDialog';
-			const qrContainerID = 'qrcode';
-			const guid = "@ViewBag.Guid";
-			let status = @ViewBag.Status;
-			let qrData = '';
+@if(ViewBag.Status == 0 || ViewBag.Status == -4)
+{
+	<text>
+	const QRDialogID = 'QRDialog';
+	const qrContainerID = 'qrcode';
+	const guid = "@ViewBag.Guid";
+	let status = @ViewBag.Status;
+	let qrData = '';
 
-			qrData += "{";
-			qrData += "'name':'@Model.full_name',";
-			qrData += "'email':'@Model.email',";
-			qrData += "'reason':'@Model.motive',";
-			qrData += "'date':'@Model.visit_date.ToString("yyyy'-'MM'-'dd'T'HH':'mm")',";
-			qrData += "'companyKey':'@Model.company_key'";
-			qrData += "}";
+	qrData += "{";
+	qrData += "'name':'@Model.full_name',";
+	qrData += "'email':'@Model.email',";
+	qrData += "'reason':'@Model.motive',";
+	qrData += "'date':'@Model.visit_date.ToString("yyyy'-'MM'-'dd'T'HH':'mm")',";
+	qrData += "'companyKey':'@Model.company_key'";
+	qrData += "}";
 
-			new QRCode(document.getElementById(qrContainerID), qrData);
+	new QRCode(document.getElementById(qrContainerID), qrData);
 
-			$(function () {
-				$('#' + QRDialogID).modal({ show: false });
-				if (document.querySelector('#' + qrContainerID + ' img')) {
-					document.getElementById('qrDownloadLink').href = document.getElementById(qrContainerID).getElementsByTagName('img')[0].src;
-				}
-			});
-
-			document.getElementById('showQR').addEventListener('click', onShowQRClick);
-			document.getElementById('qrPrintButton').addEventListener('click', onPrintQRClick);
-
-
-			function onShowQRClick(event) {
-				if (status == -4) {
-					$('#' + QRDialogID).modal('show');
-				}
-				else {
-					@if (ViewBag.Debug)
-					{
-						<text>
-						$('#' + QRDialogID).modal('show');
-						</text>
-					} else
-					{
-						<text>
-						confirmVisit();
-						</text>
-					}
-				}
-			}
-
-			function confirmVisit() {
-				fetch('@Url.Content("~")Confirmation/Confirm/' + guid, {
-					method: "POST",
-					headers: {
-						'Accept': 'application/json',
-					}
-				})
-				.then(function (response) {
-					return response.json();
-				})
-				.then(function (json) {
-					$('#' + QRDialogID).modal('show');
-					status = -4;
-				})
-				.catch(function (error) {
-					alert('AJAX: Error when confirming');
-					location.reload();
-				});
-			}
-
-			function onPrintQRClick() {
-				var mywindow = window.open('', 'PRINT', 'fullscreen=yes');
-
-				mywindow.document.write('<html>');
-				mywindow.document.write('<head><title>' + document.title + '</title></head>');
-				mywindow.document.write('<body style="font-family: system-ui;">');
-
-				mywindow.document.write('<center><h1>' + document.getElementsByTagName('h2')[0].innerHTML + '</h1></center>');
-				mywindow.document.write(document.getElementById('visitData').innerHTML);
-				mywindow.document.write(document.getElementById(qrContainerID).innerHTML);
-				mywindow.document.write('<center>' + document.getElementsByTagName('footer')[0].innerHTML + '</center>');
-
-				mywindow.document.write('</body>');
-				mywindow.document.write('<html>');
-
-				mywindow.document.close(); // necessary for IE >= 10
-				mywindow.focus(); // necessary for IE >= 10
-
-				mywindow.onafterprint = function () {					// For Chrome
-					mywindow.close();
-				}
-
-				mywindow.print();
-
-				setTimeout(function () { mywindow.close(); }, 100);		// For EDGE
-				
-				return true;
-			}
-			</text>
+	$(function () {
+		$('#' + QRDialogID).modal({ show: false });
+		if (document.querySelector('#' + qrContainerID + ' img')) {
+			document.getElementById('qrDownloadLink').href = document.getElementById(qrContainerID).getElementsByTagName('img')[0].src;
 		}
+	});
+
+	document.getElementById('showQR').addEventListener('click', onShowQRClick);
+	document.getElementById('qrPrintButton').addEventListener('click', onPrintQRClick);
+
+
+	function onShowQRClick(event) {
+		if (status == -4) {
+			$('#' + QRDialogID).modal('show');
+		}
+		else {
+			@if (ViewBag.Debug)
+			{
+				<text>
+				$('#' + QRDialogID).modal('show');
+				</text>
+			} else
+			{
+				<text>
+				confirmVisit();
+				</text>
+			}
+		}
+	}
+
+	function confirmVisit() {
+		fetch('@Url.Content("~")Confirmation/Confirm/' + guid, {
+			method: "POST",
+			headers: {
+				'Accept': 'application/json',
+			}
+		})
+		.then(function (response) {
+			return response.json();
+		})
+		.then(function (json) {
+			$('#' + QRDialogID).modal('show');
+			status = -4;
+		})
+		.catch(function (error) {
+			alert('AJAX: Error when confirming');
+			location.reload();
+		});
+	}
+
+	function onPrintQRClick() {
+		var mywindow = window.open('', 'PRINT', 'fullscreen=yes');
+
+		mywindow.document.write('<html>');
+		mywindow.document.write('<head><title>' + document.title + '</title></head>');
+		mywindow.document.write('<body style="font-family: system-ui;">');
+
+		mywindow.document.write('<center><h1>' + document.getElementsByTagName('h2')[0].innerHTML + '</h1></center>');
+		mywindow.document.write(document.getElementById('visitData').innerHTML);
+		mywindow.document.write(document.getElementById(qrContainerID).innerHTML);
+		mywindow.document.write('<center>' + document.getElementsByTagName('footer')[0].innerHTML + '</center>');
+
+		mywindow.document.write('</body>');
+		mywindow.document.write('<html>');
+
+		mywindow.document.close(); // necessary for IE >= 10
+		mywindow.focus(); // necessary for IE >= 10
+
+		mywindow.onafterprint = function () {					// For Chrome
+			mywindow.close();
+		}
+
+		mywindow.print();
+
+		setTimeout(function () { mywindow.close(); }, 100);		// For EDGE
+
+		return true;
+	}
+	</text>
+}
+visits.components.isReady('@ViewBag.Title');
 </script>
 }

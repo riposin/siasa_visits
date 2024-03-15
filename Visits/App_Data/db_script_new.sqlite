@@ -74,63 +74,97 @@ INSERT INTO locales(id, name, selector_id, selector_name, date_time_format) VALU
 INSERT INTO locales(id, name, selector_id, selector_name, date_time_format) VALUES('en-US', 'English (United States)', 'US', 'English', 		'MM-DD-YYYY hh:mm A');
 
 -- Labels for es-MX
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'FOT_COPYRIGHT', 			'Derechos Reservados 2024 &copy; SIASA | Sistemas Integrales de Automatizaci&oacute;n S.A. de C.V.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'FOT_CONTACT',		 		'marketing@siasa.com | SIASA Matriz: (999) 930.2575 | SIASA CDMX: (55) 5264.2272 | SIASA Latam: (305) 479.2303');
+
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'TTL_SCR_SUFFIX', 			' - Visitas SIASA');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'TTL_SCR_REQPRE',			'solicitud de pre-registro de visitantes');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'TTL_SCR_CONFIRM',			'confirmaci&oacute;n de visita');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'TTL_SCR_CONFIRMED',		'visita confirmada');
+
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'TTL_TAKESC_PRINTQR',		'Tome captura o descargue e imprima el QR');
+
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'QST_ISALLDATAOK', 			'¿Los datos proporcionados son correctos?');
+
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_PROC_PLEASE_WAIT',		'procesando, espere un momento por favor');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_REQ_PREREG_OK',		'La solicitud se realiz&oacute; de forma correcta. Se ha enviado un correo a la direcci&oacute;n proporcionada para continuar con el proceso de pre-registro.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_REQ_PREREG_ERR',		'La solicitud de pre-registro no se realiz&oacute; de forma exitosa, por favor reintente.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_REQ_FIELD',			'Este campo es requerido');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_CAPTURECAPTCHA',		'Captura el c&oacute;digo de 4 d&iacute;gitos (Captcha) en la caja de texto');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_VCONFIRMED',			'La visita ya fu&eacute; confirmada, use el botón de abajo para ver el c&oacute;digo QR.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_VARRIVE_EARLY',		'Favor de presentarse antes de la hora programada para su visita.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_QRONHAND',				'Importante acuda a su visita teniendo a la mano el QR.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_INVALID_LINK',			'El enlace no es v&aacute;lido.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_VDATE_EXPIRED',		'La fecha de la visita ya ha pasado.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_VLINK_EXPIRED',		'El enlace de confirmaci&oacute;n ha dejado de estar vigente.');
+
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_VISITS',				'visitas');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_SCR_TITLE_REQ',		'solicitud de pre-registro de visitantes');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_COMP_KEY',				'clave de empresa');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_FNAME',				'nombre completo');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_EMAIL',				'correo electr&oacute;nico');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_DATETIME',				'fecha y hora');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_VMOTIVE',				'motivo de visita');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_SEND_EMAIL_PREREQ',	'enviar correo para iniciar el pre-registro');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_PROC_PLEASE_WAIT',		'procesando, espere un momento por favor');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_FOOT_COPYRIGHT', 		'Derechos Reservados 2024 &copy; SIASA | Sistemas Integrales de Automatizaci&oacute;n S.A. de C.V.');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_FOOT_CONTACT', 		'marketing@siasa.com | SIASA Matriz: (999) 930.2575 | SIASA CDMX: (55) 5264.2272 | SIASA Latam: (305) 479.2303');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_PTITLE_SUFFIX', 		' - Visitas SIASA');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_CONFIRMATION', 		'confirmaci&oacute;n');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_Q_ISALLDATAOK', 		'¿Los datos proporcionados son correctos?');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_YES',			 		'si');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_NO',					'no');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_REQ_PREREG_OK',		'La solicitud se realiz&oacute; de forma correcta. Se ha enviado un correo a la direcci&oacute;n proporcionada para continuar con el proceso de pre-registro.');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_SUCCESS',				'&eacute;xito');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_OK',					'aceptar');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_ERROR',				'error');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_REQ_PREREG_ERR',		'La solicitud de pre-registro no se realiz&oacute; de forma exitosa, por favor reintente.');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_REQ_FIELD',			'Este campo es requerido');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_CAPTURECAPTCHA',		'Captura el c&oacute;digo de 4 d&iacute;gitos (Captcha) en la caja de texto');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_CAPTCHA',				'Captcha');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_SCR_TITLE_CONFIRM',	'confirmaci&oacute;n de visita');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_SCR_TITLE_CONFIRMED',	'visita confirmada');
--- INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_', '');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_SHOW',					'Mostrar');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_CONFIRM_VISIT',		'Confirmar visita');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_PRINT',				'imprimir');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_DOWNLOAD',				'descargar');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_CLOSE',				'cerrar');
+-- INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_',	'');
 
 
 -- Labels for en-US
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'FOT_COPYRIGHT', 			'All Rights Reserved 2024 &copy; SIASA | Sistemas Integrales de Automatizaci&oacute;n S.A. de C.V.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'FOT_CONTACT', 				'marketing@siasa.com | SIASA Headquarters: (999) 930.2575 | SIASA CDMX: (55) 5264.2272 | SIASA Latin America: (305) 479.2303');
+
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'TTL_SCR_SUFFIX', 			' - Visits SIASA');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'TTL_SCR_REQPRE',			'visitor pre-registration request');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'TTL_SCR_CONFIRM',			'visit confirmation');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'TTL_SCR_CONFIRMED',		'visit confirmed');
+
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'TTL_TAKESC_PRINTQR',		'Take screenshot or download and print the QR');
+
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'QST_ISALLDATAOK', 			'Is the data provided correct?');
+
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_PROC_PLEASE_WAIT',		'processing, please wait');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_REQ_PREREG_OK',		'The request was made correctly. An email has been sent to the address provided to continue with the pre-registration process.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_REQ_PREREG_ERR',		'The pre-registration request was not successful, please retry.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_REQ_FIELD',			'This field is required');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_CAPTURECAPTCHA',		'Capture the 4-digit code (Captcha) in the text box');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_VCONFIRMED',			'The visit has already been confirmed, use the button below to view the QR code.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_VARRIVE_EARLY',		'Please arrive before your scheduled visit time.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_QRONHAND',				'It is important to come to your visit with the QR at hand.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_INVALID_LINK',			'The link is not valid.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_VDATE_EXPIRED',		'The visit date has already passed.');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_VLINK_EXPIRED',		'The confirmation link has expired.');
+
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_VISITS',				'visits');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_SCR_TITLE_REQ',		'visitor pre-registration request');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_COMP_KEY',				'company key');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_FNAME',				'full name');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_EMAIL',				'email');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_DATETIME',				'date and time');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_VMOTIVE',				'visit motive');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_SEND_EMAIL_PREREQ',	'send email to start pre-registration');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_PROC_PLEASE_WAIT',		'processing, please wait');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_FOOT_COPYRIGHT', 		'All Rights Reserved 2024 &copy; SIASA | Sistemas Integrales de Automatizaci&oacute;n S.A. de C.V.');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_FOOT_CONTACT', 		'marketing@siasa.com | SIASA Headquarters: (999) 930.2575 | SIASA CDMX: (55) 5264.2272 | SIASA Latin America: (305) 479.2303');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_PTITLE_SUFFIX', 		' - Visits SIASA');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_CONFIRMATION', 		'confirm');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_Q_ISALLDATAOK', 		'Is the data provided correct?');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_YES',					'yes');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_NO',					'no');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_REQ_PREREG_OK',		'The request was made correctly. An email has been sent to the address provided to continue with the pre-registration process.');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_SUCCESS',				'sucess');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_OK',					'ok');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_ERROR',				'error');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_REQ_PREREG_ERR',		'The pre-registration request was not successful, please retry.');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_REQ_FIELD',			'This field is required');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_CAPTURECAPTCHA',		'Capture the 4-digit code (Captcha) in the text box');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_CAPTCHA',				'Captcha');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_SCR_TITLE_CONFIRM',	'visit confirmation');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_SCR_TITLE_CONFIRMED',	'visit confirmed');
--- INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_', '');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_SHOW',					'Show');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_CONFIRM_VISIT',		'Confirm visit');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_PRINT',				'print');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_DOWNLOAD',				'download');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_CLOSE',				'close');
+-- INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_',	'');
 
 
 

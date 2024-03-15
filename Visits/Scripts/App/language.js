@@ -3,7 +3,7 @@
 	const translationVersionLSKey = 'translationVersion';
 	const langSelectorID = 'languageSelector';
 	const prefixTranslationsLS = 'LBLS_';
-	const lblPageTitleSuffix = 'LBL_PTITLE_SUFFIX';
+	const lblPageTitleSuffix = 'TTL_SCR_SUFFIX';
 	let labels = {};
 	let liCurrentLang;
 	let aLangs;
@@ -69,6 +69,7 @@
 	};
 
 	var applyLabels = function () {
+		
 		let elemsToTranslate = document.querySelectorAll('[data-translate]');
 		let currLangTransLSKey = prefixTranslationsLS + localStorage.getItem(currentLangLSKey);
 		let currLabel = '';
@@ -84,6 +85,7 @@
 
 			if (labels[currLangTransLSKey][currLabel] == null) {
 				currTrans = currLabel;
+				console.log('Translation not found: ' + currLabel);
 			} else {
 				currTrans = labels[currLangTransLSKey][currLabel];
 			}
@@ -104,6 +106,7 @@
 
 		if (labels[currLangTransLSKey][lblPageTitleSuffix] == null) {
 			document.title = document.title + lblPageTitleSuffix;
+			console.log('visits.language.applyLabels: Translation not found for ' + lblPageTitleSuffix);
 		} else {
 			document.title = document.title + labels[currLangTransLSKey][lblPageTitleSuffix];
 		}
@@ -113,8 +116,6 @@
 
 	var translationCompleted = function () {
 		if (!isFirstLoadCompleted) {
-			// Emite
-			//document.getElementById(langSelectorID).dispatchEvent(new CustomEvent("firstLoadCompleted", { detail: {} }));
 			visits.components.isReady('language');
 		}
 		isFirstLoadCompleted = true;
@@ -147,6 +148,8 @@
 
 		if (labels[currLangTransLSKey][label] != null) {
 			translation = labels[currLangTransLSKey][label];
+		} else {
+			console.log('visits.language.getTranslation: Translation not found for ' + label);
 		}
 
 		if (transform == 'ucfirst') {

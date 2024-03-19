@@ -25,6 +25,7 @@ namespace Visits.Models
         public string selector_id { get; set; }
         public string selector_name { get; set; }
         public string date_time_format { get; set; }
+        public string date_time_format_front_end { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<label> labels { get; set; }

@@ -92,6 +92,12 @@ namespace Visits.Controllers
 			Guid g = Guid.NewGuid();
 			List<locale> currentLocale = new List<locale>();
 			List<locale> locales = ViewBag.locales; // Convert.ChangeType(ViewBag.locales, typeof(List<locale>));
+			StringBuilder sbLink = new StringBuilder();
+			string[] labelsToReplace = ((string)ViewBag.Settings.email_body_labels_replace).Split(',');
+			string mailBody = ViewBag.Settings.email_body_format;
+			string data_replace = "";
+			System.Reflection.PropertyInfo[] propsInfo = model.GetType().GetProperties();
+			model.CompanyKey = model.CompanyKey.ToUpper();
 
 			if (!String.IsNullOrEmpty(model.Language))
 			{
@@ -121,15 +127,37 @@ namespace Visits.Controllers
 				return Content("{\"success\":2, \"error\":" + JsonConvert.SerializeObject(errors) + "}", "application/json; charset=utf-8");
 			}
 
+			for (int i = 0; i < propsInfo.Count(); i++)
+			{
+				if(propsInfo[i].PropertyType == typeof(DateTime))
+				{
+					DateTime dtvalue = (DateTime)model.GetType().GetProperty(propsInfo[i].Name).GetValue(model);
+					data_replace = dtvalue.ToString(currentLocale[0].date_time_format);
+
+				} else
+				{
+					data_replace  = model.GetType().GetProperty(propsInfo[i].Name).GetValue(model) is null ? "" : model.GetType().GetProperty(propsInfo[i].Name).GetValue(model).ToString();
+				}
+				mailBody = mailBody.Replace("DATA_" + propsInfo[i].Name, data_replace);
+			}
+
+			sbLink.AppendFormat(string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~")) + ViewBag.Settings.link_url_format, g.ToString());
+			mailBody = mailBody.Replace("DATA_Link", sbLink.ToString());
+
+			for (int i = 0; i < labelsToReplace.Count(); i++)
+			{
+				data_replace = getTranslation(labelsToReplace[i], currentLocale[0].id);
+				data_replace = System.Net.WebUtility.HtmlDecode(data_replace);
+				data_replace = data_replace.ToLower();
+				data_replace = UcFirst(data_replace);
+				mailBody = mailBody.Replace(labelsToReplace[i], data_replace);
+			}
+
 			MailMessage mail = new MailMessage();
 			mail.To.Add(model.Email);
 			mail.From = new MailAddress(ViewBag.Settings.smtp_user);
-			mail.Subject = System.Net.WebUtility.HtmlDecode(ViewBag.Settings.email_subject);
-			StringBuilder sbLink = new StringBuilder();
-			StringBuilder sbBody = new StringBuilder();
-			sbLink.AppendFormat(string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~")) + ViewBag.Settings.link_url_format, g.ToString());
-			sbBody.AppendFormat(ViewBag.Settings.email_body_format, model.CompanyKey.ToUpper(), model.FullName, model.VisitDate.ToString(currentLocale[0].date_time_format), model.Motive, sbLink.ToString());
-			mail.Body = sbBody.ToString();
+			mail.Subject = System.Net.WebUtility.HtmlDecode(getTranslation(ViewBag.Settings.email_subject, currentLocale[0].id));
+			mail.Body = mailBody;
 			mail.IsBodyHtml = true;
 			SmtpClient smtp = new SmtpClient();
 			smtp.Host = ViewBag.Settings.smtp_host;
@@ -171,6 +199,43 @@ namespace Visits.Controllers
 			{
 				return Content("{\"success\":3, \"error\":" + JsonConvert.SerializeObject(errors) + "}", "application/json; charset=utf-8");
 			}
+		}
+		/// <summary>
+		/// Get the translation for the given label and locale. If the combination is not found, the "lbl" is returned again.
+		/// </summary>
+		/// <param name="lbl">The label to translate.</param>
+		/// <param name="localeid">Locale for the lbl.</param>
+		/// <returns></returns>
+		private string getTranslation(string lbl = "", string localeid = "")
+		{
+			List<label> translation = new List<label>();
+
+			using (var db = new visitsEntities())
+			{
+				translation = (from d in db.labels
+							where d.locale_id == localeid &&
+							d.label1 == lbl
+							select d).ToList();
+			}
+			
+			if(translation.Count == 0)
+			{
+				return lbl;
+			}
+
+			return translation[0].translation;
+		}
+
+		public string UcFirst(string s)
+		{
+			var stringArr = s.ToCharArray(0, s.Length);
+			var char1ToUpper = char.Parse(stringArr[0]
+				.ToString()
+				.ToUpper());
+
+			stringArr[0] = char1ToUpper;
+
+			return string.Join("", stringArr);
 		}
 	}
 }

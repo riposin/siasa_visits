@@ -26,8 +26,8 @@ namespace Visits.Models
         }
     
         public virtual DbSet<preregistration> preregistrations { get; set; }
+        public virtual DbSet<preregistrations_settings> preregistrations_settings { get; set; }
         public virtual DbSet<label> labels { get; set; }
         public virtual DbSet<locale> locales { get; set; }
-        public virtual DbSet<preregistrations_settings> preregistrations_settings { get; set; }
     }
 }

@@ -35,7 +35,7 @@
 					<ul class="dropdown-menu">
 						@foreach (var item in ViewBag.Locales)
 						{
-							<li data-lang="@item.id" data-display="@System.Net.WebUtility.HtmlDecode(item.selector_id)&nbsp;" data-format="@item.date_time_format"><a href="#">@System.Net.WebUtility.HtmlDecode(item.selector_name)</a></li>
+							<li data-lang="@item.id" data-display="@System.Net.WebUtility.HtmlDecode(item.selector_id)&nbsp;" data-format="@item.date_time_format_front_end"><a href="#">@System.Net.WebUtility.HtmlDecode(item.selector_name)</a></li>
 						}
 					</ul>
 				</li>

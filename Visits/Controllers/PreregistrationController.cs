@@ -9,6 +9,8 @@ using System.Text;
 using BotDetect.Web.Mvc;
 using Newtonsoft.Json;
 using System.Net.Mail;
+using Visits.Extensions;
+using System.Net;
 
 namespace Visits.Controllers
 {
@@ -81,7 +83,7 @@ namespace Visits.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		[CaptchaValidationActionFilter("CaptchaCode", "Captcha", "¡El Captcha no es correcto!")]
+		[CaptchaValidationActionFilter("CaptchaCode", "Captcha", "MSG_CAPTCHA_WRONG")]
 		public ActionResult Add(PreregistrationsViewModel model)
 		{
 			MvcCaptcha.ResetCaptcha("Captcha");
@@ -97,7 +99,6 @@ namespace Visits.Controllers
 			string mailBody = ViewBag.Settings.email_body_format;
 			string data_replace = "";
 			System.Reflection.PropertyInfo[] propsInfo = model.GetType().GetProperties();
-			model.CompanyKey = model.CompanyKey.ToUpper();
 
 			if (!String.IsNullOrEmpty(model.Language))
 			{
@@ -127,6 +128,8 @@ namespace Visits.Controllers
 				return Content("{\"success\":2, \"error\":" + JsonConvert.SerializeObject(errors) + "}", "application/json; charset=utf-8");
 			}
 
+			model.CompanyKey = model.CompanyKey.ToUpper();
+
 			for (int i = 0; i < propsInfo.Count(); i++)
 			{
 				if(propsInfo[i].PropertyType == typeof(DateTime))
@@ -147,23 +150,23 @@ namespace Visits.Controllers
 			for (int i = 0; i < labelsToReplace.Count(); i++)
 			{
 				data_replace = getTranslation(labelsToReplace[i], currentLocale[0].id);
-				data_replace = System.Net.WebUtility.HtmlDecode(data_replace);
+				data_replace = WebUtility.HtmlDecode(data_replace);
 				data_replace = data_replace.ToLower();
-				data_replace = UcFirst(data_replace);
+				data_replace = data_replace.UcFirst();
 				mailBody = mailBody.Replace(labelsToReplace[i], data_replace);
 			}
 
 			MailMessage mail = new MailMessage();
 			mail.To.Add(model.Email);
 			mail.From = new MailAddress(ViewBag.Settings.smtp_user);
-			mail.Subject = System.Net.WebUtility.HtmlDecode(getTranslation(ViewBag.Settings.email_subject, currentLocale[0].id));
+			mail.Subject = WebUtility.HtmlDecode(getTranslation(ViewBag.Settings.email_subject, currentLocale[0].id));
 			mail.Body = mailBody;
 			mail.IsBodyHtml = true;
 			SmtpClient smtp = new SmtpClient();
 			smtp.Host = ViewBag.Settings.smtp_host;
 			smtp.Port = ViewBag.Settings.smtp_port;
 			smtp.UseDefaultCredentials = false;
-			smtp.Credentials = new System.Net.NetworkCredential(ViewBag.Settings.smtp_user, ViewBag.Settings.smtp_password);
+			smtp.Credentials = new NetworkCredential(ViewBag.Settings.smtp_user, ViewBag.Settings.smtp_password);
 			smtp.EnableSsl = true;
 
 			try
@@ -200,6 +203,7 @@ namespace Visits.Controllers
 				return Content("{\"success\":3, \"error\":" + JsonConvert.SerializeObject(errors) + "}", "application/json; charset=utf-8");
 			}
 		}
+
 		/// <summary>
 		/// Get the translation for the given label and locale. If the combination is not found, the "lbl" is returned again.
 		/// </summary>
@@ -224,18 +228,6 @@ namespace Visits.Controllers
 			}
 
 			return translation[0].translation;
-		}
-
-		public string UcFirst(string s)
-		{
-			var stringArr = s.ToCharArray(0, s.Length);
-			var char1ToUpper = char.Parse(stringArr[0]
-				.ToString()
-				.ToUpper());
-
-			stringArr[0] = char1ToUpper;
-
-			return string.Join("", stringArr);
 		}
 	}
 }

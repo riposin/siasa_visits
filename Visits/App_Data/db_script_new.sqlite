@@ -76,7 +76,7 @@ INSERT INTO locales(id, name, selector_id, selector_name, date_time_format, date
 
 -- Labels for es-MX
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'EMAIL_VCONFIRM_SUBJECT', 	'Solicitud de confirmaci&oacute;n de Visita');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'EMAIL_VCONFIRM_LINKTXT',		'Confirmar el preregistro');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'EMAIL_VCONFIRM_LINKTXT',	'Confirmar el preregistro');
 
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'FOT_COPYRIGHT', 			'Derechos Reservados 2024 &copy; SIASA | Sistemas Integrales de Automatizaci&oacute;n S.A. de C.V.');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'FOT_CONTACT',		 		'marketing@siasa.com | SIASA Matriz: (999) 930.2575 | SIASA CDMX: (55) 5264.2272 | SIASA Latam: (305) 479.2303');
@@ -106,6 +106,7 @@ INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_FNAME_LENGTH',			'Este campo debe tener entre 3 y 100 caracteres');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_EMAIL_LENGTH',			'Este campo debe tener entre 5 y 100 caracteres');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_MOTIV_LENGTH',			'Este campo debe tener como m&aacute;ximo 150 caracteres');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_CAPTCHA_WRONG',		'El captcha no es correcto');
 
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_VISITS',				'visitas');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_COMP_KEY',				'clave de empresa');
@@ -161,6 +162,7 @@ INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_FNAME_LENGTH',			'This field must be between 3 and 100 characters');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_EMAIL_LENGTH',			'This field must be between 5 and 100 characters');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_MOTIV_LENGTH',			'This field must have a maximum of 150 characters');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_CAPTCHA_WRONG',		'The captcha code is wrong');
 
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_VISITS',				'visits');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_COMP_KEY',				'company key');

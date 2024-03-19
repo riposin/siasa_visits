@@ -159,7 +159,7 @@
 @Scripts.Render("~/Scripts/bootstrap-datetimepicker.min.js")
 
 <script type="text/javascript">
-	visits.addFEBE = (function () {
+	visits.add = (function () {
 
 		const preregistrationFormID = 'preregistration';
 		const visitDateMaskID = 'VisitDateMask';
@@ -276,7 +276,7 @@
 
 	$(function () {
 		visits.components.waitFor('@ViewBag.Title');
-		visits.addFEBE.run();
+		visits.add.run();
 		visits.components.isReady('@ViewBag.Title');
 	});
 </script>

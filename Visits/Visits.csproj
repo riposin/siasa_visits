@@ -147,6 +147,7 @@
     <Compile Include="Controllers\ConfirmationController.cs" />
     <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\PreregistrationController.cs" />
+    <Compile Include="Extensions\String.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

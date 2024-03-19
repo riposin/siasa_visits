@@ -22,7 +22,7 @@ CREATE TABLE preregistrations_settings(
 	link_url_format NVARCHAR(200) NOT NULL,
 	email_subject NVARCHAR(100) NOT NULL,
 	email_body_format NVARCHAR(700) NOT NULL,
-	email_date_time_format NVARCHAR(50) NOT NULL,
+	email_body_labels_replace NVARCHAR(200) NOT NULL,
 	smtp_host NVARCHAR(50) NOT NULL,
 	smtp_port SMALLINT NOT NULL,
 	smtp_user NVARCHAR(50) NOT NULL,
@@ -52,19 +52,19 @@ CREATE TABLE labels(
 
 -- -- -- -- DEFAULT CONFIG -- -- -- --
 
-INSERT INTO preregistrations_settings(id, link_expiration_hours, link_url_format, email_subject, email_body_format, email_date_time_format, smtp_host, smtp_port, smtp_user, smtp_password, lang_locale_default, lang_labels_version) VALUES(NULL, 0, '', '','', '', '', 0, '', '', '', 0);
+INSERT INTO preregistrations_settings(id, link_expiration_hours, link_url_format, email_subject, email_body_labels_replace, email_body_format, smtp_host, smtp_port, smtp_user, smtp_password, lang_locale_default, lang_labels_version) VALUES(NULL, 0, '', '', '','', '', 0, '', '', '', 0);
 
-UPDATE preregistrations_settings SET link_expiration_hours = 	24;
-UPDATE preregistrations_settings SET link_url_format = 			'Confirmation/Show/{0}';
-UPDATE preregistrations_settings SET email_subject = 			'Solicitud de confirmaci&oacute;n de Visita';
-UPDATE preregistrations_settings SET email_body_format = 		'<p>Clave de empresa: <span style="font-weight: bold;">{0}</span><br/>Nombre completo: <span style="font-weight: bold;">{1}</span><br/>Fecha y hora: <span style="font-weight: bold;">{2}</span><br/>Motivo: <span style="font-weight: bold;">{3}</span><br/><a href="{4}">Confirmar el pre-registro</a><br/><br/><span style="font-weight: bold;"><a href="{4}">{4}</a></span></p>';
-UPDATE preregistrations_settings SET email_date_time_format = 	'dd/MM/yyyy hh:mm tt';
-UPDATE preregistrations_settings SET lang_locale_default =		'es-MX';
-UPDATE preregistrations_settings SET lang_labels_version =		1;
-UPDATE preregistrations_settings SET smtp_host = 				'smtp.gmail.com';
-UPDATE preregistrations_settings SET smtp_port = 				'587';
-UPDATE preregistrations_settings SET smtp_user = 				'cortana@gmail.com';
-UPDATE preregistrations_settings SET smtp_password = 			'spartan117';
+UPDATE preregistrations_settings SET link_expiration_hours = 		24;
+UPDATE preregistrations_settings SET link_url_format = 				'Confirmation/Show/{0}';
+UPDATE preregistrations_settings SET email_subject = 				'Solicitud de confirmaci&oacute;n de Visita';
+UPDATE preregistrations_settings SET email_body_labels_replace =	'LBL_COMP_KEY,LBL_FNAME,LBL_DATETIME,LBL_VMOTIVE,EMAIL_LINK_TXT';
+UPDATE preregistrations_settings SET email_body_format = 			'<p>Clave de empresa: <span style="font-weight: bold;">{0}</span><br/>Nombre completo: <span style="font-weight: bold;">{1}</span><br/>Fecha y hora: <span style="font-weight: bold;">{2}</span><br/>Motivo: <span style="font-weight: bold;">{3}</span><br/><a href="{4}">Confirmar el pre-registro</a><br/><br/><span style="font-weight: bold;"><a href="{4}">{4}</a></span></p>';
+UPDATE preregistrations_settings SET lang_locale_default =			'es-MX';
+UPDATE preregistrations_settings SET lang_labels_version =			1;
+UPDATE preregistrations_settings SET smtp_host = 					'smtp.gmail.com';
+UPDATE preregistrations_settings SET smtp_port = 					'587';
+UPDATE preregistrations_settings SET smtp_user = 					'cortana@gmail.com';
+UPDATE preregistrations_settings SET smtp_password = 				'spartan117';
 
 
 
@@ -74,6 +74,9 @@ INSERT INTO locales(id, name, selector_id, selector_name, date_time_format) VALU
 INSERT INTO locales(id, name, selector_id, selector_name, date_time_format) VALUES('en-US', 'English (United States)', 'US', 'English', 		'MM-DD-YYYY hh:mm A');
 
 -- Labels for es-MX
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'EMAIL_VCONFIRM_SUBJECT', 	'Solicitud de confirmaci&oacute;n de Visita');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'EMAIL_LINK_TXT', 			'Confirmar el preregistro');
+
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'FOT_COPYRIGHT', 			'Derechos Reservados 2024 &copy; SIASA | Sistemas Integrales de Automatizaci&oacute;n S.A. de C.V.');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'FOT_CONTACT',		 		'marketing@siasa.com | SIASA Matriz: (999) 930.2575 | SIASA CDMX: (55) 5264.2272 | SIASA Latam: (305) 479.2303');
 

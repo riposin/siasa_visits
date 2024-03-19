@@ -19,7 +19,7 @@ namespace Visits.Models
         public string link_url_format { get; set; }
         public string email_subject { get; set; }
         public string email_body_format { get; set; }
-        public string email_date_time_format { get; set; }
+        public string email_body_labels_replace { get; set; }
         public string smtp_host { get; set; }
         public short smtp_port { get; set; }
         public string smtp_user { get; set; }

@@ -217,7 +217,7 @@
 				mywindow.document.write('<head><title>' + document.title + '</title></head>');
 				mywindow.document.write('<body style="font-family: system-ui;">');
 
-				mywindow.document.write('<center><h1>' + document.getElementsByTagName('h2')[0].innerHTML + '</h1></center>');
+				mywindow.document.write('<center><h1>' + visits.helpers.ucfirst(document.getElementsByTagName('h2')[0].innerHTML) + '</h1></center>');
 				mywindow.document.write(document.getElementById('visitData').innerHTML);
 				mywindow.document.write(document.getElementById(qrContainerID).innerHTML);
 				mywindow.document.write('<center>' + document.getElementsByTagName('footer')[0].innerHTML + '</center>');

@@ -19,27 +19,35 @@
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navCollapse1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
 				<span class="navbar-brand ucfirst" data-translate data-label="LBL_VISITS" data-translate-inner></span>
 			</div>
-			@*--RPOOL: Disabling feature for Release version--*@
-			@if (ViewBag.Debug == true)
-			{
-				<ul class="nav navbar-nav">
-					<li>@Html.ActionLink("Lista", "List", "Preregistration")</li>
-					<li>@Html.ActionLink("Nuevo", "Add", "Preregistration")</li>
-				</ul>
-			}
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown" id="languageSelector" data-default="@ViewBag.Settings.lang_locale_default" data-version="@ViewBag.Settings.lang_labels_version">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span>&nbsp;</span><span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						@foreach (var item in ViewBag.Locales)
-						{
-							<li data-lang="@item.id" data-display="@System.Net.WebUtility.HtmlDecode(item.selector_id)&nbsp;" data-format="@item.date_time_format_front_end"><a href="#">@System.Net.WebUtility.HtmlDecode(item.selector_name)</a></li>
-						}
+			<div class="collapse navbar-collapse" id="navCollapse1">
+				@*--RPOOL: Disabling feature for Release version--*@
+				@if (ViewBag.Debug == true)
+				{
+					<ul class="nav navbar-nav">
+						<li>@Html.ActionLink("Lista", "List", "Preregistration")</li>
+						<li>@Html.ActionLink("Nuevo", "Add", "Preregistration")</li>
 					</ul>
-				</li>
-			</ul>
+				}
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown" id="languageSelector" data-default="@ViewBag.Settings.lang_locale_default" data-version="@ViewBag.Settings.lang_labels_version">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span>&nbsp;</span><span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							@foreach (var item in ViewBag.Locales)
+							{
+								<li data-lang="@item.id" data-display="@System.Net.WebUtility.HtmlDecode(item.selector_id)&nbsp;" data-format="@item.date_time_format_front_end"><a href="#">@System.Net.WebUtility.HtmlDecode(item.selector_name)</a></li>
+							}
+						</ul>
+					</li>
+				</ul>
+			</div>
 		</div>
 	</nav>
 	<div class="container body-content displaynone" id="body">

@@ -53,12 +53,42 @@
 	}
 }
 
-/* Navbar cuustomization  -------------------------------------------------- */
+/* Navbar customization  -------------------------------------------------- */
 .navbar {
 	background-color: #007CBA;
 	box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
 	background-image: linear-gradient(261deg,rgba(34,225,255,.5),rgba(29,143,225,.8) 48%,rgba(98,94,177,.8));
 	font-weight: bold;
+}
+
+.navbar-header button {
+	background-color: #34a5dd;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+	background-color: white;
+}
+
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+	background-color: #61bae5;
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+	color: white;
+	background-color: #61bae5;
+}
+
+@media (max-width: 767px) {
+	.navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+		color: white;
+		background-color: transparent;
+	}
+}
+
+@media (max-width: 767px){
+	.navbar-default .navbar-nav .open .dropdown-menu > li > a {
+		color: #bdbdbd;
+	}
 }
 
 .navbar-brand { /* Centered */

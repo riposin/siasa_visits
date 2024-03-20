@@ -7,7 +7,7 @@ namespace Visits.Validations
 	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
 	sealed public class DateTimeGreaterThanToday : ValidationAttribute
 	{
-		public DateTimeGreaterThanToday(): base("La {0} debe ser mayor a la actual."){}
+		public DateTimeGreaterThanToday(): base("MSG_DTGREATER_TODAY") {}
 
 		protected override ValidationResult IsValid(object value, ValidationContext validationContext)
 		{

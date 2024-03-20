@@ -107,6 +107,7 @@ INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_EMAIL_LENGTH',			'Este campo debe tener entre 5 y 100 caracteres');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_MOTIV_LENGTH',			'Este campo debe tener como m&aacute;ximo 150 caracteres');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_CAPTCHA_WRONG',		'El captcha no es correcto');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'MSG_DTGREATER_TODAY',		'La fecha/hora debe ser mayor a la actual');
 
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_VISITS',				'visitas');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_COMP_KEY',				'clave de empresa');
@@ -163,6 +164,7 @@ INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_EMAIL_LENGTH',			'This field must be between 5 and 100 characters');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_MOTIV_LENGTH',			'This field must have a maximum of 150 characters');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_CAPTCHA_WRONG',		'The captcha code is wrong');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'MSG_DTGREATER_TODAY',		'The date/time must be greater than the current one');
 
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_VISITS',				'visits');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_COMP_KEY',				'company key');

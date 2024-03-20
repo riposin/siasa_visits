@@ -4,11 +4,11 @@
 	ViewBag.Title = "TTL_SCR_CONFIRM";
 }
 @section content{
-<style type="text/css">
-	#qrcode {
-		display: inline-block;
-	}
-</style>
+	<style type="text/css">
+		#qrcode {
+			display: inline-block;
+		}
+	</style>
 }
 
 <h2 class="text-center ucfirst" data-translate="true" data-label="@(ViewBag.Status == -4 ? "TTL_SCR_CONFIRMED" : "TTL_SCR_CONFIRM")" data-translate-inner>@(ViewBag.Status == -4 ? "TTL_SCR_CONFIRMED" : "TTL_SCR_CONFIRM")</h2>
@@ -16,10 +16,10 @@
 	<div class="col-md-6 col-md-offset-3">
 		@if (ViewBag.Status == -1 || ViewBag.Status == -2)
 		{
-		<div class="alert alert-danger text-center" role="alert">
-			<strong><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></strong>
-			<span data-translate data-label="MSG_INVALID_LINK" data-translate-inner></span>
-		</div>
+			<div class="alert alert-danger text-center" role="alert">
+				<strong><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></strong>
+				<span data-translate data-label="MSG_INVALID_LINK" data-translate-inner></span>
+			</div>
 		}
 		@if (ViewBag.Status == -3)
 		{
@@ -35,9 +35,9 @@
 				<span data-translate data-label="MSG_VLINK_EXPIRED" data-translate-inner></span>
 			</div>
 		}
-			<div id="visitData">
-		@if (ViewBag.Status == -4)
-		{
+		<div id="visitData">
+			@if (ViewBag.Status == -4)
+			{
 				<div class="alert alert-success text-justify" role="alert">
 					<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
 					<span data-translate data-label="MSG_VCONFIRMED" data-translate-inner></span>
@@ -48,9 +48,9 @@
 					<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
 					<span data-translate data-label="MSG_QRONHAND" data-translate-inner></span>
 				</div>
-		}
-		@if (ViewBag.Status == 0)
-		{
+			}
+			@if (ViewBag.Status == 0)
+			{
 				<div class="alert alert-info text-justify" role="alert">
 					<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
 					<span data-translate data-label="MSG_VARRIVE_EARLY" data-translate-inner></span>
@@ -58,28 +58,22 @@
 					<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
 					<span data-translate data-label="MSG_QRONHAND" data-translate-inner></span>
 				</div>
-		}
-		@if (ViewBag.Status == -4 || ViewBag.Status == 0)
-		{
+			}
+			@if (ViewBag.Status == -4 || ViewBag.Status == 0)
+			{
 				<p>
 					<strong><span data-translate data-label="LBL_COMP_KEY" data-translate-inner data-translate-ucfirst></span>: </strong>@Model.company_key<br />
-					<strong><span data-translate data-label="LBL_FNAME" data-translate-inner data-translate-ucfirst>Nombre</span>: </strong>@Model.full_name<br />
-					<strong><span data-translate data-label="LBL_EMAIL" data-translate-inner data-translate-ucfirst>Correo electrónico</span>: </strong>@Model.email<br />
-					<strong><span data-translate data-label="LBL_DATETIME" data-translate-inner data-translate-ucfirst>Fecha y hora de la visita</span>: </strong>@Model.visit_date.ToString(ViewBag.Settings.email_date_time_format)<br />
-					<strong><span data-translate data-label="LBL_VMOTIVE" data-translate-inner data-translate-ucfirst>Motivo</span>: </strong>@Model.motive
+					<strong><span data-translate data-label="LBL_FNAME" data-translate-inner data-translate-ucfirst></span>: </strong>@Model.full_name<br />
+					<strong><span data-translate data-label="LBL_EMAIL" data-translate-inner data-translate-ucfirst></span>: </strong>@Model.email<br />
+					<strong><span data-translate data-label="LBL_DATETIME" data-translate-inner data-translate-ucfirst></span>: </strong><span id="VisitDate" data-date="@Model.visit_date.ToString("yyyy-MM-dd HH:mm")"></span><br />
+					<strong><span data-translate data-label="LBL_VMOTIVE" data-translate-inner data-translate-ucfirst></span>: </strong>@Model.motive
 				</p>
-		}
-			</div>
-		@if (ViewBag.Status == -4)
+			}
+		</div>
+		@if (ViewBag.Status == -4 || ViewBag.Status == 0)
 		{
 			<div class="text-center">
-				<button type="button" class="btn btn-success" id="showQR"><span data-translate data-label="LBL_SHOW" data-translate-inner></span> QR</button>
-			</div>
-		}
-		@if (ViewBag.Status == 0)
-		{
-			<div class="text-center">
-				<button type="button" class="btn btn-primary" id="showQR"><span data-translate data-label="LBL_CONFIRM_VISIT" data-translate-inner></span> (QR)</button>
+				<button type="button" class="btn btn-@(ViewBag.Status == -4 ? "success" : "primary")" id="showQR"><span data-translate data-label="LBL_SHOW" data-translate-inner></span> QR</button>
 			</div>
 		}
 	</div>
@@ -106,9 +100,11 @@
 </div>
 
 @section scripts {
-@Scripts.Render("~/Scripts/qrcode.min.js")
+	@Scripts.Render("~/Scripts/qrcode.min.js")
+	@Scripts.Render("~/Scripts/moment.min.js")
+	@Scripts.Render("~/locales/moment/es-mx.js")
 
-<script type="text/javascript">
+	<script type="text/javascript">
 	@if(ViewBag.Status == 0 || ViewBag.Status == -4)
 	{
 		<text>
@@ -116,6 +112,7 @@
 			const QRDialogID = 'QRDialog';
 			const qrContainerID = 'qrcode';
 			const guid = "@ViewBag.Guid";
+			const visitDateID = 'VisitDate';
 			let status = @ViewBag.Status;
 			let qrData = '';
 
@@ -137,6 +134,14 @@
 
 				document.getElementById('showQR').addEventListener('click', onShowQRClick);
 				document.getElementById('qrPrintButton').addEventListener('click', onPrintQRClick);
+
+				visits.language.selector.addEventListener("languageChange", changeVisitDateFormat);
+				changeVisitDateFormat();
+			};
+
+			var changeVisitDateFormat = function () {
+				let visitMoment = moment(document.getElementById(visitDateID).getAttribute('data-date'));
+				document.getElementById(visitDateID).innerHTML = visitMoment.format(visits.language.getCurrentDateTimeFormat());
 			};
 
 			var confirmVisit = function () {
@@ -219,5 +224,5 @@
 		});
 		</text>
 	}
-</script>
+	</script>
 }

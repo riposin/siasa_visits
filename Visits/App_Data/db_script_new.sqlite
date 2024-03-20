@@ -122,7 +122,7 @@ INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_OK',					'aceptar');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_ERROR',				'error');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_CAPTCHA',				'Captcha');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_SHOW',					'Mostrar');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_SHOW_QR',				'Mostrar QR');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_CONFIRM_VISIT',		'Confirmar visita');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_PRINT',				'imprimir');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'es-MX', 'LBL_DOWNLOAD',				'descargar');
@@ -178,7 +178,7 @@ INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_OK',					'ok');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_ERROR',				'error');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_CAPTCHA',				'Captcha');
-INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_SHOW',					'Show');
+INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_SHOW_QR',				'Show QR');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_CONFIRM_VISIT',		'Confirm visit');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_PRINT',				'print');
 INSERT INTO labels(id, locale_id, label, translation) VALUES(NULL, 'en-US', 'LBL_DOWNLOAD',				'download');

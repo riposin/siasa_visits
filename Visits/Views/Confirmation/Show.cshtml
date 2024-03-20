@@ -72,9 +72,9 @@
 		</div>
 		@if (ViewBag.Status == -4 || ViewBag.Status == 0)
 		{
-			<div class="text-center">
-				<button type="button" class="btn btn-@(ViewBag.Status == -4 ? "success" : "primary")" id="showQR"><span data-translate data-label="LBL_SHOW" data-translate-inner></span> QR</button>
-			</div>
+		<div class="text-center">   
+			<button type="button" class="btn btn-@(ViewBag.Status == -4 ? "success" : "primary")" id="showQR"><span data-translate data-label="@(ViewBag.Status == -4 ? "LBL_SHOW_QR" : "LBL_CONFIRM_VISIT")" data-translate-inner></span></button>
+		</div>
 		}
 	</div>
 </div>

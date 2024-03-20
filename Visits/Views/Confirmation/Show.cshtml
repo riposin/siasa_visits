@@ -88,7 +88,7 @@
 				<h4 class="modal-title" id="QRDialogLabel" data-translate data-label="TTL_TAKESC_PRINTQR" data-translate-inner></h4>
 			</div>
 			<div class="modal-body">
-				<div class="text-center"><div id="qrcode"></div></div>
+				<div class="text-center"><div id="qrcode"><canvas id="canvasBordered"></canvas></div></div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-@(ViewBag.Status == 0 ? "primary" : "success") ucfirst" id="qrPrintButton" data-translate data-label="LBL_PRINT" data-translate-inner></button>
@@ -113,8 +113,13 @@
 			const qrContainerID = 'qrcode';
 			const guid = "@ViewBag.Guid";
 			const visitDateID = 'VisitDate';
+			const qrW = 256;
+			const qrH = 256;
+			const qrBorder = 15;
+			const qrFill = 'white';
 			let status = @ViewBag.Status;
 			let qrData = '';
+			let isQRDownloadSet = false;
 
 			qrData += "{";
 			qrData += "'name':'@Model.full_name',";
@@ -125,12 +130,7 @@
 			qrData += "}";
 
 			var run = function () {
-				new QRCode(document.getElementById(qrContainerID), qrData);
-
-				$('#' + QRDialogID).modal({ show: false });
-				if (document.querySelector('#' + qrContainerID + ' img')) {
-					document.getElementById('qrDownloadLink').href = document.getElementById(qrContainerID).getElementsByTagName('img')[0].src;
-				}
+				new QRCode(document.getElementById(qrContainerID), { text: qrData, width: qrW, height: qrH });
 
 				document.getElementById('showQR').addEventListener('click', onShowQRClick);
 				document.getElementById('qrPrintButton').addEventListener('click', onPrintQRClick);
@@ -151,20 +151,47 @@
 						'Accept': 'application/json',
 					}
 				})
-				.then(function (response) {
-					return response.json();
-				})
-				.then(function (json) {
-					$('#' + QRDialogID).modal('show');
-					status = -4;
-				})
-				.catch(function (error) {
-					alert('AJAX: Error when confirming');
-					location.reload();
-				});
-			}
+					.then(function (response) {
+						return response.json();
+					})
+					.then(function (json) {
+						$('#' + QRDialogID).modal('show');
+						status = -4;
+					})
+					.catch(function (error) {
+						alert('AJAX: Error when confirming');
+						location.reload();
+					});
+			};
+
+			var borderizeQR = function () {
+				if (!isQRDownloadSet) {
+					document.getElementById(qrContainerID).getElementsByTagName('img')[0].style = 'display: none;';
+
+					var canvas = document.getElementById("canvasBordered");
+					canvas.style = 'display: none;'
+					canvas.setAttribute('width', qrW + (qrBorder * 2));
+					canvas.setAttribute('height', qrH + (qrBorder * 2));
+					var ctx = canvas.getContext("2d");
+					ctx.fillStyle = qrFill;
+					ctx.fillRect(0, 0, qrW + (qrBorder * 2), qrH + (qrBorder * 2));
+
+					var image = new Image();
+					image.onload = function () {
+						ctx.drawImage(image, qrBorder, qrBorder);
+						document.getElementById('qrDownloadLink').href = canvas.toDataURL("image/png");
+						document.getElementById(qrContainerID).getElementsByTagName('img')[0].src = canvas.toDataURL("image/png")
+					};
+					image.src = document.getElementById(qrContainerID).getElementsByTagName('img')[0].src;
+
+					document.getElementById(qrContainerID).getElementsByTagName('img')[0].style = 'display: block;';
+					isQRDownloadSet = true;
+				}
+			};
 
 			var onShowQRClick = function (event) {
+				borderizeQR();
+
 				if (status == -4) {
 					$('#' + QRDialogID).modal('show');
 				}

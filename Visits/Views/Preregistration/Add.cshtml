@@ -195,6 +195,7 @@
 
 			isAllRequiredFilled = true;
 			document.querySelectorAll('[data-valmsg-for]').forEach(function (item) { item.innerText = '' });
+			document.querySelectorAll('[data-valmsg-for]').forEach(function (item) { item.removeAttribute('data-translate'); });
 			for (const input of document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"][data-required = "1"]')) {
 				if (input.value.trim().length == 0) {
 					isAllRequiredFilled = false;
@@ -248,6 +249,7 @@
 				if (json.success == 1) {
 					$(successDialogID).modal('show');
 					document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.value = ''; });
+					$('#visitDTP').data("DateTimePicker").clear();
 				} else if (json.success == 3) {
 					$(emailDialogID).modal('show');
 				}

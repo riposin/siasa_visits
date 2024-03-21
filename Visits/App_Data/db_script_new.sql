@@ -121,7 +121,7 @@ INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_REQ_PRERE
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_REQ_PREREG_ERR',			'La solicitud de pre-registro no se realiz&oacute; de forma exitosa, por favor reintente.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_REQ_FIELD',				'Este campo es requerido');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_CAPTURECAPTCHA',			'Captura el c&oacute;digo de 4 d&iacute;gitos (Captcha) en la caja de texto');
-INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_VCONFIRMED',				'La visita ya fu&eacute; confirmada, use el botón de abajo para ver el c&oacute;digo QR.');
+INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_VCONFIRMED_QR',			'La visita ya fu&eacute; confirmada, use el botón de abajo para ver el c&oacute;digo QR.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_VARRIVE_EARLY',			'Favor de presentarse antes de la hora programada para su visita.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_QRONHAND',				'Importante acuda a su visita teniendo a la mano el QR.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_INVALID_LINK',			'El enlace no es v&aacute;lido.');
@@ -180,7 +180,7 @@ INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_REQ_PRERE
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_REQ_PREREG_ERR',			'The pre-registration request was not successful, please retry.');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_REQ_FIELD',				'This field is required');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_CAPTURECAPTCHA',			'Capture the 4-digit code (Captcha) in the text box');
-INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_VCONFIRMED',				'The visit has already been confirmed, use the button below to view the QR code.');
+INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_VCONFIRMED_QR',			'The visit has already been confirmed, use the button below to view the QR code.');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_VARRIVE_EARLY',			'Please arrive before your scheduled visit time.');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_QRONHAND',				'It is important to come to your visit with the QR at hand.');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_INVALID_LINK',			'The link is not valid.');

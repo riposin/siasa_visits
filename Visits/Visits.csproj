@@ -184,6 +184,7 @@
     <Compile Include="Validations\DateTimeGreaterThanToday.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\db_script_new.sql" />
     <Content Include="App_Data\sqlite3.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

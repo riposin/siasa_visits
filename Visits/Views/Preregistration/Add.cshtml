@@ -35,7 +35,7 @@
 	</style>
 }
 
-<h2 class="text-center ucfirst" data-translate="true" data-label="TTL_SCR_REQPRE"  data-translate-inner></h2>
+<h2 class="text-center" data-translate="true" data-label="TTL_SCR_REQPRE"  data-translate-inner></h2>
 <div class="row">
 	<div class="col-md-6 col-md-offset-3">
 
@@ -127,9 +127,9 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title ucfirst" id="successDialogLabel" data-translate data-label="LBL_SUCCESS" data-translate-inner></h4>
+				<h4 class="modal-title ucfirst" id="successDialogLabel" data-translate data-label="MSG_REQ_SENT" data-translate-inner></h4>
 			</div>
-			<div class="modal-body" data-translate data-label="MSG_REQ_PREREG_OK" data-translate-inner></div>
+			<div class="modal-body" data-label="MSG_REQ_PREREG_OK" id="msgReqOk"></div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary ucfirst" data-dismiss="modal" data-translate data-label="LBL_OK" data-translate-inner></button>
 			</div>
@@ -247,6 +247,11 @@
 			.then(function (json) {
 
 				if (json.success == 1) {
+					let email = document.getElementById('Email').value;
+					let lbl = document.getElementById('msgReqOk').getAttribute('data-label');
+					let lblTrans = visits.language.getTranslation(lbl);
+					document.getElementById('msgReqOk').innerHTML = lblTrans.replace('MAILTO', email);
+
 					$(successDialogID).modal('show');
 					document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.value = ''; });
 					$('#visitDTP').data("DateTimePicker").clear();

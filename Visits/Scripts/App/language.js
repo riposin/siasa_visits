@@ -143,7 +143,7 @@
 		return currentLangDTFormat;
 	};
 
-	var translate = function (label, transform) {
+	var translate = function (label, transform = '') {
 		let currLangTransLSKey = prefixTranslationsLS + localStorage.getItem(currentLangLSKey);
 		let translation = label;
 

@@ -14,7 +14,7 @@
 <h2 class="text-center ucfirst" data-translate="true" data-label="@(ViewBag.Status == -4 ? "TTL_SCR_CONFIRMED" : "TTL_SCR_CONFIRM")" data-translate-inner>@(ViewBag.Status == -4 ? "TTL_SCR_CONFIRMED" : "TTL_SCR_CONFIRM")</h2>
 <div class="row">
 	<div class="col-md-6 col-md-offset-3">
-		@if (ViewBag.Status == -1 || ViewBag.Status == -2)
+		@if (ViewBag.Status == -1 || ViewBag.Status == -2 || ViewBag.Status == -6)
 		{
 			<div class="alert alert-danger text-center" role="alert">
 				<strong><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span></strong>
@@ -57,6 +57,12 @@
 					<br />
 					<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
 					<span data-translate data-label="MSG_QRONHAND" data-translate-inner></span>
+					@if (ViewBag.Settings.link_invalidate_after_confirm == 1)
+					{
+						<br />
+						<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
+						<span data-translate data-label="MSG_ONEVIEW_QR" data-translate-inner></span>
+					}
 				</div>
 			}
 			@if (ViewBag.Status == -4 || ViewBag.Status == 0)
@@ -94,6 +100,12 @@
 					<br />
 					<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
 					<span data-translate data-label="MSG_QRONHAND" data-translate-inner></span>
+					@if (ViewBag.Settings.link_invalidate_after_confirm == 1)
+					{
+						<br />
+						<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
+						<span data-translate data-label="MSG_ONEVIEW_QR" data-translate-inner></span>
+					}
 				</div>
 				<div class="text-center"><div id="qrcode"><canvas id="canvasBordered"></canvas></div></div>
 			</div>

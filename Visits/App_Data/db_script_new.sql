@@ -124,7 +124,7 @@ INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_CAPTURECA
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_VCONFIRMED',				'La visita ya fu&eacute; confirmada, use el botón de abajo para ver el c&oacute;digo QR.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_VARRIVE_EARLY',			'Favor de presentarse antes de la hora programada para su visita.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_QRONHAND',				'Tenga a la mano el QR, se requiere para completar el registro cuando se presente a su visita.');
-INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_INVALID_LINK',			'El enlace no es v&aacute;lido.');
+INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_INVALID_LINK',			'Solicitud de pre-registro inv&aacute;lida.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_VDATE_EXPIRED',			'La fecha de la visita ya ha pasado.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_VLINK_EXPIRED',			'El enlace de confirmaci&oacute;n ha dejado de estar vigente.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_EMAIL_INVALID',			'El correo electr&oacute;nico no es v&aacute;lido');
@@ -135,6 +135,7 @@ INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_MOTIV_LEN
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_CAPTCHA_WRONG',			'El captcha no es correcto');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_DTGREATER_TODAY',		'La fecha/hora debe ser mayor a la actual');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_REQ_SENT',				'Solicitud enviada');
+INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_ONEVIEW_QR',				'&iexcl;El QR ya no estar&aacute; disponible, capture, descargue o impr&iacute;malo antes de cerrar esta ventana!');
 
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'LBL_VISITS',					'visitas');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'LBL_COMP_KEY',				'clave de empresa');
@@ -179,7 +180,7 @@ INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_CAPTURECA
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_VCONFIRMED',				'The visit has already been confirmed, use the button below to view the QR code.');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_VARRIVE_EARLY',			'Please arrive before your scheduled visit time.');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_QRONHAND',				'Please have the QR ready, it is required to complete registration when you show up for your visit.');
-INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_INVALID_LINK',			'The link is not valid.');
+INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_INVALID_LINK',			'Invalid pre-registration request.');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_VDATE_EXPIRED',			'The visit date has already passed.');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_VLINK_EXPIRED',			'The confirmation link has expired.');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_EMAIL_INVALID',			'The email is invalid');
@@ -190,6 +191,7 @@ INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_MOTIV_LEN
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_CAPTCHA_WRONG',			'The captcha code is wrong');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_DTGREATER_TODAY',		'The date/time must be greater than the current one');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_REQ_SENT',				'The request was sent');
+INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_ONEVIEW_QR',				'The QR will no longer be available, please capture, download or print it before closing this window!');
 
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'LBL_VISITS',					'visits');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'LBL_COMP_KEY',				'company key');

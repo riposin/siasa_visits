@@ -75,7 +75,14 @@ namespace Visits.Controllers
 				return View();
 			}
 
-			if(DateTime.Now > pre[0].visit_date)
+			if (pre[0].confirmed_at != null && ViewBag.Settings.link_invalidate_after_confirm == 1)
+			{
+				// Confirmed & Only one view
+				ViewBag.Status = -6;
+				return View(pre[0]);
+			}
+
+			if (DateTime.Now > pre[0].visit_date)
 			{
 				// Visit date expired
 				ViewBag.Status = -3;

@@ -6,7 +6,7 @@ PRAGMA encoding = "UTF-8";
 -- -- -- -- TABLES -- -- -- --
 
 CREATE TABLE preregistrations(
-	guid BLOB(16) NOT NULL PRIMARY KEY,
+	guid BLOB(36) NOT NULL PRIMARY KEY,
 	company_key NVARCHAR(20) NOT NULL,
 	full_name NVARCHAR(100) NOT NULL,
 	email NVARCHAR(100) NOT NULL,

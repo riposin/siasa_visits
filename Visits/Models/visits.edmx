@@ -83,7 +83,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="visitsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="visitsEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="preregistrations" EntityType="visitsModel.preregistration" />
           <EntitySet Name="labels" EntityType="visitsModel.label" />
           <EntitySet Name="locales" EntityType="visitsModel.locale" />
           <AssociationSet Name="FK_labels_0_0" Association="visitsModel.FK_labels_0_0">
@@ -91,20 +90,8 @@
             <End Role="label" EntitySet="labels" />
           </AssociationSet>
           <EntitySet Name="preregistrations_settings" EntityType="visitsModel.preregistrations_settings" />
+          <EntitySet Name="preregistrations" EntityType="visitsModel.preregistration" />
         </EntityContainer>
-        <EntityType Name="preregistration">
-          <Key>
-            <PropertyRef Name="guid" />
-          </Key>
-          <Property Name="guid" Type="Binary" Nullable="false" MaxLength="2147483647" FixedLength="false" />
-          <Property Name="company_key" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="full_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="visit_date" Type="DateTime" Nullable="false" />
-          <Property Name="motive" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="created_at" Type="DateTime" Nullable="false" />
-          <Property Name="confirmed_at" Type="DateTime" />
-        </EntityType>
         <EntityType Name="label">
           <Key>
             <PropertyRef Name="id" />
@@ -157,26 +144,25 @@
           <Property Name="lang_locale_default" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="lang_labels_version" Type="Int64" Nullable="false" />
         </EntityType>
+        <EntityType Name="preregistration">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="Binary" Nullable="false" MaxLength="2147483647" FixedLength="false" />
+          <Property Name="company_key" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="full_name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="visit_date" Type="DateTime" Nullable="false" />
+          <Property Name="motive" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="created_at" Type="DateTime" Nullable="false" />
+          <Property Name="confirmed_at" Type="DateTime" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="visitsModelStoreContainer" CdmEntityContainer="visitsEntities">
-          <EntitySetMapping Name="preregistrations">
-            <EntityTypeMapping TypeName="visitsModel.preregistration">
-              <MappingFragment StoreEntitySet="preregistrations">
-                <ScalarProperty Name="confirmed_at" ColumnName="confirmed_at" />
-                <ScalarProperty Name="created_at" ColumnName="created_at" />
-                <ScalarProperty Name="motive" ColumnName="motive" />
-                <ScalarProperty Name="visit_date" ColumnName="visit_date" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="full_name" ColumnName="full_name" />
-                <ScalarProperty Name="company_key" ColumnName="company_key" />
-                <ScalarProperty Name="guid" ColumnName="guid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="labels">
             <EntityTypeMapping TypeName="visitsModel.label">
               <MappingFragment StoreEntitySet="labels">
@@ -215,6 +201,20 @@
                 <ScalarProperty Name="link_url_format" ColumnName="link_url_format" />
                 <ScalarProperty Name="link_expiration_hours" ColumnName="link_expiration_hours" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="preregistrations">
+            <EntityTypeMapping TypeName="visitsModel.preregistration">
+              <MappingFragment StoreEntitySet="preregistrations">
+                <ScalarProperty Name="confirmed_at" ColumnName="confirmed_at" />
+                <ScalarProperty Name="created_at" ColumnName="created_at" />
+                <ScalarProperty Name="motive" ColumnName="motive" />
+                <ScalarProperty Name="visit_date" ColumnName="visit_date" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="full_name" ColumnName="full_name" />
+                <ScalarProperty Name="company_key" ColumnName="company_key" />
+                <ScalarProperty Name="guid" ColumnName="guid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

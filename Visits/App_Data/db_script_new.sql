@@ -12,9 +12,9 @@ GO
 IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='preregistrations' and xtype='U')
 BEGIN
 	CREATE TABLE preregistrations (
-		guid VARBINARY(16) NOT NULL PRIMARY KEY,
+		guid VARBINARY(36) NOT NULL PRIMARY KEY,
 		company_key NVARCHAR(20) NOT NULL,
-		full_name NVARCHAR(20) NOT NULL,
+		full_name NVARCHAR(100) NOT NULL,
 		email NVARCHAR(100) NOT NULL,
 		visit_date DATETIME NOT NULL,
 		motive NVARCHAR(150),

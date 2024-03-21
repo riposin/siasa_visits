@@ -32,6 +32,7 @@ BEGIN
 		id INTEGER NOT NULL IDENTITY PRIMARY KEY,
 		link_expiration_hours SMALLINT NOT NULL,
 		link_url_format NVARCHAR(200) NOT NULL,
+		link_invalidate_after_confirm INTEGER NOT NULL,
 		email_subject NVARCHAR(100) NOT NULL,
 		email_body_format NVARCHAR(700) NOT NULL,
 		email_body_labels_replace NVARCHAR(200) NOT NULL,
@@ -79,19 +80,20 @@ GO
 
 -- -- -- -- DEFAULT CONFIG -- -- -- --
 
-INSERT INTO preregistrations_settings(link_expiration_hours, link_url_format, email_subject, email_body_labels_replace, email_body_format, smtp_host, smtp_port, smtp_user, smtp_password, lang_locale_default, lang_labels_version) VALUES(0, '', '', '','', '', 0, '', '', '', 0);
+INSERT INTO preregistrations_settings(link_expiration_hours, link_url_format, link_invalidate_after_confirm, email_subject, email_body_labels_replace, email_body_format, smtp_host, smtp_port, smtp_user, smtp_password, lang_locale_default, lang_labels_version) VALUES(0, '', 0, '', '','', '', 0, '', '', '', 0);
 
-UPDATE preregistrations_settings SET link_expiration_hours = 		24;
-UPDATE preregistrations_settings SET link_url_format = 				'Confirmation/Show/{0}';
-UPDATE preregistrations_settings SET email_subject = 				'EMAIL_VCONFIRM_SUBJECT';
-UPDATE preregistrations_settings SET email_body_labels_replace =	'LBL_COMP_KEY,LBL_FNAME,LBL_DATETIME,LBL_VMOTIVE,EMAIL_VCONFIRM_LINKTXT';
-UPDATE preregistrations_settings SET email_body_format = 			'<p>LBL_COMP_KEY: <span style="font-weight: bold;">DATA_CompanyKey</span><br/>LBL_FNAME: <span style="font-weight: bold;">DATA_FullName</span><br/>LBL_DATETIME: <span style="font-weight: bold;">DATA_VisitDate</span><br/>LBL_VMOTIVE: <span style="font-weight: bold;">DATA_Motive</span><br/><a href="DATA_Link">EMAIL_VCONFIRM_LINKTXT</a><br/><br/><span style="font-weight: bold;"><a href="DATA_Link">DATA_Link</a></span></p>';
-UPDATE preregistrations_settings SET lang_locale_default =			'es-MX';
-UPDATE preregistrations_settings SET lang_labels_version =			1;
-UPDATE preregistrations_settings SET smtp_host = 					'smtp.gmail.com';
-UPDATE preregistrations_settings SET smtp_port = 					'587';
-UPDATE preregistrations_settings SET smtp_user = 					'cortana@gmail.com';
-UPDATE preregistrations_settings SET smtp_password = 				'spartan117';
+UPDATE preregistrations_settings SET link_expiration_hours = 			24;
+UPDATE preregistrations_settings SET link_url_format = 					'Confirmation/Show/{0}';
+UPDATE preregistrations_settings SET link_invalidate_after_confirm =	0;
+UPDATE preregistrations_settings SET email_subject = 					'EMAIL_VCONFIRM_SUBJECT';
+UPDATE preregistrations_settings SET email_body_labels_replace =		'LBL_COMP_KEY,LBL_FNAME,LBL_DATETIME,LBL_VMOTIVE,EMAIL_VCONFIRM_LINKTXT';
+UPDATE preregistrations_settings SET email_body_format = 				'<p>LBL_COMP_KEY: <span style="font-weight: bold;">DATA_CompanyKey</span><br/>LBL_FNAME: <span style="font-weight: bold;">DATA_FullName</span><br/>LBL_DATETIME: <span style="font-weight: bold;">DATA_VisitDate</span><br/>LBL_VMOTIVE: <span style="font-weight: bold;">DATA_Motive</span><br/><a href="DATA_Link">EMAIL_VCONFIRM_LINKTXT</a><br/><br/><span style="font-weight: bold;"><a href="DATA_Link">DATA_Link</a></span></p>';
+UPDATE preregistrations_settings SET lang_locale_default =				'es-MX';
+UPDATE preregistrations_settings SET lang_labels_version =				1;
+UPDATE preregistrations_settings SET smtp_host = 						'smtp.gmail.com';
+UPDATE preregistrations_settings SET smtp_port = 						'587';
+UPDATE preregistrations_settings SET smtp_user = 						'cortana@gmail.com';
+UPDATE preregistrations_settings SET smtp_password = 					'spartan117';
 
 
 

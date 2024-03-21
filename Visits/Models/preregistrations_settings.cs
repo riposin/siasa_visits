@@ -17,6 +17,7 @@ namespace Visits.Models
         public long id { get; set; }
         public short link_expiration_hours { get; set; }
         public string link_url_format { get; set; }
+        public long link_invalidate_after_confirm { get; set; }
         public string email_subject { get; set; }
         public string email_body_format { get; set; }
         public string email_body_labels_replace { get; set; }

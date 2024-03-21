@@ -1,53 +1,79 @@
-PRAGMA encoding = "UTF-8"; 
-.open visits.db
+IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = 'visits')
+BEGIN
+	CREATE DATABASE [visits]
+END
+GO
+
+USE [visits]
+GO
 
 
 
--- -- -- -- TABLES -- -- -- --
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='preregistrations' and xtype='U')
+BEGIN
+	CREATE TABLE preregistrations (
+		guid VARBINARY(16) NOT NULL PRIMARY KEY,
+		company_key NVARCHAR(20) NOT NULL,
+		full_name NVARCHAR(20) NOT NULL,
+		email NVARCHAR(100) NOT NULL,
+		visit_date DATETIME NOT NULL,
+		motive NVARCHAR(150),
+		created_at DATETIME NOT NULL,
+		confirmed_at DATETIME
+	);
+END
+GO
 
-CREATE TABLE preregistrations(
-	guid BLOB(16) NOT NULL PRIMARY KEY,
-	company_key NVARCHAR(20) NOT NULL,
-	full_name NVARCHAR(100) NOT NULL,
-	email NVARCHAR(100) NOT NULL,
-	visit_date DATETIME NOT NULL,
-	motive NVARCHAR(150),
-	created_at DATETIME NOT NULL,
-	confirmed_at DATETIME
-);
 
-CREATE TABLE preregistrations_settings(
-	id INTEGER PRIMARY KEY,
-	link_expiration_hours SMALLINT NOT NULL,
-	link_url_format NVARCHAR(200) NOT NULL,
-	email_subject NVARCHAR(100) NOT NULL,
-	email_body_format NVARCHAR(700) NOT NULL,
-	email_body_labels_replace NVARCHAR(200) NOT NULL,
-	smtp_host NVARCHAR(50) NOT NULL,
-	smtp_port SMALLINT NOT NULL,
-	smtp_user NVARCHAR(50) NOT NULL,
-	smtp_password NVARCHAR(100) NOT NULL,
-	lang_locale_default NVARCHAR(100) NOT NULL,
-	lang_labels_version INTEGER NOT NULL
-);
 
-CREATE TABLE locales(
-	id NVARCHAR(5) PRIMARY KEY,
-	name NVARCHAR(50) NOT NULL,
-	selector_id NVARCHAR(5) NOT NULL,
-	selector_name NVARCHAR(50) NOT NULL,
-	date_time_format NVARCHAR(25) NOT NULL,
-	date_time_format_front_end NVARCHAR(25) NOT NULL
-);
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='preregistrations_settings' and xtype='U')
+BEGIN
+	CREATE TABLE preregistrations_settings(
+		id INTEGER NOT NULL IDENTITY PRIMARY KEY,
+		link_expiration_hours SMALLINT NOT NULL,
+		link_url_format NVARCHAR(200) NOT NULL,
+		email_subject NVARCHAR(100) NOT NULL,
+		email_body_format NVARCHAR(700) NOT NULL,
+		email_body_labels_replace NVARCHAR(200) NOT NULL,
+		smtp_host NVARCHAR(50) NOT NULL,
+		smtp_port SMALLINT NOT NULL,
+		smtp_user NVARCHAR(50) NOT NULL,
+		smtp_password NVARCHAR(100) NOT NULL,
+		lang_locale_default NVARCHAR(100) NOT NULL,
+		lang_labels_version INTEGER NOT NULL
+	);
+END
+GO
 
-CREATE TABLE labels(
-	id INTEGER PRIMARY KEY,
-	locale_id NVARCHAR(5) NOT NULL,
-	label NVARCHAR(40) NOT NULL,
-	translation NVARCHAR(300) NOT NULL,
-	FOREIGN KEY(locale_id) REFERENCES locales(id),
-	UNIQUE(locale_id, label)
-);
+
+
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='locales' and xtype='U')
+BEGIN
+	CREATE TABLE locales(
+		id NVARCHAR(5) PRIMARY KEY,
+		name NVARCHAR(50) NOT NULL,
+		selector_id NVARCHAR(5) NOT NULL,
+		selector_name NVARCHAR(50) NOT NULL,
+		date_time_format NVARCHAR(25) NOT NULL,
+		date_time_format_front_end NVARCHAR(25) NOT NULL
+	);
+END
+GO
+
+
+
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='labels' and xtype='U')
+BEGIN
+	CREATE TABLE labels(
+		id INTEGER NOT NULL IDENTITY PRIMARY KEY,
+		locale_id NVARCHAR(5) NOT NULL,
+		label NVARCHAR(40) NOT NULL,
+		translation NVARCHAR(300) NOT NULL,
+		FOREIGN KEY(locale_id) REFERENCES locales(id),
+		UNIQUE(locale_id, label)
+	);
+END
+GO
 
 
 
@@ -82,16 +108,16 @@ INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'FOT_COPYRIGHT
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'FOT_CONTACT',		 		'marketing@siasa.com | SIASA Matriz: (999) 930.2575 | SIASA CDMX: (55) 5264.2272 | SIASA Latam: (305) 479.2303');
 
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'TTL_SCR_SUFFIX', 			' - Visitas SIASA');
-INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'TTL_SCR_REQPRE',				'Solicitud de pre-registro de Visitante');
-INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'TTL_SCR_CONFIRM',			'Confirmaci&oacute;n de visita');
-INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'TTL_SCR_CONFIRMED',			'Visita confirmada');
+INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'TTL_SCR_REQPRE',				'solicitud de pre-registro de visitantes');
+INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'TTL_SCR_CONFIRM',			'confirmaci&oacute;n de visita');
+INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'TTL_SCR_CONFIRMED',			'visita confirmada');
 
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'TTL_TAKESC_PRINTQR',			'Tome captura o descargue e imprima el QR');
 
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'QST_ISALLDATAOK', 			'&iquest;Los datos proporcionados son correctos?');
 
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_PROC_PLEASE_WAIT',		'procesando, espere un momento por favor');
-INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_REQ_PREREG_OK',			'Se ha enviado correo a MAILTO para continuar con el pre-registro.');
+INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_REQ_PREREG_OK',			'La solicitud se realiz&oacute; de forma correcta. Se ha enviado un correo a la direcci&oacute;n proporcionada para continuar con el proceso de pre-registro.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_REQ_PREREG_ERR',			'La solicitud de pre-registro no se realiz&oacute; de forma exitosa, por favor reintente.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_REQ_FIELD',				'Este campo es requerido');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_CAPTURECAPTCHA',			'Captura el c&oacute;digo de 4 d&iacute;gitos (Captcha) en la caja de texto');
@@ -141,16 +167,16 @@ INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'FOT_COPYRIGHT
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'FOT_CONTACT', 				'marketing@siasa.com | SIASA Headquarters: (999) 930.2575 | SIASA CDMX: (55) 5264.2272 | SIASA Latin America: (305) 479.2303');
 
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'TTL_SCR_SUFFIX', 			' - Visits SIASA');
-INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'TTL_SCR_REQPRE',				'Visitor pre-registration request');
-INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'TTL_SCR_CONFIRM',			'Visit confirmation');
-INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'TTL_SCR_CONFIRMED',			'Visit confirmed');
+INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'TTL_SCR_REQPRE',				'visitor pre-registration request');
+INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'TTL_SCR_CONFIRM',			'visit confirmation');
+INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'TTL_SCR_CONFIRMED',			'visit confirmed');
 
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'TTL_TAKESC_PRINTQR',			'Take screenshot or download and print the QR');
 
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'QST_ISALLDATAOK', 			'Is the data provided correct?');
 
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_PROC_PLEASE_WAIT',		'processing, please wait');
-INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_REQ_PREREG_OK',			'An email was sent to the address MAILTO in order to continue with the pre-registration.');
+INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_REQ_PREREG_OK',			'The request was made correctly. An email has been sent to the address provided to continue with the pre-registration process.');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_REQ_PREREG_ERR',			'The pre-registration request was not successful, please retry.');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_REQ_FIELD',				'This field is required');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_CAPTURECAPTCHA',			'Capture the 4-digit code (Captcha) in the text box');
@@ -190,32 +216,4 @@ INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'LBL_PRINT',		
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'LBL_DOWNLOAD',				'download');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'LBL_CLOSE',					'close');
 -- INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'LBL_',	'');
-
-
-
--- -- -- -- TRIGGERS -- -- -- --
-
-CREATE TRIGGER setEmptyToNullConfirmDate
-	AFTER INSERT
-	ON preregistrations
-	WHEN trim(new.confirmed_at) IS ''
-BEGIN
-	UPDATE preregistrations
-		SET confirmed_at = NULL
-	WHERE rowid = NEW.rowid;
-END;
-
-CREATE TRIGGER changeEmptyToNullConfirmDate
-	AFTER UPDATE
-	ON preregistrations
-	WHEN trim(new.confirmed_at) IS ''
-BEGIN
-	UPDATE preregistrations
-		SET confirmed_at = NULL
-	WHERE rowid = NEW.rowid;
-END;
-
-
-
-.quit
-
+GO

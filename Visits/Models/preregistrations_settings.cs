@@ -14,10 +14,10 @@ namespace Visits.Models
     
     public partial class preregistrations_settings
     {
-        public long id { get; set; }
+        public int id { get; set; }
         public short link_expiration_hours { get; set; }
         public string link_url_format { get; set; }
-        public long link_invalidate_after_confirm { get; set; }
+        public int link_invalidate_after_confirm { get; set; }
         public string email_subject { get; set; }
         public string email_body_format { get; set; }
         public string email_body_labels_replace { get; set; }
@@ -26,6 +26,6 @@ namespace Visits.Models
         public string smtp_user { get; set; }
         public string smtp_password { get; set; }
         public string lang_locale_default { get; set; }
-        public long lang_labels_version { get; set; }
+        public int lang_labels_version { get; set; }
     }
 }

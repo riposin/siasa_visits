@@ -14,7 +14,7 @@ namespace Visits.Models
     
     public partial class label
     {
-        public long id { get; set; }
+        public int id { get; set; }
         public string locale_id { get; set; }
         public string label1 { get; set; }
         public string translation { get; set; }

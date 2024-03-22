@@ -218,19 +218,19 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="botdetect.xml" />
-    <EntityDeploy Include="Models\visits.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>visits.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\visits.edmx.diagram">
-      <DependentUpon>visits.edmx</DependentUpon>
-    </Content>
     <Content Include="locales\sounds\captcha\Pronunciation_Spanish_MX.bdsp" />
     <Content Include="App_Data\db_script_new.ps1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\db_script_new.sqlite">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <EntityDeploy Include="Models\visits.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>visits.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\visits.edmx.diagram">
+      <DependentUpon>visits.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

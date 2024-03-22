@@ -124,7 +124,7 @@ INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_CAPTURECA
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_VCONFIRMED',				'La visita ya fu&eacute; confirmada, use el bot&oacute;n de abajo para ver el c&oacute;digo QR.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_VARRIVE_EARLY',			'Favor de presentarse antes de la hora programada para su visita.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_QRONHAND',				'Tenga a la mano el QR, se requiere para completar el registro cuando se presente a su visita.');
-INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_INVALID_LINK',			'Solicitud de pre-registro inv&aacute;lida.');
+INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_INVALID_LINK',			'Solicitud de pre-registro inv&aacute;lido.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_VDATE_EXPIRED',			'La fecha de la visita ya ha pasado.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_VLINK_EXPIRED',			'El enlace de confirmaci&oacute;n ha dejado de estar vigente.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_EMAIL_INVALID',			'El correo electr&oacute;nico no es v&aacute;lido');

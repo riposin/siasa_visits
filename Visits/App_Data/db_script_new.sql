@@ -136,6 +136,7 @@ INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_CAPTCHA_W
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_DTGREATER_TODAY',		'La fecha/hora debe ser mayor a la actual');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_REQ_SENT',				'Solicitud enviada');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_ONEVIEW_QR',				'&iexcl;El QR ya no estar&aacute; disponible, capture, descargue o impr&iacute;malo antes de cerrar esta ventana!');
+INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_MAILBOX_UNAVAIL',		'La direcci&oacute;n de correo proporcionada no existe o no esta disponible.');
 
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'LBL_VISITS',					'visitas');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'LBL_COMP_KEY',				'clave de empresa');
@@ -192,6 +193,7 @@ INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_CAPTCHA_W
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_DTGREATER_TODAY',		'The date/time must be greater than the current one');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_REQ_SENT',				'The request was sent');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_ONEVIEW_QR',				'The QR will no longer be available, please capture, download or print it before closing this window!');
+INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_MAILBOX_UNAVAIL',		'The email address provided does not exist or is not available.');
 
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'LBL_VISITS',					'visits');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'LBL_COMP_KEY',				'company key');

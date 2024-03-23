@@ -66,16 +66,6 @@
 				</div>
 				@Html.ValidationMessage("VisitDate", new { @class = "text-danger" })<br /><br />
 				@Html.Hidden("VisitDate", "")
-				@*
-				@if (Model == null)
-				{
-					@Html.Hidden("VisitDate", "")
-				}
-				else
-				{
-					@Html.Hidden("VisitDate", Model.VisitDate)
-				}
-				*@
 			</div>
 
 			@Html.LabelFor(d => d.Motive, new { @class = "ucfirst", data_translate = "", data_label = "LBL_VMOTIVE", data_translate_inner = "" })
@@ -139,12 +129,12 @@
 
 <div class="modal fade" id="emailDialog" tabindex="-1" role="dialog" aria-labelledby="emailDialogLabel" aria-hidden="true">
 	<div class="modal-dialog modal-sm">
-		<div class="modal-content">
+		<div class="modal-content error">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h4 class="modal-title ucfirst" id="emailDialogLabel" data-translate data-label="LBL_ERROR" data-translate-inner></h4>
 			</div>
-			<div class="modal-body" data-translate data-label="MSG_REQ_PREREG_ERR" data-translate-inner></div>
+			<div class="modal-body" data-label="MSG_REQ_PREREG_ERR"></div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary ucfirst" data-dismiss="modal" data-translate data-label="LBL_OK" data-translate-inner></button>
 			</div>
@@ -160,14 +150,14 @@
 
 <script type="text/javascript">
 	visits.add = (function () {
-
+		const namespace = 'visits.add';
 		const preregistrationFormID = 'preregistration';
 		const visitDateMaskID = 'VisitDateMask';
 		const visitDateID = 'VisitDate';
 		const languageID = 'language';
 		const confirmDialogID = '#confirmDialog';
 		const successDialogID = '#successDialog';
-		const emailDialogID = '#emailDialog';
+		const emailDialogID = 'emailDialog';
 		let isAllRequiredFilled = false;
 
 		var run = function () {
@@ -256,17 +246,26 @@
 					document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.value = ''; });
 					$('#visitDTP').data("DateTimePicker").clear();
 				} else if (json.success == 3) {
-					$(emailDialogID).modal('show');
+					let consoleMsg = namespace + '.processPreregistration: Error while sending email -> ' + json.error.msg;
+					let emailDialogBody = document.getElementById(emailDialogID).getElementsByClassName('modal-body')[0];
+					if (json.error.lbl != '') {
+						console.log(consoleMsg);
+						emailDialogBody.innerHTML = visits.language.getTranslation(json.error.lbl);
+					} else {
+						emailDialogBody.innerHTML = visits.language.getTranslation(emailDialogBody.getAttribute('data-label'));
+						console.error(consoleMsg);
+					}
+					$('#' + emailDialogID).modal('show');
+				} else {
+					Object.entries(json.error).forEach((entry) => {
+						document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-translate', '');
+						document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-label', entry[1]);
+						document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-translate-inner', '');
+						document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-translate-ucfirst', '');
+						document.querySelector('[data-valmsg-for="' + entry[0] + '"]').innerText = (entry[1] == '' ? '' : visits.language.getTranslation(entry[1], 'ucfirst'));
+					});
 				}
-				Object.entries(json.error).forEach((entry) => {
-					document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-translate', '');
-					document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-label', entry[1]);
-					document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-translate-inner', '');
-					document.querySelector('[data-valmsg-for="' + entry[0] + '"]').setAttribute('data-translate-ucfirst', '');
-					document.querySelector('[data-valmsg-for="' + entry[0] + '"]').innerText = (entry[1] == '' ? '' : visits.language.getTranslation(entry[1], 'ucfirst'));
-
-				});
-
+				
 				document.getElementById("Captcha_ReloadLink").click();
 				document.getElementById('loader').style.visibility = 'hidden';
 				document.querySelector('input[type="submit"]').removeAttribute('disabled');

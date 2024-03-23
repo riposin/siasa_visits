@@ -141,8 +141,26 @@ body {
 	background-color: #757575;
 }
 
+/* Modal colorized as error -------------------------------------------------- */
+.modal-dialog .error{
+	border-color: #a63f43;
+}
+
+.modal-dialog .error .modal-header{
+	background-color: #F2DEDF;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    color: #a63f43;
+}
+
+.modal-dialog .error .modal-footer button {
+	background-color: #F2DEDF;
+	color: #a63f43;
+	border-color: #a63f43;
+}
+
 /* Any  -------------------------------------------------- */
-.ucfirst {
+	.ucfirst {
 	text-transform: lowercase;
 }
 

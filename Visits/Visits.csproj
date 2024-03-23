@@ -265,9 +265,7 @@
     <Content Include="Views\Confirmation\Show.cshtml" />
     <Content Include="Views\Shared\_jsGlobals.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Language\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

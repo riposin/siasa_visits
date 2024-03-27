@@ -95,7 +95,7 @@ INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_REQ_PRERE
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_REQ_PREREG_ERR',			'La solicitud de pre-registro no se realiz&oacute; de forma exitosa, por favor reintente.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_REQ_FIELD',				'Este campo es requerido');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_CAPTURECAPTCHA',			'Captura el c&oacute;digo de 4 d&iacute;gitos (Captcha) en la caja de texto');
-INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_VCONFIRMED',				'La visita ya fu&eacute; confirmada, use el bot&oacute;n de abajo para ver el c&oacute;digo QR.');
+INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_VCONFIRMED_BTNQR',		'La visita ya fu&eacute; confirmada, use el bot&oacute;n de abajo para ver el c&oacute;digo QR.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_VARRIVE_EARLY',			'Favor de presentarse antes de la hora programada para su visita.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_QRONHAND',				'Tenga a la mano el QR, se requiere para completar el registro cuando se presente a su visita.');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_INVALID_LINK',			'Solicitud de pre-registro inv&aacute;lido.');
@@ -111,6 +111,8 @@ INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_DTGREATER
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_REQ_SENT',				'Solicitud enviada');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_ONEVIEW_QR',				'&iexcl;El QR ya no estar&aacute; disponible, capture, descargue o impr&iacute;malo antes de cerrar esta ventana!');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_MAILBOX_UNAVAIL',		'La direcci&oacute;n de correo proporcionada no existe o no esta disponible.');
+INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_ERRCONFIRM_RELOAD',		'Ocurri&oacute; un error al confirmar la visita. Por favor refresque la p&aacute;gina y vuelva a intentarlo.');
+INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'MSG_VCONFIRMED',				'La visita ya fu&eacute; confirmada.');
 
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'LBL_VISITS',					'visitas');
 INSERT INTO labels(locale_id, label, translation) VALUES('es-MX', 'LBL_COMP_KEY',				'clave de empresa');
@@ -152,7 +154,7 @@ INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_REQ_PRERE
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_REQ_PREREG_ERR',			'The pre-registration request was not successful, please retry.');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_REQ_FIELD',				'This field is required');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_CAPTURECAPTCHA',			'Capture the 4-digit code (Captcha) in the text box');
-INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_VCONFIRMED',				'The visit has already been confirmed, use the button below to view the QR code.');
+INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_VCONFIRMED_BTNQR',		'The visit has already been confirmed, use the button below to view the QR code.');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_VARRIVE_EARLY',			'Please arrive before your scheduled visit time.');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_QRONHAND',				'Please have the QR ready, it is required to complete registration when you show up for your visit.');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_INVALID_LINK',			'Invalid pre-registration request.');
@@ -168,6 +170,8 @@ INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_DTGREATER
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_REQ_SENT',				'The request was sent');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_ONEVIEW_QR',				'The QR will no longer be available, please capture, download or print it before closing this window!');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_MAILBOX_UNAVAIL',		'The email address provided does not exist or is not available.');
+INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_ERRCONFIRM_RELOAD',		'An error occurred while confirming the visit. Please refresh the page and try again.');
+INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'MSG_VCONFIRMED',				'The visit has already been confirmed.');
 
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'LBL_VISITS',					'visits');
 INSERT INTO labels(locale_id, label, translation) VALUES('en-US', 'LBL_COMP_KEY',				'company key');

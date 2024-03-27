@@ -40,7 +40,7 @@
 			{
 				<div class="alert alert-success text-justify" role="alert">
 					<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
-					<span data-translate data-label="MSG_VCONFIRMED" data-translate-inner></span>
+					<span data-translate data-label="MSG_VCONFIRMED_BTNQR" data-translate-inner></span>
 					<br />
 					<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
 					<span data-translate data-label="MSG_VARRIVE_EARLY" data-translate-inner></span>
@@ -59,9 +59,11 @@
 					<span data-translate data-label="MSG_QRONHAND" data-translate-inner></span>
 					@if (ViewBag.Settings.link_invalidate_after_confirm == 1)
 					{
-						<br />
-						<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
-						<span data-translate data-label="MSG_ONEVIEW_QR" data-translate-inner></span>
+						<span class="print-hide">
+							<br />
+							<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
+							<span data-translate data-label="MSG_ONEVIEW_QR" data-translate-inner></span>
+						</span>
 					}
 				</div>
 			}
@@ -100,12 +102,6 @@
 					<br />
 					<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
 					<span data-translate data-label="MSG_QRONHAND" data-translate-inner></span>
-					@if (ViewBag.Settings.link_invalidate_after_confirm == 1)
-					{
-						<br />
-						<strong><span class="glyphicon glyphicon-check" aria-hidden="true"></span></strong>
-						<span data-translate data-label="MSG_ONEVIEW_QR" data-translate-inner></span>
-					}
 				</div>
 				<div class="text-center"><div id="qrcode"><canvas id="canvasBordered"></canvas></div></div>
 			</div>
@@ -113,6 +109,22 @@
 				<button type="button" class="btn btn-@(ViewBag.Status == 0 ? "primary" : "success") ucfirst" id="qrPrintButton" data-translate data-label="LBL_PRINT" data-translate-inner></button>
 				<a href="#" download="SIASA_QR_@(ViewBag.Status == 0 || ViewBag.Status == -4 ? Model.company_key + "_" + ViewBag.Guid : "" ).png" class="btn btn-@(ViewBag.Status == 0 ? "primary" : "success") ucfirst" role="button" id="qrDownloadLink" data-translate data-label="LBL_DOWNLOAD" data-translate-inner></a>
 				<button type="button" class="btn btn-@(ViewBag.Status == 0 ? "primary" : "success") ucfirst" data-dismiss="modal" data-translate data-label="LBL_OK" data-translate-inner></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="errorDialog" tabindex="-1" role="dialog" aria-labelledby="errorDialogLabel" aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content error">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title ucfirst" id="errorDialogLabel" data-translate data-label="LBL_ERROR" data-translate-inner></h4>
+			</div>
+			<div class="modal-body"></div>
+			<div class="modal-footer">
+				<button type="button" id="errorDialogOkBtn" class="btn btn-primary ucfirst" data-dismiss="modal" data-translate data-label="LBL_OK" data-translate-inner></button>
 			</div>
 		</div>
 	</div>
@@ -129,6 +141,7 @@
 		<text>
 		visits.show = (function () {
 			const QRDialogID = 'QRDialog';
+			const errDialogID = 'errorDialog';
 			const qrContainerID = 'qrcode';
 			const guid = "@ViewBag.Guid";
 			const visitDateID = 'VisitDate';
@@ -153,6 +166,7 @@
 
 				document.getElementById('showQR').addEventListener('click', onShowQRClick);
 				document.getElementById('qrPrintButton').addEventListener('click', onPrintQRClick);
+				document.getElementById('errorDialogOkBtn').addEventListener('click', function () { location.reload(); });
 
 				visits.language.selector.addEventListener("languageChange", changeVisitDateFormat);
 				changeVisitDateFormat();
@@ -174,8 +188,25 @@
 						return response.json();
 					})
 					.then(function (json) {
-						$('#' + QRDialogID).modal('show');
-						status = -4;
+						if (json.success) {
+							$('#' + QRDialogID).modal('show');
+							status = -4;
+						} else {
+							let errDialogBody = document.getElementById(errDialogID).getElementsByClassName('modal-body')[0];
+							if (json.error == '-1' || json.error == '-2' || json.error == '-6') {
+								errDialogBody.innerHTML = visits.language.getTranslation('MSG_INVALID_LINK');
+							} else if (json.error == '-3') {
+								errDialogBody.innerHTML = visits.language.getTranslation('MSG_VDATE_EXPIRED');
+							} else if (json.error == '-4') {
+								errDialogBody.innerHTML = visits.language.getTranslation('MSG_VCONFIRMED');
+							} else if (json.error == '-5') {
+								errDialogBody.innerHTML = visits.language.getTranslation('MSG_VLINK_EXPIRED');
+							} else {
+								errDialogBody.innerHTML = visits.language.getTranslation('MSG_ERRCONFIRM_RELOAD');
+							}
+
+							$('#' + errDialogID).modal('show');
+						}
 					})
 					.catch(function (error) {
 						alert('AJAX: Error when confirming');
@@ -218,7 +249,8 @@
 					@if (ViewBag.Debug)
 					{
 						<text>
-						$('#' + QRDialogID).modal('show');
+						confirmVisit();
+						//$('#' + QRDialogID).modal('show');
 						</text>
 					} else
 					{
@@ -233,7 +265,9 @@
 				var mywindow = window.open('', 'PRINT', 'fullscreen=yes');
 
 				mywindow.document.write('<html>');
-				mywindow.document.write('<head><title>' + document.title + '</title></head>');
+				mywindow.document.write('<head><title>' + document.title + '</title>');
+				mywindow.document.write('<style>.print-hide{display:none;}</style>');
+				mywindow.document.write('</head>');
 				mywindow.document.write('<body style="font-family: system-ui;">');
 
 				mywindow.document.write('<center><h1>' + visits.helpers.ucfirst(document.getElementsByTagName('h2')[0].innerHTML) + '</h1></center>');

@@ -176,11 +176,15 @@ namespace Visits.Controllers
 			}
 			catch (Exception e)
 			{
-				errors.Add("lbl", "");
-				errors.Add("msg", e.Message);
-				if (e is SmtpFailedRecipientException && e.Message.Contains("Mailbox unavailable"))
+				if (e is SmtpException)
 				{
-					errors["lbl"] = "MSG_MAILBOX_UNAVAIL";
+					errors.Add("lbl", "");
+					errors.Add("msg", e.Message);
+					SmtpException se = (SmtpException)e;
+					if(se.StatusCode == SmtpStatusCode.MailboxUnavailable)
+					{
+						errors["lbl"] = "MSG_MAILBOX_UNAVAIL";
+					}
 				}
 				isEmailOk = false;
 			}

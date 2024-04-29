@@ -178,7 +178,7 @@
 		};
 
 		var changeVisitDateFormat = function (event) {
-			$('#visitDTP').data("DateTimePicker").options({ format: event.detail.format, locale: event.detail.lang.toLowerCase });
+			$('#visitDTP').data("DateTimePicker").options({ format: event.detail.format, locale: event.detail.lang.toLowerCase() });
 		};
 
 		var onFormSubmit = function (event) {

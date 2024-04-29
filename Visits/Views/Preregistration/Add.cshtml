@@ -163,6 +163,7 @@
 		var run = function () {
 			$('#visitDTP').datetimepicker({
 				format: visits.language.getCurrentDateTimeFormat(),
+				locale: visits.language.getCurrentLang().toLowerCase(),
 				minDate: Date.now()
 			});
 
@@ -176,8 +177,8 @@
 			document.getElementById("confirmButton").addEventListener("click", onConfirmButtonClick);
 		};
 
-		var changeVisitDateFormat = function(event) {
-			$('#visitDTP').data("DateTimePicker").options({ format: event.detail.format });
+		var changeVisitDateFormat = function (event) {
+			$('#visitDTP').data("DateTimePicker").options({ format: event.detail.format, locale: event.detail.lang.toLowerCase });
 		};
 
 		var onFormSubmit = function (event) {
@@ -245,6 +246,7 @@
 					$(successDialogID).modal('show');
 					document.getElementById(preregistrationFormID).querySelectorAll('input[type="text"]').forEach(function (item) { item.value = ''; });
 					$('#visitDTP').data("DateTimePicker").clear();
+					document.getElementById(visitDateID).value = "";
 				} else if (json.success == 3) {
 					let consoleMsg = namespace + '.processPreregistration: Error while sending email -> ' + json.error.msg;
 					let emailDialogBody = document.getElementById(emailDialogID).getElementsByClassName('modal-body')[0];

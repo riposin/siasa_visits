@@ -41,7 +41,8 @@ BEGIN
 		smtp_user NVARCHAR(50) NOT NULL,
 		smtp_password NVARCHAR(100) NOT NULL,
 		lang_locale_default NVARCHAR(100) NOT NULL,
-		lang_labels_version INTEGER NOT NULL
+		lang_labels_version INTEGER NOT NULL,
+		visit_minutes_after_now INTEGER NOT NULL
 	);
 END
 GO
@@ -80,7 +81,7 @@ GO
 
 -- -- -- -- DEFAULT CONFIG -- -- -- --
 
-INSERT INTO preregistrations_settings(link_expiration_hours, link_url_format, link_invalidate_after_confirm, email_subject, email_body_labels_replace, email_body_format, smtp_host, smtp_port, smtp_user, smtp_password, lang_locale_default, lang_labels_version) VALUES(0, '', 0, '', '','', '', 0, '', '', '', 0);
+INSERT INTO preregistrations_settings(link_expiration_hours, link_url_format, link_invalidate_after_confirm, email_subject, email_body_labels_replace, email_body_format, smtp_host, smtp_port, smtp_user, smtp_password, lang_locale_default, lang_labels_version, visit_minutes_after_now) VALUES(0, '', 0, '', '','', '', 0, '', '', '', 0, 0);
 
 UPDATE preregistrations_settings SET link_expiration_hours = 			24;
 UPDATE preregistrations_settings SET link_url_format = 					'Confirmation/Show/{0}';
@@ -90,6 +91,7 @@ UPDATE preregistrations_settings SET email_body_labels_replace =		'LBL_COMP_KEY,
 UPDATE preregistrations_settings SET email_body_format = 				'<p>LBL_COMP_KEY: <span style="font-weight: bold;">DATA_CompanyKey</span><br/>LBL_FNAME: <span style="font-weight: bold;">DATA_FullName</span><br/>LBL_DATETIME: <span style="font-weight: bold;">DATA_VisitDate</span><br/>LBL_VMOTIVE: <span style="font-weight: bold;">DATA_Motive</span><br/><a href="DATA_Link">EMAIL_VCONFIRM_LINKTXT</a><br/><br/><span style="font-weight: bold;"><a href="DATA_Link">DATA_Link</a></span></p>';
 UPDATE preregistrations_settings SET lang_locale_default =				'es-MX';
 UPDATE preregistrations_settings SET lang_labels_version =				1;
+UPDATE preregistrations_settings SET visit_minutes_after_now =			60;
 UPDATE preregistrations_settings SET smtp_host = 						'smtp.gmail.com';
 UPDATE preregistrations_settings SET smtp_port = 						'587';
 UPDATE preregistrations_settings SET smtp_user = 						'cortana@gmail.com';
